@@ -1,0 +1,213 @@
+<script type="text/javascript">
+        var gk_isXlsx = false;
+        var gk_xlsxFileLookup = {};
+        var gk_fileData = {};
+        function filledCell(cell) {
+          return cell !== '' && cell != null;
+        }
+        function loadFileData(filename) {
+        if (gk_isXlsx && gk_xlsxFileLookup[filename]) {
+            try {
+                var workbook = XLSX.read(gk_fileData[filename], { type: 'base64' });
+                var firstSheetName = workbook.SheetNames[0];
+                var worksheet = workbook.Sheets[firstSheetName];
+
+                // Convert sheet to JSON to filter blank rows
+                var jsonData = XLSX.utils.sheet_to_json(worksheet, { header: 1, blankrows: false, defval: '' });
+                // Filter out blank rows (rows where all cells are empty, null, or undefined)
+                var filteredData = jsonData.filter(row => row.some(filledCell));
+
+                // Heuristic to find the header row by ignoring rows with fewer filled cells than the next row
+                var headerRowIndex = filteredData.findIndex((row, index) =>
+                  row.filter(filledCell).length >= filteredData[index + 1]?.filter(filledCell).length
+                );
+                // Fallback
+                if (headerRowIndex === -1 || headerRowIndex > 25) {
+                  headerRowIndex = 0;
+                }
+
+                // Convert filtered JSON back to CSV
+                var csv = XLSX.utils.aoa_to_sheet(filteredData.slice(headerRowIndex)); // Create a new sheet from filtered array of arrays
+                csv = XLSX.utils.sheet_to_csv(csv, { header: 1 });
+                return csv;
+            } catch (e) {
+                console.error(e);
+                return "";
+            }
+        }
+        return gk_fileData[filename] || "";
+        }
+        </script><!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>대한민국 헌법 제37조 제2항</title>
+    <style>
+        body {
+            font-family: 'Noto Sans KR', sans-serif;
+            background-color: #f9f9f9;
+            color: #333;
+            margin: 0;
+            padding: 20px;
+            line-height: 1.6;
+        }
+        .container {
+            max-width: 1000px;
+            margin: 0 auto;
+            background-color: #fff;
+            padding: 25px;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+        h1 {
+            text-align: center;
+            color: #2c3e50;
+            font-size: 2.6em;
+            margin-bottom: 25px;
+        }
+        .article {
+            font-size: 1.6em;
+            text-align: center;
+            margin: 25px 0;
+            padding: 18px;
+            background-color: #ecf0f1;
+            border-radius: 5px;
+            font-weight: bold;
+        }
+        .section {
+            display: flex;
+            align-items: flex-start;
+            margin-bottom: 25px;
+        }
+        .icon {
+            font-size: 3em;
+            margin-right: 18px;
+        }
+        .content {
+            flex: 1;
+        }
+        .term {
+            font-weight: bold;
+            color: #2980b9;
+            font-size: 1.4em;
+        }
+        .explanation {
+            font-size: 1.1em;
+            color: #e74c3c;
+            margin-top: 6px;
+        }
+        .description {
+            font-size: 1.2em;
+            margin-top: 6px;
+        }
+        .conclusion {
+            margin-top: 35px;
+            padding: 18px;
+            background-color: #e8f4fd;
+            border-left: 5px solid #3498db;
+            border-radius: 5px;
+        }
+        .conclusion h2 {
+            margin-top: 0;
+            color: #2c3e50;
+            font-size: 1.8em;
+        }
+        .conclusion p {
+            font-size: 1.2em;
+            margin: 6px 0;
+        }
+        @media (max-width: 768px) {
+            .container {
+                margin: 10px;
+                padding: 15px;
+            }
+            h1 {
+                font-size: 2.2em;
+            }
+            .article {
+                font-size: 1.3em;
+            }
+            .icon {
+                font-size: 2.4em;
+            }
+            .term {
+                font-size: 1.3em;
+            }
+            .explanation {
+                font-size: 0.95em;
+            }
+            .description {
+                font-size: 1.1em;
+            }
+            .conclusion h2 {
+                font-size: 1.6em;
+            }
+            .conclusion p {
+                font-size: 1.1em;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>대한민국 헌법 제37조 제2항</h1>
+        
+        <div class="article">
+            "국민의 모든 자유와 권리는 국가안전보장ㆍ질서유지 또는 공공복리를 위하여 필요한 경우에 한하여 법률로써 제한할 수 있으며, 제한하는 경우에도 자유와 권리의 본질적인 내용을 침해할 수 없다."
+        </div>
+
+        <div class="section">
+            <div class="icon">🛡️</div>
+            <div class="content">
+                <div class="term">국민의 모든 자유와 권리는 국가안전보장ㆍ질서유지 또는 공공복리를 위하여 필요한 경우에 한하여</div>
+                <div class="explanation">
+                    스스로 자(自) + 말미암을 유(由) (자유)<br>
+                    권세 권(權) + 이로울 리(利) (권리)<br>
+                    나라 국(國) + 안전 안(安) + 지킬 보(保) + 막을 장(障) (국가안전보장)<br>
+                    차례 질(秩) + 차례 서(序) + 지킬 유(維) + 가질 지(持) (질서유지)<br>
+                    공평할 공(公) + 함께 공(共) + 복 복(福) + 이로울 리(利) (공공복리)
+                </div>
+                <div class="description">
+                    국민의 자유와 권리를 제한할 수 있는 세 가지 특별한 이유는 나라의 안전을 지키는 것(국가안전보장), 사회가 혼란스럽지 않도록 안정된 상태를 지키는 것(질서유지), 사회 구성원 모두에게 이로운 행복과 이익(공공복리)을 위해서입니다.
+                </div>
+            </div>
+        </div>
+
+        <div class="section">
+            <div class="icon">📜</div>
+            <div class="content">
+                <div class="term">법률로써 제한할 수 있으며</div>
+                <div class="explanation">
+                    법 법(法) + 율 륥(律) (법률)<br>
+                    절제할 제(制) + 한계 한(限) (제한)
+                </div>
+                <div class="description">
+                    대통령이나 정부가 마음대로 자유와 권리를 제한할 수는 없습니다. 반드시 국민의 대표인 국회가 만든 '법률'을 통해서만, 그리고 그 법률에 정해진 만큼만 제한할 수 있습니다.
+                </div>
+            </div>
+        </div>
+
+        <div class="section">
+            <div class="icon">🚫</div>
+            <div class="content">
+                <div class="term">제한하는 경우에도 자유와 권리의 본질적인 내용을 침해할 수 없다</div>
+                <div class="explanation">
+                    근본 본(本) + 바탕 질(質) + 과녁 적(的) (본질적)<br>
+                    침노할 침(侵) + 해칠 해(害) (침해)
+                </div>
+                <div class="description">
+                    자유와 권리를 제한할 때에도 그 자유의 가장 근본적이고 핵심적인 내용까지 없애버릴 수는 없습니다. 예를 들어, 집회의 자유를 제한하더라도 집회를 아예 못하게 막는 것은 그 권리의 본질적인 내용을 침해하는 것입니다.
+                </div>
+            </div>
+        </div>
+
+        <div class="conclusion">
+            <h2>결론적으로...</h2>
+            <p>헌법 제37조 제2항은, <strong>국민의 기본권 제한에 관한 원칙과 한계를 명확히 한 조항</strong>입니다。</p>
+            <p>국민의 자유와 권리는 오직 국가안전보장, 질서유지, 공공복리라는 세 가지 목적을 위해, 필요한 경우에 한하여, 국회가 제정한 '법률'로써만 제한될 수 있습니다。</p>
+            <p>그리고 가장 중요하게, 어떠한 경우에도 그 자유와 권리의 본질적인 부분은 침해할 수 없다고 선언하여, 국가 권력에 의한 기본권 침해를 최소화하고 그 핵심을 튼튼하게 보호하는 역할을 합니다。</p>
+        </div>
+    </div>
+</body>
+</html>

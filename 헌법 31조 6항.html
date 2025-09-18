@@ -1,0 +1,212 @@
+<script type="text/javascript">
+        var gk_isXlsx = false;
+        var gk_xlsxFileLookup = {};
+        var gk_fileData = {};
+        function filledCell(cell) {
+          return cell !== '' && cell != null;
+        }
+        function loadFileData(filename) {
+        if (gk_isXlsx && gk_xlsxFileLookup[filename]) {
+            try {
+                var workbook = XLSX.read(gk_fileData[filename], { type: 'base64' });
+                var firstSheetName = workbook.SheetNames[0];
+                var worksheet = workbook.Sheets[firstSheetName];
+
+                // Convert sheet to JSON to filter blank rows
+                var jsonData = XLSX.utils.sheet_to_json(worksheet, { header: 1, blankrows: false, defval: '' });
+                // Filter out blank rows (rows where all cells are empty, null, or undefined)
+                var filteredData = jsonData.filter(row => row.some(filledCell));
+
+                // Heuristic to find the header row by ignoring rows with fewer filled cells than the next row
+                var headerRowIndex = filteredData.findIndex((row, index) =>
+                  row.filter(filledCell).length >= filteredData[index + 1]?.filter(filledCell).length
+                );
+                // Fallback
+                if (headerRowIndex === -1 || headerRowIndex > 25) {
+                  headerRowIndex = 0;
+                }
+
+                // Convert filtered JSON back to CSV
+                var csv = XLSX.utils.aoa_to_sheet(filteredData.slice(headerRowIndex)); // Create a new sheet from filtered array of arrays
+                csv = XLSX.utils.sheet_to_csv(csv, { header: 1 });
+                return csv;
+            } catch (e) {
+                console.error(e);
+                return "";
+            }
+        }
+        return gk_fileData[filename] || "";
+        }
+        </script><!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>대한민국 헌법 제31조 제6항</title>
+    <style>
+        body {
+            font-family: 'Noto Sans KR', sans-serif;
+            background-color: #f9f9f9;
+            color: #333;
+            margin: 0;
+            padding: 20px;
+            line-height: 1.6;
+        }
+        .container {
+            max-width: 1000px;
+            margin: 0 auto;
+            background-color: #fff;
+            padding: 25px;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+        h1 {
+            text-align: center;
+            color: #2c3e50;
+            font-size: 2.6em;
+            margin-bottom: 25px;
+        }
+        .article {
+            font-size: 1.6em;
+            text-align: center;
+            margin: 25px 0;
+            padding: 18px;
+            background-color: #ecf0f1;
+            border-radius: 5px;
+            font-weight: bold;
+        }
+        .section {
+            display: flex;
+            align-items: flex-start;
+            margin-bottom: 25px;
+        }
+        .icon {
+            font-size: 3em;
+            margin-right: 18px;
+        }
+        .content {
+            flex: 1;
+        }
+        .term {
+            font-weight: bold;
+            color: #2980b9;
+            font-size: 1.4em;
+        }
+        .explanation {
+            font-size: 1.1em;
+            color: #e74c3c;
+            margin-top: 6px;
+        }
+        .description {
+            font-size: 1.2em;
+            margin-top: 6px;
+        }
+        .conclusion {
+            margin-top: 35px;
+            padding: 18px;
+            background-color: #e8f4fd;
+            border-left: 5px solid #3498db;
+            border-radius: 5px;
+        }
+        .conclusion h2 {
+            margin-top: 0;
+            color: #2c3e50;
+            font-size: 1.8em;
+        }
+        .conclusion p {
+            font-size: 1.2em;
+            margin: 6px 0;
+        }
+        @media (max-width: 768px) {
+            .container {
+                margin: 10px;
+                padding: 15px;
+            }
+            h1 {
+                font-size: 2.2em;
+            }
+            .article {
+                font-size: 1.3em;
+            }
+            .icon {
+                font-size: 2.4em;
+            }
+            .term {
+                font-size: 1.3em;
+            }
+            .explanation {
+                font-size: 0.95em;
+            }
+            .description {
+                font-size: 1.1em;
+            }
+            .conclusion h2 {
+                font-size: 1.6em;
+            }
+            .conclusion p {
+                font-size: 1.1em;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>대한민국 헌법 제31조 제6항</h1>
+        
+        <div class="article">
+            "학교교육 및 평생교육을 포함한 교육제도와 그 운영, 교육재정 및 교원의 지위에 관한 기본적인 사항은 법률로 정한다."
+        </div>
+
+        <div class="section">
+            <div class="icon">🏫</div>
+            <div class="content">
+                <div class="term">학교교육 및 평생교육을 포함한 교육제도와 그 운영</div>
+                <div class="explanation">
+                    학교 교(校) + 가르칠 교(敎) + 기를 육(育) (학교교육)<br>
+                    평평할 평(平) + 날 생(生) + 가르칠 교(敎) + 기를 육(育) (평생교육)<br>
+                    가르칠 교(敎) + 기를 육(育) + 제도 제(制) + 도 도(度) (교육제도)<br>
+                    옮길 운(運) + 경영할 영(營) (운영)
+                </div>
+                <div class="description">
+                    학교에서 이루어지는 정규 교육과, 어른이 되어서 받는 평생교육을 포함한 우리나라의 모든 교육 시스템을 어떻게 만들고(제도), 또 어떻게 관리하고 움직여 나갈지(운영)에 대한 것입니다.
+                </div>
+            </div>
+        </div>
+
+        <div class="section">
+            <div class="icon">💸</div>
+            <div class="content">
+                <div class="term">교육재정 및 교원의 지위에 관한 기본적인 사항</div>
+                <div class="explanation">
+                    가르칠 교(敎) + 기를 육(育) + 재물 재(財) + 다스릴 정(政) (교육재정)<br>
+                    가르칠 교(敎) + 사람 원(員) (교원)<br>
+                    땅 지(地) + 자리 위(位) (지위)<br>
+                    터 기(基) + 근본 본(本) + 과녁 적(的) + 일 사(事) + 항목 항(項) (기본적인 사항)
+                </div>
+                <div class="description">
+                    교육에 얼마의 돈을 쓸 것인지(교육재정), 그리고 선생님들의 자격이나 권리, 의무는 어떻게 정할 것인지(교원의 지위)와 같은 교육의 근본이 되는 중요한 문제들을 뜻합니다.
+                </div>
+            </div>
+        </div>
+
+        <div class="section">
+            <div class="icon">📜</div>
+            <div class="content">
+                <div class="term">법률로 정한다</div>
+                <div class="explanation">
+                    법 법(法) + 율 륥(律) (법률)
+                </div>
+                <div class="description">
+                    위에서 설명한 교육에 관한 모든 중요하고 기본적인 사항들은 대통령이나 교육부 장관이 마음대로 정하는 것이 아니라, 오직 국민의 대표인 국회가 만든 '법률'(예: 교육기본법, 고등교육법 등)로만 정할 수 있습니다.
+                </div>
+            </div>
+        </div>
+
+        <div class="conclusion">
+            <h2>결론적으로...</h2>
+            <p>헌법 제31조 제6항은, <strong>교육제도의 근간을 이루는 모든 중요한 사항들은 반드시 국민의 대표 기관인 국회가 만든 법률로 정해야 한다는 '교육법률주의' 원칙을 선언한 조항</strong>입니다。</p>
+            <p>이는 교육이라는 백년지대계가 특정 권력의 입맛에 따라 흔들리지 않고, 민주적인 절차를 통해 안정적이고 일관성 있게 운영되도록 하는 중요한 역할을 합니다。</p>
+        </div>
+    </div>
+</body>
+</html>

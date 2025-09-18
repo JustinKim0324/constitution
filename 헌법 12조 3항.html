@@ -1,0 +1,234 @@
+<script type="text/javascript">
+        var gk_isXlsx = false;
+        var gk_xlsxFileLookup = {};
+        var gk_fileData = {};
+        function filledCell(cell) {
+          return cell !== '' && cell != null;
+        }
+        function loadFileData(filename) {
+        if (gk_isXlsx && gk_xlsxFileLookup[filename]) {
+            try {
+                var workbook = XLSX.read(gk_fileData[filename], { type: 'base64' });
+                var firstSheetName = workbook.SheetNames[0];
+                var worksheet = workbook.Sheets[firstSheetName];
+
+                // Convert sheet to JSON to filter blank rows
+                var jsonData = XLSX.utils.sheet_to_json(worksheet, { header: 1, blankrows: false, defval: '' });
+                // Filter out blank rows (rows where all cells are empty, null, or undefined)
+                var filteredData = jsonData.filter(row => row.some(filledCell));
+
+                // Heuristic to find the header row by ignoring rows with fewer filled cells than the next row
+                var headerRowIndex = filteredData.findIndex((row, index) =>
+                  row.filter(filledCell).length >= filteredData[index + 1]?.filter(filledCell).length
+                );
+                // Fallback
+                if (headerRowIndex === -1 || headerRowIndex > 25) {
+                  headerRowIndex = 0;
+                }
+
+                // Convert filtered JSON back to CSV
+                var csv = XLSX.utils.aoa_to_sheet(filteredData.slice(headerRowIndex)); // Create a new sheet from filtered array of arrays
+                csv = XLSX.utils.sheet_to_csv(csv, { header: 1 });
+                return csv;
+            } catch (e) {
+                console.error(e);
+                return "";
+            }
+        }
+        return gk_fileData[filename] || "";
+        }
+        </script><!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>대한민국 헌법 제12조 제3항</title>
+    <style>
+        body {
+            font-family: 'Noto Sans KR', sans-serif;
+            background-color: #f9f9f9;
+            color: #333;
+            margin: 0;
+            padding: 20px;
+            line-height: 1.6;
+        }
+        .container {
+            max-width: 1000px;
+            margin: 0 auto;
+            background-color: #fff;
+            padding: 25px;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+        h1 {
+            text-align: center;
+            color: #2c3e50;
+            font-size: 2.6em;
+            margin-bottom: 25px;
+        }
+        .article {
+            font-size: 1.6em;
+            text-align: center;
+            margin: 25px 0;
+            padding: 18px;
+            background-color: #ecf0f1;
+            border-radius: 5px;
+            font-weight: bold;
+        }
+        .section {
+            display: flex;
+            align-items: flex-start;
+            margin-bottom: 25px;
+        }
+        .icon {
+            font-size: 3em;
+            margin-right: 18px;
+        }
+        .content {
+            flex: 1;
+        }
+        .term {
+            font-weight: bold;
+            color: #2980b9;
+            font-size: 1.4em;
+        }
+        .explanation {
+            font-size: 1.1em;
+            color: #e74c3c;
+            margin-top: 6px;
+        }
+        .description {
+            font-size: 1.2em;
+            margin-top: 6px;
+            color: #333;
+        }
+        .conclusion {
+            margin-top: 35px;
+            padding: 18px;
+            background-color: #e8f4fd;
+            border-left: 5px solid #3498db;
+            border-radius: 5px;
+        }
+        .conclusion h2 {
+            margin-top: 0;
+            color: #2c3e50;
+            font-size: 1.8em;
+        }
+        .conclusion p {
+            font-size: 1.2em;
+            margin: 6px 0;
+        }
+        @media (max-width: 768px) {
+            .container {
+                margin: 10px;
+                padding: 15px;
+            }
+            h1 {
+                font-size: 2.2em;
+            }
+            .article {
+                font-size: 1.3em;
+            }
+            .icon {
+                font-size: 2.4em;
+            }
+            .term {
+                font-size: 1.3em;
+            }
+            .explanation {
+                font-size: 0.95em;
+            }
+            .description {
+                font-size: 1.1em;
+            }
+            .conclusion h2 {
+                font-size: 1.6em;
+            }
+            .conclusion p {
+                font-size: 1.1em;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>대한민국 헌법 제12조 제3항</h1>
+        
+        <div class="article">
+            "체포ㆍ구속ㆍ압수 또는 수색을 할 때에는 적법한 절차에 따라 검사의 신청에 의하여 법관이 발부한 영장을 제시하여야 한다. 다만, 현행범인인 경우와 장기 3년 이상의 형에 해당하는 죄를 범하고 도피 또는 증거인멸의 염려가 있을 때에는 사후에 영장을 청구할 수 있다."
+        </div>
+
+        <div class="section">
+            <div class="icon">📜</div>
+            <div class="content">
+                <div class="term">체포ㆍ구속ㆍ압수 또는 수색을 할 때에는 적법한 절차에 따라</div>
+                <div class="explanation">
+                    잡을 체(逮) + 잡을 포(捕) (체포)<br>
+                    잡을 구(拘) + 묶을 속(束) (구속)<br>
+                    누를 압(押) + 거둘 수(收) (압수)<br>
+                    찾을 수(搜) + 찾을 색(索) (수색)<br>
+                    맞을 적(適) + 법 법(法) + 마디 절(節) + 버금 차(次) (적법한 절차)
+                </div>
+                <div class="description">
+                    체포, 구속, 압수, 수색은 법이 정한 절차를 따라야 하며, 임의로 국민의 자유를 침해할 수 없습니다.
+                </div>
+            </div>
+        </div>
+
+        <div class="section">
+            <div class="icon">⚖️</div>
+            <div class="content">
+                <div class="term">검사의 신청에 의하여 법관이 발부한 영장을 제시하여야 한다</div>
+                <div class="explanation">
+                    검사 검(檢) + 살필 사(査) (검사)<br>
+                    법 법(法) + 관 관(官) (법관)<br>
+                    펼 발(發) + 나눌 부(付) (발부)<br>
+                    영장 영(令) + 글월 장(章) (영장)
+                </div>
+                <div class="description">
+                    검사가 신청하고 법관이 발부한 영장을 제시해야만 체포나 수색 같은 강제 조치를 할 수 있습니다.
+                </div>
+            </div>
+        </div>
+
+        <div class="section">
+            <div class="icon">🚨</div>
+            <div class="content">
+                <div class="term">다만, 현행범인인 경우와 장기 3년 이상의 형에 해당하는 죄를 범하고 도피 또는 증거인멸의 염려가 있을 때에는</div>
+                <div class="explanation">
+                    현행 현(現) + 범죄 범(犯) + 사람 인(人) (현행범인)<br>
+                    길 장(長) + 때 기(期) (장기)<br>
+                    형벌 형(刑) (형)<br>
+                    달아날 도(逃) + 숨을 피(避) (도피)<br>
+                    증거 증(證) + 근거 거(據) + 묻힐 인(湮) + 멸할 멸(滅) (증거인멸)
+                </div>
+                <div class="description">
+                    현행범이나 무거운 죄를 지어 도망 또는 증거인멸 우려가 있는 경우, 예외적으로 사후 영장이 허용됩니다.
+                </div>
+            </div>
+        </div>
+
+        <div class="section">
+            <div class="icon">📝</div>
+            <div class="content">
+                <div class="term">사후에 영장을 청구할 수 있다</div>
+                <div class="explanation">
+                    일 사(事) + 뒤 후(後) (사후)<br>
+                    영장 영(令) + 글월 장(章) (영장)<br>
+                    청할 청(請) + 구할 구(求) (청구)
+                </div>
+                <div class="description">
+                    긴급 상황에서는 체포 후 빠르게 법관에게 영장을 요청하여 절차의 정당성을 확보할 수 있습니다.
+                </div>
+            </div>
+        </div>
+
+        <div class="conclusion">
+            <h2>결론적으로...</h2>
+            <p>헌법 제12조 제3항 "체포ㆍ구속ㆍ압수 또는 수색을 할 때에는 적법한 절차에 따라 검사의 신청에 의하여 법관이 발부한 영장을 제시하여야 한다. 다만, 현행범인인 경우와 장기 3년 이상의 형에 해당하는 죄를 범하고 도피 또는 증거인멸의 염려가 있을 때에는 사후에 영장을 청구할 수 있다"라는 말은,</p>
+            <p><strong>"체포나 수색은 영장이 필요하지만, 긴급 상황에서는 사후 영장 청구가 가능하다"</strong>는 뜻이에요.</p>
+            <p>이는 영장주의로 인권을 보호하면서도 긴급 상황을 고려한 규정입니다.</p>
+        </div>
+    </div>
+</body>
+</html>

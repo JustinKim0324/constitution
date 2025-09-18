@@ -1,0 +1,214 @@
+<script type="text/javascript">
+        var gk_isXlsx = false;
+        var gk_xlsxFileLookup = {};
+        var gk_fileData = {};
+        function filledCell(cell) {
+          return cell !== '' && cell != null;
+        }
+        function loadFileData(filename) {
+        if (gk_isXlsx && gk_xlsxFileLookup[filename]) {
+            try {
+                var workbook = XLSX.read(gk_fileData[filename], { type: 'base64' });
+                var firstSheetName = workbook.SheetNames[0];
+                var worksheet = workbook.Sheets[firstSheetName];
+
+                // Convert sheet to JSON to filter blank rows
+                var jsonData = XLSX.utils.sheet_to_json(worksheet, { header: 1, blankrows: false, defval: '' });
+                // Filter out blank rows (rows where all cells are empty, null, or undefined)
+                var filteredData = jsonData.filter(row => row.some(filledCell));
+
+                // Heuristic to find the header row by ignoring rows with fewer filled cells than the next row
+                var headerRowIndex = filteredData.findIndex((row, index) =>
+                  row.filter(filledCell).length >= filteredData[index + 1]?.filter(filledCell).length
+                );
+                // Fallback
+                if (headerRowIndex === -1 || headerRowIndex > 25) {
+                  headerRowIndex = 0;
+                }
+
+                // Convert filtered JSON back to CSV
+                var csv = XLSX.utils.aoa_to_sheet(filteredData.slice(headerRowIndex)); // Create a new sheet from filtered array of arrays
+                csv = XLSX.utils.sheet_to_csv(csv, { header: 1 });
+                return csv;
+            } catch (e) {
+                console.error(e);
+                return "";
+            }
+        }
+        return gk_fileData[filename] || "";
+        }
+        </script><!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>대한민국 헌법 제21조 제4항</title>
+    <style>
+        body {
+            font-family: 'Noto Sans KR', sans-serif;
+            background-color: #f9f9f9;
+            color: #333;
+            margin: 0;
+            padding: 20px;
+            line-height: 1.6;
+        }
+        .container {
+            max-width: 1000px;
+            margin: 0 auto;
+            background-color: #fff;
+            padding: 25px;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+        h1 {
+            text-align: center;
+            color: #2c3e50;
+            font-size: 2.6em;
+            margin-bottom: 25px;
+        }
+        .article {
+            font-size: 1.6em;
+            text-align: center;
+            margin: 25px 0;
+            padding: 18px;
+            background-color: #ecf0f1;
+            border-radius: 5px;
+            font-weight: bold;
+        }
+        .section {
+            display: flex;
+            align-items: flex-start;
+            margin-bottom: 25px;
+        }
+        .icon {
+            font-size: 3em;
+            margin-right: 18px;
+        }
+        .content {
+            flex: 1;
+        }
+        .term {
+            font-weight: bold;
+            color: #2980b9;
+            font-size: 1.4em;
+        }
+        .explanation {
+            font-size: 1.1em;
+            color: #e74c3c;
+            margin-top: 6px;
+        }
+        .description {
+            font-size: 1.2em;
+            margin-top: 6px;
+        }
+        .conclusion {
+            margin-top: 35px;
+            padding: 18px;
+            background-color: #e8f4fd;
+            border-left: 5px solid #3498db;
+            border-radius: 5px;
+        }
+        .conclusion h2 {
+            margin-top: 0;
+            color: #2c3e50;
+            font-size: 1.8em;
+        }
+        .conclusion p {
+            font-size: 1.2em;
+            margin: 6px 0;
+        }
+        @media (max-width: 768px) {
+            .container {
+                margin: 10px;
+                padding: 15px;
+            }
+            h1 {
+                font-size: 2.2em;
+            }
+            .article {
+                font-size: 1.3em;
+            }
+            .icon {
+                font-size: 2.4em;
+            }
+            .term {
+                font-size: 1.3em;
+            }
+            .explanation {
+                font-size: 0.95em;
+            }
+            .description {
+                font-size: 1.1em;
+            }
+            .conclusion h2 {
+                font-size: 1.6em;
+            }
+            .conclusion p {
+                font-size: 1.1em;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>대한민국 헌법 제21조 제4항</h1>
+        
+        <div class="article">
+            "언론·출판은 타인의 명예나 권리 또는 공중도덕이나 사회윤리를 침해하여서는 아니된다. 언론·출판이 타인의 명예나 권리를 침해한 때에는 피해자는 이에 대한 피해의 배상을 청구할 수 있다."
+        </div>
+
+        <div class="section">
+            <div class="icon">🚫</div>
+            <div class="content">
+                <div class="term">언론·출판은 타인의 명예나 권리 또는 공중도덕이나 사회윤리를 침해하여서는 아니된다</div>
+                <div class="explanation">
+                    이름 명(名) + 기릴 예(譽) (명예)<br>
+                    권세 권(權) + 이로울 리(利) (권리)<br>
+                    공평할 공(公) + 무리 중(衆) + 길 도(道) + 큰 덕(德) (공중도덕)<br>
+                    모일 사(社) + 모일 회(會) + 인륜 륜(倫) + 다스릴 리(理) (사회윤리)<br>
+                    침노할 침(侵) + 해칠 해(害) (침해)
+                </div>
+                <div class="description">
+                    언론과 출판은 타인의 명예나 권리, 공중도덕, 사회윤리를 침해할 수 없습니다.
+                </div>
+            </div>
+        </div>
+
+        <div class="section">
+            <div class="icon">🛡️</div>
+            <div class="content">
+                <div class="term">언론·출판이 타인의 명예나 권리를 침해한 때에는</div>
+                <div class="explanation">
+                    침노할 침(侵) + 해칠 해(害) (침해)
+                </div>
+                <div class="description">
+                    언론이나 출판으로 타인의 명예나 권리가 침해당한 경우입니다.
+                </div>
+            </div>
+        </div>
+
+        <div class="section">
+            <div class="icon">💰</div>
+            <div class="content">
+                <div class="term">피해자는 이에 대한 피해의 배상을 청구할 수 있다</div>
+                <div class="explanation">
+                    입을 피(被) + 해칠 해(害) + 사람 자(者) (피해자)<br>
+                    입을 피(被) + 해칠 해(害) (피해)<br>
+                    물어줄 배(賠) + 갚을 상(償) (배상)<br>
+                    청할 청(請) + 구할 구(求) (청구)
+                </div>
+                <div class="description">
+                    만약 누군가의 잘못된 말이나 글로 인해 나의 명예나 권리가 침해당했을 때, 그 피해를 입은 사람이 "당신의 글 때문에 제가 손해를 입었으니, 그것을 갚아주세요!"라고 법원에 공식적으로 요구할 수 있습니다. 즉, 표현의 자유에는 반드시 책임이 따른다는 것을 보여줍니다.
+                </div>
+            </div>
+        </div>
+
+        <div class="conclusion">
+            <h2>결론적으로...</h2>
+            <p>헌법 제21조 제4항은, 표현의 자유가 다른 사람에게 피해를 주거나 사회의 건전한 질서를 해치는 방향으로 남용되어서는 안 된다는 중요한 한계를 설정한 조항입니다.</p>
+            <p>만약 언론·출판 활동으로 타인의 명예나 권리에 손해를 입혔을 경우, 피해자는 그에 대한 손해배상을 청구할 수 있습니다.</p>
+            <p>이는 '자유'에는 반드시 '책임'이 따른다는 민주주의의 대원칙을 확인시켜주는 중요한 규정입니다.</p>
+        </div>
+    </div>
+</body>
+</html>

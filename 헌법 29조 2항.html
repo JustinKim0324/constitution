@@ -1,0 +1,216 @@
+<script type="text/javascript">
+        var gk_isXlsx = false;
+        var gk_xlsxFileLookup = {};
+        var gk_fileData = {};
+        function filledCell(cell) {
+          return cell !== '' && cell != null;
+        }
+        function loadFileData(filename) {
+        if (gk_isXlsx && gk_xlsxFileLookup[filename]) {
+            try {
+                var workbook = XLSX.read(gk_fileData[filename], { type: 'base64' });
+                var firstSheetName = workbook.SheetNames[0];
+                var worksheet = workbook.Sheets[firstSheetName];
+
+                // Convert sheet to JSON to filter blank rows
+                var jsonData = XLSX.utils.sheet_to_json(worksheet, { header: 1, blankrows: false, defval: '' });
+                // Filter out blank rows (rows where all cells are empty, null, or undefined)
+                var filteredData = jsonData.filter(row => row.some(filledCell));
+
+                // Heuristic to find the header row by ignoring rows with fewer filled cells than the next row
+                var headerRowIndex = filteredData.findIndex((row, index) =>
+                  row.filter(filledCell).length >= filteredData[index + 1]?.filter(filledCell).length
+                );
+                // Fallback
+                if (headerRowIndex === -1 || headerRowIndex > 25) {
+                  headerRowIndex = 0;
+                }
+
+                // Convert filtered JSON back to CSV
+                var csv = XLSX.utils.aoa_to_sheet(filteredData.slice(headerRowIndex)); // Create a new sheet from filtered array of arrays
+                csv = XLSX.utils.sheet_to_csv(csv, { header: 1 });
+                return csv;
+            } catch (e) {
+                console.error(e);
+                return "";
+            }
+        }
+        return gk_fileData[filename] || "";
+        }
+        </script><!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>대한민국 헌법 제29조 제2항</title>
+    <style>
+        body {
+            font-family: 'Noto Sans KR', sans-serif;
+            background-color: #f9f9f9;
+            color: #333;
+            margin: 0;
+            padding: 20px;
+            line-height: 1.6;
+        }
+        .container {
+            max-width: 1000px;
+            margin: 0 auto;
+            background-color: #fff;
+            padding: 25px;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+        h1 {
+            text-align: center;
+            color: #2c3e50;
+            font-size: 2.6em;
+            margin-bottom: 25px;
+        }
+        .article {
+            font-size: 1.6em;
+            text-align: center;
+            margin: 25px 0;
+            padding: 18px;
+            background-color: #ecf0f1;
+            border-radius: 5px;
+            font-weight: bold;
+        }
+        .section {
+            display: flex;
+            align-items: flex-start;
+            margin-bottom: 25px;
+        }
+        .icon {
+            font-size: 3em;
+            margin-right: 18px;
+        }
+        .content {
+            flex: 1;
+        }
+        .term {
+            font-weight: bold;
+            color: #2980b9;
+            font-size: 1.4em;
+        }
+        .explanation {
+            font-size: 1.1em;
+            color: #e74c3c;
+            margin-top: 6px;
+        }
+        .description {
+            font-size: 1.2em;
+            margin-top: 6px;
+        }
+        .conclusion {
+            margin-top: 35px;
+            padding: 18px;
+            background-color: #e8f4fd;
+            border-left: 5px solid #3498db;
+            border-radius: 5px;
+        }
+        .conclusion h2 {
+            margin-top: 0;
+            color: #2c3e50;
+            font-size: 1.8em;
+        }
+        .conclusion p {
+            font-size: 1.2em;
+            margin: 6px 0;
+        }
+        @media (max-width: 768px) {
+            .container {
+                margin: 10px;
+                padding: 15px;
+            }
+            h1 {
+                font-size: 2.2em;
+            }
+            .article {
+                font-size: 1.3em;
+            }
+            .icon {
+                font-size: 2.4em;
+            }
+            .term {
+                font-size: 1.3em;
+            }
+            .explanation {
+                font-size: 0.95em;
+            }
+            .description {
+                font-size: 1.1em;
+            }
+            .conclusion h2 {
+                font-size: 1.6em;
+            }
+            .conclusion p {
+                font-size: 1.1em;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>대한민국 헌법 제29조 제2항</h1>
+        
+        <div class="article">
+            "군인ㆍ군무원ㆍ경찰공무원 기타 법률이 정하는 자가 전투ㆍ훈련등 직무집행과 관련하여 받은 손해에 대하여는 법률이 정하는 보상외에 국가 또는 공공단체에 공무원의 직무상 불법행위로 인한 배상은 청구할 수 없다."
+        </div>
+
+        <div class="section">
+            <div class="icon">🪖</div>
+            <div class="content">
+                <div class="term">군인ㆍ군무원ㆍ경찰공무원 기타 법률이 정하는 자가</div>
+                <div class="explanation">
+                    군사 군(軍) + 사람 인(人) (군인)<br>
+                    군사 군(軍) + 힘쓸 무(務) + 인원 원(員) (군무원)<br>
+                    경계할 경(警) + 살필 찰(察) + 공평할 공(公) + 힘쓸 무(務) + 인원 원(員) (경찰공무원)
+                </div>
+                <div class="description">
+                    군인, 군무원, 경찰공무원처럼 나라를 위해 특별히 위험한 일을 하는 공무원들을 가리킵니다.
+                </div>
+            </div>
+        </div>
+
+        <div class="section">
+            <div class="icon">⚔️</div>
+            <div class="content">
+                <div class="term">전투ㆍ훈련등 직무집행과 관련하여 받은 손해에 대하여는</div>
+                <div class="explanation">
+                    싸울 전(戰) + 싸울 투(鬪) (전투)<br>
+                    가르칠 훈(訓) + 익힐 련(練) (훈련)<br>
+                    직분 직(職) + 힘쓸 무(務) (직무)<br>
+                    집행할 집(執) + 다닐 행(行) (집행)<br>
+                    덜 손(損) + 해칠 해(害) (손해)
+                </div>
+                <div class="description">
+                    전투나 훈련 같은 위험한 직무를 수행하다가 다치거나 피해를 입은 경우를 말합니다.
+                </div>
+            </div>
+        </div>
+
+        <div class="section">
+            <div class="icon">💰</div>
+            <div class="content">
+                <div class="term">법률이 정하는 보상외에 국가 또는 공공단체에 공무원의 직무상 불법행위로 인한 배상은 청구할 수 없다</div>
+                <div class="explanation">
+                    법 법(法) + 율 륥(律) (법률)<br>
+                    갚을 보(報) + 갚을 상(償) (보상)<br>
+                    아닐 불(不) + 법 법(法) + 행할 행(行) + 할 위(爲) (불법행위)<br>
+                    물어줄 배(賠) + 갚을 상(償) (배상)<br>
+                    청할 청(請) + 구할 구(求) (청구)
+                </div>
+                <div class="description">
+                    법률에 따른 보상 외에, 다른 공무원의 잘못이 있었다고 하더라도 "저 공무원 때문에 다쳤으니 국가가 추가로 손해를 배상해주세요!"라고 별도의 배상 소송을 청구할 수는 없습니다. 이것을 '이중배상금지' 원칙이라고 합니다.
+                </div>
+            </div>
+        </div>
+
+        <div class="conclusion">
+            <h2>결론적으로...</h2>
+            <p>헌법 제29조 제2항은, <strong>군인, 경찰 등 특수한 임무를 수행하는 공무원이 전투나 훈련과 같이 직무와 관련된 행위로 피해를 입었을 경우, 법률에 따라 정해진 보상만을 받을 수 있으며, 국가를 상대로 별도의 손해배상을 청구할 수 없다는 '이중배상금지' 원칙을 규정한 조항</strong>입니다.</p>
+            <p>이는 국가 방위라는 특수한 임무의 중요성을 고려한 규정으로, 일반 공무원의 손해배상과는 다른 기준을 적용하고 있습니다。</p>
+        </div>
+    </div>
+</body>
+</html>

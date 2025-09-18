@@ -1,0 +1,199 @@
+<script type="text/javascript">
+        var gk_isXlsx = false;
+        var gk_xlsxFileLookup = {};
+        var gk_fileData = {};
+        function filledCell(cell) {
+          return cell !== '' && cell != null;
+        }
+        function loadFileData(filename) {
+        if (gk_isXlsx && gk_xlsxFileLookup[filename]) {
+            try {
+                var workbook = XLSX.read(gk_fileData[filename], { type: 'base64' });
+                var firstSheetName = workbook.SheetNames[0];
+                var worksheet = workbook.Sheets[firstSheetName];
+
+                // Convert sheet to JSON to filter blank rows
+                var jsonData = XLSX.utils.sheet_to_json(worksheet, { header: 1, blankrows: false, defval: '' });
+                // Filter out blank rows (rows where all cells are empty, null, or undefined)
+                var filteredData = jsonData.filter(row => row.some(filledCell));
+
+                // Heuristic to find the header row by ignoring rows with fewer filled cells than the next row
+                var headerRowIndex = filteredData.findIndex((row, index) =>
+                  row.filter(filledCell).length >= filteredData[index + 1]?.filter(filledCell).length
+                );
+                // Fallback
+                if (headerRowIndex === -1 || headerRowIndex > 25) {
+                  headerRowIndex = 0;
+                }
+
+                // Convert filtered JSON back to CSV
+                var csv = XLSX.utils.aoa_to_sheet(filteredData.slice(headerRowIndex)); // Create a new sheet from filtered array of arrays
+                csv = XLSX.utils.sheet_to_csv(csv, { header: 1 });
+                return csv;
+            } catch (e) {
+                console.error(e);
+                return "";
+            }
+        }
+        return gk_fileData[filename] || "";
+        }
+        </script><!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>대한민국 헌법 제33조 제1항</title>
+    <style>
+        body {
+            font-family: 'Noto Sans KR', sans-serif;
+            background-color: #f9f9f9;
+            color: #333;
+            margin: 0;
+            padding: 20px;
+            line-height: 1.6;
+        }
+        .container {
+            max-width: 1000px;
+            margin: 0 auto;
+            background-color: #fff;
+            padding: 25px;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+        h1 {
+            text-align: center;
+            color: #2c3e50;
+            font-size: 2.6em;
+            margin-bottom: 25px;
+        }
+        .article {
+            font-size: 1.6em;
+            text-align: center;
+            margin: 25px 0;
+            padding: 18px;
+            background-color: #ecf0f1;
+            border-radius: 5px;
+            font-weight: bold;
+        }
+        .section {
+            display: flex;
+            align-items: flex-start;
+            margin-bottom: 25px;
+        }
+        .icon {
+            font-size: 3em;
+            margin-right: 18px;
+        }
+        .content {
+            flex: 1;
+        }
+        .term {
+            font-weight: bold;
+            color: #2980b9;
+            font-size: 1.4em;
+        }
+        .explanation {
+            font-size: 1.1em;
+            color: #e74c3c;
+            margin-top: 6px;
+        }
+        .description {
+            font-size: 1.2em;
+            margin-top: 6px;
+        }
+        .conclusion {
+            margin-top: 35px;
+            padding: 18px;
+            background-color: #e8f4fd;
+            border-left: 5px solid #3498db;
+            border-radius: 5px;
+        }
+        .conclusion h2 {
+            margin-top: 0;
+            color: #2c3e50;
+            font-size: 1.8em;
+        }
+        .conclusion p {
+            font-size: 1.2em;
+            margin: 6px 0;
+        }
+        @media (max-width: 768px) {
+            .container {
+                margin: 10px;
+                padding: 15px;
+            }
+            h1 {
+                font-size: 2.2em;
+            }
+            .article {
+                font-size: 1.3em;
+            }
+            .icon {
+                font-size: 2.4em;
+            }
+            .term {
+                font-size: 1.3em;
+            }
+            .explanation {
+                font-size: 0.95em;
+            }
+            .description {
+                font-size: 1.1em;
+            }
+            .conclusion h2 {
+                font-size: 1.6em;
+            }
+            .conclusion p {
+                font-size: 1.1em;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>대한민국 헌법 제33조 제1항</h1>
+        
+        <div class="article">
+            "근로자는 근로조건의 향상을 위하여 자주적인 단결권ㆍ단체교섭권 및 단체행동권을 가진다."
+        </div>
+
+        <div class="section">
+            <div class="icon">👷</div>
+            <div class="content">
+                <div class="term">근로자는 근로조건의 향상을 위하여</div>
+                <div class="explanation">
+                    부지런할 근(勤) + 일할 로(勞) + 사람 자(者) (근로자)<br>
+                    부지런할 근(勤) + 일할 로(勞) + 조목 조(條) + 사건 건(件) (근로조건)<br>
+                    향할 향(向) + 위 상(上) (향상)
+                </div>
+                <div class="description">
+                    근로자들이 더 좋은 환경에서 일하고, 더 나은 대우를 받기 위한 목적일 때 이 권리를 사용할 수 있습니다.
+                </div>
+            </div>
+        </div>
+
+        <div class="section">
+            <div class="icon">🤝</div>
+            <div class="content">
+                <div class="term">자주적인 단결권ㆍ단체교섭권 및 단체행동권을 가진다</div>
+                <div class="explanation">
+                    스스로 자(自) + 주인 주(主) + 과녁 적(的) (자주적)<br>
+                    둥글 단(團) + 맺을 결(結) + 권세 권(權) (단결권)<br>
+                    무리 단(團) + 몸 체(體) + 사귈 교(交) + 건널 섭(涉) + 권세 권(權) (단체교섭권)<br>
+                    무리 단(團) + 몸 체(體) + 다닐 행(行) + 움직일 동(動) + 권세 권(權) (단체행동권)
+                </div>
+                <div class="description">
+                    근로자들이 스스로의 힘을 키우기 위해 노동조합을 자유롭게 만들고 가입할 수 있는 권리(단결권), 노동조합이 회사를 상대로 월급 인상이나 근무 환경 개선 등에 대해 동등한 입장에서 대화하고 협상할 수 있는 권리(단체교섭권), 협상이 원만하지 않을 경우 파업 등 단체로 행동할 수 있는 권리(단체행동권)를 가집니다.
+                </div>
+            </div>
+        </div>
+
+        <div class="conclusion">
+            <h2>결론적으로...</h2>
+            <p>헌법 제33조 제1항은, <strong>근로자가 사용자와 대등한 관계에서 자신의 권익을 지킬 수 있도록 '노동 3권'을 보장한 조항</strong>입니다。</p>
+            <p>근로자들은 노동조합을 만들고(단결권), 이를 통해 사용자와 근로조건에 대해 협상하며(단체교섭권), 협상이 원만하지 않을 경우 파업 등 단체로 행동할(단체행동권) 권리를 가집니다。</p>
+            <p>이는 힘의 균형을 맞추어 근로자의 인간다운 생활을 보장하기 위한 중요한 기본권입니다。</p>
+        </div>
+    </div>
+</body>
+</html>

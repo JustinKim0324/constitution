@@ -1,0 +1,201 @@
+<script type="text/javascript">
+        var gk_isXlsx = false;
+        var gk_xlsxFileLookup = {};
+        var gk_fileData = {};
+        function filledCell(cell) {
+          return cell !== '' && cell != null;
+        }
+        function loadFileData(filename) {
+        if (gk_isXlsx && gk_xlsxFileLookup[filename]) {
+            try {
+                var workbook = XLSX.read(gk_fileData[filename], { type: 'base64' });
+                var firstSheetName = workbook.SheetNames[0];
+                var worksheet = workbook.Sheets[firstSheetName];
+
+                // Convert sheet to JSON to filter blank rows
+                var jsonData = XLSX.utils.sheet_to_json(worksheet, { header: 1, blankrows: false, defval: '' });
+                // Filter out blank rows (rows where all cells are empty, null, or undefined)
+                var filteredData = jsonData.filter(row => row.some(filledCell));
+
+                // Heuristic to find the header row by ignoring rows with fewer filled cells than the next row
+                var headerRowIndex = filteredData.findIndex((row, index) =>
+                  row.filter(filledCell).length >= filteredData[index + 1]?.filter(filledCell).length
+                );
+                // Fallback
+                if (headerRowIndex === -1 || headerRowIndex > 25) {
+                  headerRowIndex = 0;
+                }
+
+                // Convert filtered JSON back to CSV
+                var csv = XLSX.utils.aoa_to_sheet(filteredData.slice(headerRowIndex)); // Create a new sheet from filtered array of arrays
+                csv = XLSX.utils.sheet_to_csv(csv, { header: 1 });
+                return csv;
+            } catch (e) {
+                console.error(e);
+                return "";
+            }
+        }
+        return gk_fileData[filename] || "";
+        }
+        </script><!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>대한민국 헌법 제32조 제6항</title>
+    <style>
+        body {
+            font-family: 'Noto Sans KR', sans-serif;
+            background-color: #f9f9f9;
+            color: #333;
+            margin: 0;
+            padding: 20px;
+            line-height: 1.6;
+        }
+        .container {
+            max-width: 1000px;
+            margin: 0 auto;
+            background-color: #fff;
+            padding: 25px;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+        h1 {
+            text-align: center;
+            color: #2c3e50;
+            font-size: 2.6em;
+            margin-bottom: 25px;
+        }
+        .article {
+            font-size: 1.6em;
+            text-align: center;
+            margin: 25px 0;
+            padding: 18px;
+            background-color: #ecf0f1;
+            border-radius: 5px;
+            font-weight: bold;
+        }
+        .section {
+            display: flex;
+            align-items: flex-start;
+            margin-bottom: 25px;
+        }
+        .icon {
+            font-size: 3em;
+            margin-right: 18px;
+        }
+        .content {
+            flex: 1;
+        }
+        .term {
+            font-weight: bold;
+            color: #2980b9;
+            font-size: 1.4em;
+        }
+        .explanation {
+            font-size: 1.1em;
+            color: #e74c3c;
+            margin-top: 6px;
+        }
+        .description {
+            font-size: 1.2em;
+            margin-top: 6px;
+        }
+        .conclusion {
+            margin-top: 35px;
+            padding: 18px;
+            background-color: #e8f4fd;
+            border-left: 5px solid #3498db;
+            border-radius: 5px;
+        }
+        .conclusion h2 {
+            margin-top: 0;
+            color: #2c3e50;
+            font-size: 1.8em;
+        }
+        .conclusion p {
+            font-size: 1.2em;
+            margin: 6px 0;
+        }
+        @media (max-width: 768px) {
+            .container {
+                margin: 10px;
+                padding: 15px;
+            }
+            h1 {
+                font-size: 2.2em;
+            }
+            .article {
+                font-size: 1.3em;
+            }
+            .icon {
+                font-size: 2.4em;
+            }
+            .term {
+                font-size: 1.3em;
+            }
+            .explanation {
+                font-size: 0.95em;
+            }
+            .description {
+                font-size: 1.1em;
+            }
+            .conclusion h2 {
+                font-size: 1.6em;
+            }
+            .conclusion p {
+                font-size: 1.1em;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>대한민국 헌법 제32조 제6항</h1>
+        
+        <div class="article">
+            "국가유공자ㆍ상이군경 및 전몰군경의 유가족은 법률이 정하는 바에 의하여 우선적으로 근로의 기회를 부여받는다."
+        </div>
+
+        <div class="section">
+            <div class="icon">🎖️</div>
+            <div class="content">
+                <div class="term">국가유공자ㆍ상이군경 및 전몰군경의 유가족은</div>
+                <div class="explanation">
+                    나라 국(國) + 집 가(家) + 있을 유(有) + 공 공(功) + 사람 자(者) (국가유공자)<br>
+                    다칠 상(傷) + 다칠 이(痍) + 군사 군(軍) + 경찰 경(警) (상이군경)<br>
+                    싸움 전(戰) + 죽을 몰(歿) + 군사 군(軍) + 경찰 경(警) (전몰군경)<br>
+                    남길 유(遺) + 집 가(家) + 겨레 족(族) (유가족)
+                </div>
+                <div class="description">
+                    나라를 위해 공을 세운 국가유공자, 나라를 지키다 몸을 다친 군인이나 경찰(상이군경), 전쟁터나 임무 중에 돌아가신 군인이나 경찰의 남겨진 가족(전몰군경의 유가족)을 뜻합니다.
+                </div>
+            </div>
+        </div>
+
+        <div class="section">
+            <div class="icon">💼</div>
+            <div class="content">
+                <div class="term">법률이 정하는 바에 의하여 우선적으로 근로의 기회를 부여받는다</div>
+                <div class="explanation">
+                    법 법(法) + 율 륥(律) (법률)<br>
+                    뛰어날 우(優) + 먼저 선(先) + 과녁 적(的) (우선적)<br>
+                    부지런할 근(勤) + 일할 로(勞) (근로)<br>
+                    기회 기(機) + 만날 회(會) (기회)<br>
+                    부세 부(賦) + 줄 여(與) (부여)
+                </div>
+                <div class="description">
+                    이들이 일자리를 구할 때, 국가가 법률에 정해진 절차에 따라 다른 사람들보다 먼저 취업할 수 있도록 기회를 주어야 합니다. 예를 들어, 공무원 시험을 볼 때 가산점을 주거나, 특정 일자리에 우선적으로 채용될 수 있도록 합니다.
+                </div>
+            </div>
+        </div>
+
+        <div class="conclusion">
+            <h2>결론적으로...</h2>
+            <p>헌법 제32조 제6항은, <strong>국가를 위해 희생하고 헌신한 국가유공자, 상이군경 및 전몰군경의 유가족에게 국가가 특별한 예우를 다해야 한다는 것을 명시한 조항</strong>입니다。</p>
+            <p>그 구체적인 방법으로서, 이들이 안정적인 생활을 이어갈 수 있도록 법률이 정하는 바에 따라 우선적으로 일할 기회를 제공할 의무를 국가에 부여한 것입니다。</p>
+            <p>이는 국가를 위한 숭고한 희생을 잊지 않고 보답하겠다는 국가의 중요한 약속입니다。</p>
+        </div>
+    </div>
+</body>
+</html>
