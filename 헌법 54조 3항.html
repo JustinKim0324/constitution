@@ -1,0 +1,238 @@
+<script type="text/javascript">
+        var gk_isXlsx = false;
+        var gk_xlsxFileLookup = {};
+        var gk_fileData = {};
+        function filledCell(cell) {
+          return cell !== '' && cell != null;
+        }
+        function loadFileData(filename) {
+        if (gk_isXlsx && gk_xlsxFileLookup[filename]) {
+            try {
+                var workbook = XLSX.read(gk_fileData[filename], { type: 'base64' });
+                var firstSheetName = workbook.SheetNames[0];
+                var worksheet = workbook.Sheets[firstSheetName];
+
+                // Convert sheet to JSON to filter blank rows
+                var jsonData = XLSX.utils.sheet_to_json(worksheet, { header: 1, blankrows: false, defval: '' });
+                // Filter out blank rows (rows where all cells are empty, null, or undefined)
+                var filteredData = jsonData.filter(row => row.some(filledCell));
+
+                // Heuristic to find the header row by ignoring rows with fewer filled cells than the next row
+                var headerRowIndex = filteredData.findIndex((row, index) =>
+                  row.filter(filledCell).length >= filteredData[index + 1]?.filter(filledCell).length
+                );
+                // Fallback
+                if (headerRowIndex === -1 || headerRowIndex > 25) {
+                  headerRowIndex = 0;
+                }
+
+                // Convert filtered JSON back to CSV
+                var csv = XLSX.utils.aoa_to_sheet(filteredData.slice(headerRowIndex)); // Create a new sheet from filtered array of arrays
+                csv = XLSX.utils.sheet_to_csv(csv, { header: 1 });
+                return csv;
+            } catch (e) {
+                console.error(e);
+                return "";
+            }
+        }
+        return gk_fileData[filename] || "";
+        }
+        </script><!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>대한민국 헌법 제54조 제3항</title>
+    <style>
+        body {
+            font-family: 'Noto Sans KR', sans-serif;
+            background-color: #f9f9f9;
+            color: #333;
+            margin: 0;
+            padding: 20px;
+            line-height: 1.6;
+        }
+        .container {
+            max-width: 1000px;
+            margin: 0 auto;
+            background-color: #fff;
+            padding: 25px;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+        h1 {
+            text-align: center;
+            color: #2c3e50;
+            font-size: 2.6em;
+            margin-bottom: 25px;
+        }
+        .article {
+            font-size: 1.6em;
+            text-align: center;
+            margin: 25px 0;
+            padding: 18px;
+            background-color: #ecf0f1;
+            border-radius: 5px;
+            font-weight: bold;
+        }
+        .section {
+            display: flex;
+            align-items: flex-start;
+            margin-bottom: 25px;
+        }
+        .icon {
+            font-size: 3em;
+            margin-right: 18px;
+        }
+        .content {
+            flex: 1;
+        }
+        .term {
+            font-weight: bold;
+            color: #2980b9;
+            font-size: 1.4em;
+        }
+        .explanation {
+            font-size: 1.1em;
+            color: #e74c3c;
+            margin-top: 6px;
+        }
+        .description {
+            font-size: 1.2em;
+            margin-top: 6px;
+        }
+        .conclusion {
+            margin-top: 35px;
+            padding: 18px;
+            background-color: #e8f4fd;
+            border-left: 5px solid #3498db;
+            border-radius: 5px;
+        }
+        .conclusion h2 {
+            margin-top: 0;
+            color: #2c3e50;
+            font-size: 1.8em;
+        }
+        .conclusion p {
+            font-size: 1.2em;
+            margin: 6px 0;
+        }
+        @media (max-width: 768px) {
+            .container {
+                margin: 10px;
+                padding: 15px;
+            }
+            h1 {
+                font-size: 2.2em;
+            }
+            .article {
+                font-size: 1.3em;
+            }
+            .icon {
+                font-size: 2.4em;
+            }
+            .term {
+                font-size: 1.3em;
+            }
+            .explanation {
+                font-size: 0.95em;
+            }
+            .description {
+                font-size: 1.1em;
+            }
+            .conclusion h2 {
+                font-size: 1.6em;
+            }
+            .conclusion p {
+                font-size: 1.1em;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>대한민국 헌법 제54조 제3항</h1>
+        
+        <div class="article">
+            "새로운 회계연도가 개시될 때까지 예산안이 의결되지 못한 때에는 정부는 국회에서 예산안이 의결될 때까지 다음의 목적을 위한 경비는 전년도 예산에 준하여 집행할 수 있다.<br>1. 헌법이나 법률에 의하여 설치된 기관 또는 시설의 유지ㆍ운영<br>2. 법률상 지출의무의 이행<br>3. 이미 예산으로 승인된 사업의 계속"
+        </div>
+
+        <div class="section">
+            <div class="icon">📅</div>
+            <div class="content">
+                <div class="term">새로운 회계연도가 개시될 때까지 예산안이 의결되지 못한 때에는</div>
+                <div class="explanation">
+                    모일 회(會) + 셀 계(計) + 해 년(年) + 법도 도(度) (회계연도)<br>
+                    열 개(開) + 비로소 시(始) (개시)<br>
+                    의논할 의(議) + 결단할 결(決) (의결)
+                </div>
+                <div class="description">
+                    새해가 시작되었는데도 예산안이 국회에서 통과되지 않은 비상 상황을 의미합니다.
+                </div>
+            </div>
+        </div>
+
+        <div class="section">
+            <div class="icon">💸</div>
+            <div class="content">
+                <div class="term">정부는 국회에서 예산안이 의결될 때까지 다음의 목적을 위한 경비는 전년도 예산에 준하여 집행할 수 있다</div>
+                <div class="explanation">
+                    쓸 경(經) + 쓸 비(費) (경비)<br>
+                    따를 준(準) + 다닐 행(行) (집행)
+                </div>
+                <div class="description">
+                    정부는 전년도 예산을 기준으로 꼭 필요한 경비를 사용할 수 있습니다.
+                </div>
+            </div>
+        </div>
+
+        <div class="section">
+            <div class="icon">🏛️</div>
+            <div class="content">
+                <div class="term">1. 헌법이나 법률에 의하여 설치된 기관 또는 시설의 유지ㆍ운영</div>
+                <div class="explanation">
+                    지킬 유(維) + 가질 지(持) (유지)<br>
+                    돌릴 운(運) + 영업 영(營) (운영)
+                </div>
+                <div class="description">
+                    헌법이나 법률로 설립된 기관(예: 정부 부처)이나 시설(예: 공공시설)의 운영비를 말합니다.
+                </div>
+            </div>
+        </div>
+
+        <div class="section">
+            <div class="icon">📝</div>
+            <div class="content">
+                <div class="term">2. 법률상 지출의무의 이행</div>
+                <div class="explanation">
+                    밟을 리(履) + 다닐 행(行) (이행)
+                </div>
+                <div class="description">
+                    법으로 정해진 의무적인 지출(예: 공무원 연금)을 계속할 수 있습니다.
+                </div>
+            </div>
+        </div>
+
+        <div class="section">
+            <div class="icon">🔄</div>
+            <div class="content">
+                <div class="term">3. 이미 예산으로 승인된 사업의 계속</div>
+                <div class="explanation">
+                    이을 승(承) + 알 인(認) (승인)<br>
+                    이을 계(繼) + 이을 속(續) (계속)
+                </div>
+                <div class="description">
+                    이전에 승인된 사업(예: 도로 공사)을 계속 진행할 수 있습니다.
+                </div>
+            </div>
+        </div>
+
+        <div class="conclusion">
+            <h2>결론적으로...</h2>
+            <p>헌법 제54조 제3항은, <strong>국회에서 예산안 처리가 늦어져 새해가 시작되어도 확정되지 못하는 비상 상황을 대비한 '준예산' 제도에 대한 규칙</strong>입니다。</p>
+            <p>이 경우 정부는 나라가 마비되는 것을 막기 위해, 작년 예산을 기준으로 꼭 필요한 세 가지 목적, 즉 국가 기관의 기본 운영비, 법으로 정해진 의무 지출, 그리고 이미 진행 중인 사업에 한해서만 돈을 사용할 수 있습니다。</p>
+            <p>이 조항은 국가 기능의 중단을 막는 최소한의 안전장치이면서, 동시에 국회의 예산 심의·확정권을 침해하지 않도록 정부의 재량권을 엄격하게 제한하는 중요한 역할을 합니다。</p>
+        </div>
+    </div>
+</body>
+</html>

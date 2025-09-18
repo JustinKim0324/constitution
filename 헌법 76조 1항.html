@@ -1,0 +1,227 @@
+<script type="text/javascript">
+        var gk_isXlsx = false;
+        var gk_xlsxFileLookup = {};
+        var gk_fileData = {};
+        function filledCell(cell) {
+          return cell !== '' && cell != null;
+        }
+        function loadFileData(filename) {
+        if (gk_isXlsx && gk_xlsxFileLookup[filename]) {
+            try {
+                var workbook = XLSX.read(gk_fileData[filename], { type: 'base64' });
+                var firstSheetName = workbook.SheetNames[0];
+                var worksheet = workbook.Sheets[firstSheetName];
+
+                // Convert sheet to JSON to filter blank rows
+                var jsonData = XLSX.utils.sheet_to_json(worksheet, { header: 1, blankrows: false, defval: '' });
+                // Filter out blank rows (rows where all cells are empty, null, or undefined)
+                var filteredData = jsonData.filter(row => row.some(filledCell));
+
+                // Heuristic to find the header row by ignoring rows with fewer filled cells than the next row
+                var headerRowIndex = filteredData.findIndex((row, index) =>
+                  row.filter(filledCell).length >= filteredData[index + 1]?.filter(filledCell).length
+                );
+                // Fallback
+                if (headerRowIndex === -1 || headerRowIndex > 25) {
+                  headerRowIndex = 0;
+                }
+
+                // Convert filtered JSON back to CSV
+                var csv = XLSX.utils.aoa_to_sheet(filteredData.slice(headerRowIndex)); // Create a new sheet from filtered array of arrays
+                csv = XLSX.utils.sheet_to_csv(csv, { header: 1 });
+                return csv;
+            } catch (e) {
+                console.error(e);
+                return "";
+            }
+        }
+        return gk_fileData[filename] || "";
+        }
+        </script><!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>대한민국 헌법 제76조 제1항</title>
+    <style>
+        body {
+            font-family: 'Noto Sans KR', sans-serif;
+            background-color: #f9f9f9;
+            color: #333;
+            margin: 0;
+            padding: 20px;
+            line-height: 1.6;
+        }
+        .container {
+            max-width: 1000px;
+            margin: 0 auto;
+            background-color: #fff;
+            padding: 25px;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+        h1 {
+            text-align: center;
+            color: #2c3e50;
+            font-size: 2.6em;
+            margin-bottom: 25px;
+        }
+        .article {
+            font-size: 1.6em;
+            text-align: center;
+            margin: 25px 0;
+            padding: 18px;
+            background-color: #ecf0f1;
+            border-radius: 5px;
+            font-weight: bold;
+        }
+        .section {
+            display: flex;
+            align-items: flex-start;
+            margin-bottom: 25px;
+        }
+        .icon {
+            font-size: 3em;
+            margin-right: 18px;
+        }
+        .content {
+            flex: 1;
+        }
+        .term {
+            font-weight: bold;
+            color: #2980b9;
+            font-size: 1.4em;
+        }
+        .explanation {
+            font-size: 1.1em;
+            color: #e74c3c;
+            margin-top: 6px;
+        }
+        .description {
+            font-size: 1.2em;
+            margin-top: 6px;
+        }
+        .conclusion {
+            margin-top: 35px;
+            padding: 18px;
+            background-color: #e8f4fd;
+            border-left: 5px solid #3498db;
+            border-radius: 5px;
+        }
+        .conclusion h2 {
+            margin-top: 0;
+            color: #2c3e50;
+            font-size: 1.8em;
+        }
+        .conclusion p {
+            font-size: 1.2em;
+            margin: 6px 0;
+        }
+        @media (max-width: 768px) {
+            .container {
+                margin: 10px;
+                padding: 15px;
+            }
+            h1 {
+                font-size: 2.2em;
+            }
+            .article {
+                font-size: 1.3em;
+            }
+            .icon {
+                font-size: 2.4em;
+            }
+            .term {
+                font-size: 1.3em;
+            }
+            .explanation {
+                font-size: 0.95em;
+            }
+            .description {
+                font-size: 1.1em;
+            }
+            .conclusion h2 {
+                font-size: 1.6em;
+            }
+            .conclusion p {
+                font-size: 1.1em;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>대한민국 헌법 제76조 제1항</h1>
+        
+        <div class="article">
+            "대통령은 내우ㆍ외환ㆍ천재ㆍ지변 또는 중대한 재정ㆍ경제상의 위기에 있어서 국가의 안전보장 또는 공공의 안녕질서를 유지하기 위하여 긴급한 조치가 필요하고 국회의 집회를 기다릴 여유가 없을 때에 한하여 최소한으로 필요한 재정ㆍ경제상의 처분을 하거나 이에 관하여 법률의 효력을 가지는 명령을 발할 수 있다."
+        </div>
+
+        <div class="section">
+            <div class="icon">⚠️</div>
+            <div class="content">
+                <div class="term">내우ㆍ외환ㆍ천재ㆍ지변 또는 중대한 재정ㆍ경제상의 위기에 있어서</div>
+                <div class="explanation">
+                    안 내(內) + 근심 우(憂) (내우)<br>
+                    바깥 외(外) + 근심 환(患) (외환)<br>
+                    하늘 천(天) + 재앙 재(災) (천재)<br>
+                    땅 지(地) + 변할 변(變) (지변)<br>
+                    재물 재(財) + 정사 정(政) (재정)
+                </div>
+                <div class="description">
+                    국가 내부의 큰 혼란, 외부의 위협, 태풍이나 지진 같은 자연재해, 또는 심각한 경제 위기 등 나라가 큰 위험에 처한 상황을 말합니다. 이는 대통령이 비상 조치를 취할 수 있는 조건입니다.
+                </div>
+            </div>
+        </div>
+
+        <div class="section">
+            <div class="icon">🛡️</div>
+            <div class="content">
+                <div class="term">국가의 안전보장 또는 공공의 안녕질서를 유지하기 위하여</div>
+                <div class="explanation">
+                    안전 안(安) + 지킬 보(保) + 막을 장(障) (안전보장)<br>
+                    공평할 공(公) + 안녕 안(安) + 질서 질(秩) + 순서 서(序) (안녕질서)
+                </div>
+                <div class="description">
+                    대통령은 국가와 국민의 안전, 그리고 공공의 질서를 지키기 위해 비상 조치를 취할 수 있습니다. 이는 위기 속에서 나라와 국민을 보호하는 목표를 분명히 합니다.
+                </div>
+            </div>
+        </div>
+
+        <div class="section">
+            <div class="icon">🏛️</div>
+            <div class="content">
+                <div class="term">긴급한 조치가 필요하고 국회의 집회를 기다릴 여유가 없을 때에 한하여</div>
+                <div class="explanation">
+                    모일 집(集) + 모일 회(會) (집회)
+                </div>
+                <div class="description">
+                    국회가 모여 법률을 만들 시간이 없을 정도로 급박한 상황에서만 대통령은 비상 조치를 취할 수 있습니다. 이는 대통령의 권한이 예외적인 경우에만 사용되도록 제한합니다.
+                </div>
+            </div>
+        </div>
+
+        <div class="section">
+            <div class="icon">📜</div>
+            <div class="content">
+                <div class="term">최소한으로 필요한 재정ㆍ경제상의 처분을 하거나 이에 관하여 법률의 효력을 가지는 명령을 발할 수 있다</div>
+                <div class="explanation">
+                    곳 처(處) + 나눌 분(分) (처분)<br>
+                    본받을 효(效) + 힘 력(力) (효력)<br>
+                    쏠 발(發)
+                </div>
+                <div class="description">
+                    대통령은 위기 해결에 꼭 필요한 최소한의 재정·경제 조치를 취하거나, 법률과 같은 힘을 가진 긴급명령을 발령할 수 있습니다. 이는 국민의 자유를 최대한 지키며 위기를 해결하려는 조치입니다.
+                </div>
+            </div>
+        </div>
+
+        <div class="conclusion">
+            <h2>결론적으로...</h2>
+            <p>헌법 제76조 제1항은, <strong>국가적인 재난이나 심각한 경제 위기처럼 아주 위급하고 국회를 기다릴 시간조차 없는 비상 상황에서, 대통령이 국가를 지키기 위해 잠시 동안 법률과 같은 힘을 가진 긴급한 명령을 내릴 수 있는 권한을 정한 조항</strong>입니다。</p>
+            <p>이는 대통령에게 아주 강력한 힘을 주는 것이기 때문에, 사용할 수 있는 상황과 목적, 조건을 아주 엄격하게 정해놓았어요。</p>
+            <p>국민의 자유와 권리를 침해할 위험이 큰 만큼, 아주 예외적으로만 사용되어야 하는 중요한 비상 권한입니다。</p>
+        </div>
+    </div>
+</body>
+</html>

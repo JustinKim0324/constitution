@@ -1,0 +1,198 @@
+<script type="text/javascript">
+        var gk_isXlsx = false;
+        var gk_xlsxFileLookup = {};
+        var gk_fileData = {};
+        function filledCell(cell) {
+          return cell !== '' && cell != null;
+        }
+        function loadFileData(filename) {
+        if (gk_isXlsx && gk_xlsxFileLookup[filename]) {
+            try {
+                var workbook = XLSX.read(gk_fileData[filename], { type: 'base64' });
+                var firstSheetName = workbook.SheetNames[0];
+                var worksheet = workbook.Sheets[firstSheetName];
+
+                // Convert sheet to JSON to filter blank rows
+                var jsonData = XLSX.utils.sheet_to_json(worksheet, { header: 1, blankrows: false, defval: '' });
+                // Filter out blank rows (rows where all cells are empty, null, or undefined)
+                var filteredData = jsonData.filter(row => row.some(filledCell));
+
+                // Heuristic to find the header row by ignoring rows with fewer filled cells than the next row
+                var headerRowIndex = filteredData.findIndex((row, index) =>
+                  row.filter(filledCell).length >= filteredData[index + 1]?.filter(filledCell).length
+                );
+                // Fallback
+                if (headerRowIndex === -1 || headerRowIndex > 25) {
+                  headerRowIndex = 0;
+                }
+
+                // Convert filtered JSON back to CSV
+                var csv = XLSX.utils.aoa_to_sheet(filteredData.slice(headerRowIndex)); // Create a new sheet from filtered array of arrays
+                csv = XLSX.utils.sheet_to_csv(csv, { header: 1 });
+                return csv;
+            } catch (e) {
+                console.error(e);
+                return "";
+            }
+        }
+        return gk_fileData[filename] || "";
+        }
+        </script><!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>대한민국 헌법 제66조 제2항</title>
+    <style>
+        body {
+            font-family: 'Noto Sans KR', sans-serif;
+            background-color: #f9f9f9;
+            color: #333;
+            margin: 0;
+            padding: 20px;
+            line-height: 1.6;
+        }
+        .container {
+            max-width: 1000px;
+            margin: 0 auto;
+            background-color: #fff;
+            padding: 25px;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+        h1 {
+            text-align: center;
+            color: #2c3e50;
+            font-size: 2.6em;
+            margin-bottom: 25px;
+        }
+        .article {
+            font-size: 1.6em;
+            text-align: center;
+            margin: 25px 0;
+            padding: 18px;
+            background-color: #ecf0f1;
+            border-radius: 5px;
+            font-weight: bold;
+        }
+        .section {
+            display: flex;
+            align-items: flex-start;
+            margin-bottom: 25px;
+        }
+        .icon {
+            font-size: 3em;
+            margin-right: 18px;
+        }
+        .content {
+            flex: 1;
+        }
+        .term {
+            font-weight: bold;
+            color: #2980b9;
+            font-size: 1.4em;
+        }
+        .explanation {
+            font-size: 1.1em;
+            color: #e74c3c;
+            margin-top: 6px;
+        }
+        .description {
+            font-size: 1.2em;
+            margin-top: 6px;
+        }
+        .conclusion {
+            margin-top: 35px;
+            padding: 18px;
+            background-color: #e8f4fd;
+            border-left: 5px solid #3498db;
+            border-radius: 5px;
+        }
+        .conclusion h2 {
+            margin-top: 0;
+            color: #2c3e50;
+            font-size: 1.8em;
+        }
+        .conclusion p {
+            font-size: 1.2em;
+            margin: 6px 0;
+        }
+        @media (max-width: 768px) {
+            .container {
+                margin: 10px;
+                padding: 15px;
+            }
+            h1 {
+                font-size: 2.2em;
+            }
+            .article {
+                font-size: 1.3em;
+            }
+            .icon {
+                font-size: 2.4em;
+            }
+            .term {
+                font-size: 1.3em;
+            }
+            .explanation {
+                font-size: 0.95em;
+            }
+            .description {
+                font-size: 1.1em;
+            }
+            .conclusion h2 {
+                font-size: 1.6em;
+            }
+            .conclusion p {
+                font-size: 1.1em;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>대한민국 헌법 제66조 제2항</h1>
+        
+        <div class="article">
+            "대통령은 국가의 독립ㆍ영토의 보전ㆍ국가의 계속성과 헌법을 수호할 책무를 진다."
+        </div>
+
+        <div class="section">
+            <div class="icon">🛡️</div>
+            <div class="content">
+                <div class="term">대통령은 국가의 독립ㆍ영토의 보전ㆍ국가의 계속성과</div>
+                <div class="explanation">
+                    홀로 독(獨) + 설 립(立) (독립)<br>
+                    거느릴 령(領) + 흙 토(土) + 지킬 보(保) + 온전할 전(全) (영토의 보전)<br>
+                    이을 계(繼) + 이을 속(續) + 성(性) (계속성)
+                </div>
+                <div class="description">
+                    대통령은 외부의 위협으로부터 국가의 독립을 지키고, 우리나라의 영토(땅, 바다, 하늘)를 온전히 보존하며, 대한민국이 끊임없이 이어지도록 지속성을 유지해야 합니다. 이는 국가의 존립과 정체성을 지키는 핵심적인 책임입니다.
+                </div>
+            </div>
+        </div>
+
+        <div class="section">
+            <div class="icon">📜</div>
+            <div class="content">
+                <div class="term">헌법을 수호할 책무를 진다</div>
+                <div class="explanation">
+                    법 헌(憲) + 법 법(法) (헌법)<br>
+                    지킬 수(守) + 보호할 호(護) (수호)<br>
+                    꾸짖을 책(責) + 힘쓸 무(務) (책무)
+                </div>
+                <div class="description">
+                    대통령은 우리나라의 최고 법인 헌법을 굳건히 지키고 보호해야 합니다. 이는 대통령을 포함한 모든 국가기관이 헌법에 따라 운영되도록 하며, 헌법의 가치와 원칙이 훼손되지 않도록 하는 '헌법의 최고 수호자'로서의 책임을 강조합니다.
+                </div>
+            </div>
+        </div>
+
+        <div class="conclusion">
+            <h2>결론적으로...</h2>
+            <p>헌법 제66조 제2항은, <strong>대통령에게 부여된 네 가지 신성한 책무를 규정한 조항</strong>입니다。</p>
+            <p>대통령은 외부의 위협으로부터 나라의 독립과 영토, 계속성을 지켜내야 하며, 동시에 나라 안에서는 최고의 법인 헌법의 가치를 굳건히 수호해야 합니다。</p>
+            <p>이 조항은 대통령이 단순한 행정부의 리더를 넘어, 국가와 헌법 그 자체를 지키는 최종적인 보호자임을 명시하고 있습니다。</p>
+        </div>
+    </div>
+</body>
+</html>

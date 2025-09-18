@@ -1,0 +1,208 @@
+<script type="text/javascript">
+        var gk_isXlsx = false;
+        var gk_xlsxFileLookup = {};
+        var gk_fileData = {};
+        function filledCell(cell) {
+          return cell !== '' && cell != null;
+        }
+        function loadFileData(filename) {
+        if (gk_isXlsx && gk_xlsxFileLookup[filename]) {
+            try {
+                var workbook = XLSX.read(gk_fileData[filename], { type: 'base64' });
+                var firstSheetName = workbook.SheetNames[0];
+                var worksheet = workbook.Sheets[firstSheetName];
+
+                // Convert sheet to JSON to filter blank rows
+                var jsonData = XLSX.utils.sheet_to_json(worksheet, { header: 1, blankrows: false, defval: '' });
+                // Filter out blank rows (rows where all cells are empty, null, or undefined)
+                var filteredData = jsonData.filter(row => row.some(filledCell));
+
+                // Heuristic to find the header row by ignoring rows with fewer filled cells than the next row
+                var headerRowIndex = filteredData.findIndex((row, index) =>
+                  row.filter(filledCell).length >= filteredData[index + 1]?.filter(filledCell).length
+                );
+                // Fallback
+                if (headerRowIndex === -1 || headerRowIndex > 25) {
+                  headerRowIndex = 0;
+                }
+
+                // Convert filtered JSON back to CSV
+                var csv = XLSX.utils.aoa_to_sheet(filteredData.slice(headerRowIndex)); // Create a new sheet from filtered array of arrays
+                csv = XLSX.utils.sheet_to_csv(csv, { header: 1 });
+                return csv;
+            } catch (e) {
+                console.error(e);
+                return "";
+            }
+        }
+        return gk_fileData[filename] || "";
+        }
+        </script><!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>대한민국 헌법 제88조 제1항</title>
+    <style>
+        body {
+            font-family: 'Noto Sans KR', sans-serif;
+            background-color: #f9f9f9;
+            color: #333;
+            margin: 0;
+            padding: 20px;
+            line-height: 1.6;
+        }
+        .container {
+            max-width: 1000px;
+            margin: 0 auto;
+            background-color: #fff;
+            padding: 25px;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+        h1 {
+            text-align: center;
+            color: #2c3e50;
+            font-size: 2.6em;
+            margin-bottom: 25px;
+        }
+        .article {
+            font-size: 1.6em;
+            text-align: center;
+            margin: 25px 0;
+            padding: 18px;
+            background-color: #ecf0f1;
+            border-radius: 5px;
+            font-weight: bold;
+        }
+        .section {
+            display: flex;
+            align-items: flex-start;
+            margin-bottom: 25px;
+        }
+        .icon {
+            font-size: 3em;
+            margin-right: 18px;
+        }
+        .content {
+            flex: 1;
+        }
+        .term {
+            font-weight: bold;
+            color: #2980b9;
+            font-size: 1.4em;
+        }
+        .explanation {
+            font-size: 1.1em;
+            color: #e74c3c;
+            margin-top: 6px;
+        }
+        .description {
+            font-size: 1.2em;
+            margin-top: 6px;
+        }
+        .conclusion {
+            margin-top: 35px;
+            padding: 18px;
+            background-color: #e8f4fd;
+            border-left: 5px solid #3498db;
+            border-radius: 5px;
+        }
+        .conclusion h2 {
+            margin-top: 0;
+            color: #2c3e50;
+            font-size: 1.8em;
+        }
+        .conclusion p {
+            font-size: 1.2em;
+            margin: 6px 0;
+        }
+        @media (max-width: 768px) {
+            .container {
+                margin: 10px;
+                padding: 15px;
+            }
+            h1 {
+                font-size: 2.2em;
+            }
+            .article {
+                font-size: 1.3em;
+            }
+            .icon {
+                font-size: 2.4em;
+            }
+            .term {
+                font-size: 1.3em;
+            }
+            .explanation {
+                font-size: 0.95em;
+            }
+            .description {
+                font-size: 1.1em;
+            }
+            .conclusion h2 {
+                font-size: 1.6em;
+            }
+            .conclusion p {
+                font-size: 1.1em;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>대한민국 헌법 제88조 제1항</h1>
+        
+        <div class="article">
+            "국무회의는 정부의 권한에 속하는 중요한 정책을 심의한다."
+        </div>
+
+        <div class="section">
+            <div class="icon">📋</div>
+            <div class="content">
+                <div class="term">국무회의는</div>
+                <div class="explanation">
+                    나라 국(國) + 힘쓸 무(務) + 모일 회(會) + 의논할 의(議) (국무회의)
+                </div>
+                <div class="description">
+                    국무회의는 대통령과 장관들이 모여 나라의 중요한 정책을 논의하는 행정부의 최고 회의체입니다.
+                </div>
+            </div>
+        </div>
+
+        <div class="section">
+            <div class="icon">🏛️</div>
+            <div class="content">
+                <div class="term">정부의 권한에 속하는 중요한 정책을</div>
+                <div class="explanation">
+                    권세 권(權) + 한계 한(限) (권한)<br>
+                    정사 정(政) + 꾀 책(策) (정책)
+                </div>
+                <div class="description">
+                    행정부가 책임지는 주요 정책을 다룹니다. 예를 들어, 법률안 제출이나 예산 계획 같은 중대한 사안이 이에 포함됩니다.
+                </div>
+            </div>
+        </div>
+
+        <div class="section">
+            <div class="icon">🔍</div>
+            <div class="content">
+                <div class="term">심의한다</div>
+                <div class="explanation">
+                    살필 심(審) + 의논할 의(議) (심의)
+                </div>
+                <div class="description">
+                    정책이 나라에 적합한지 대통령과 장관들이 함께 검토하고 토론합니다. 최종 결정은 대통령이 하지만 심의 과정을 거쳐야 합니다.
+                </div>
+            </div>
+        </div>
+
+        <div class="conclusion">
+            <h2>결론적으로...</h2>
+            <p>헌법 제88조 제1항은, <strong>행정부의 최고 정책 심의 기관으로서 '국무회의'의 역할을 규정한 조항</strong>입니다。</p>
+            <p>국무회의는 대통령과 국무총리, 국무위원들이 모두 모여 정부의 권한에 속하는 중요한 정책들을 신중하게 검토하고 토론(심의)하는 자리입니다。</p>
+            <p>이는 대통령이 중요한 국가 정책을 독단적으로 결정하는 것을 막고, 각 분야의 전문성을 가진 국무위원들과의 충분한 논의를 통해 합리적인 결정을 내리도록 하는 중요한 민주적 절차입니다。</p>
+        </div>
+    </div>
+</body>
+</html>

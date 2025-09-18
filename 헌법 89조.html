@@ -1,0 +1,463 @@
+<script type="text/javascript">
+        var gk_isXlsx = false;
+        var gk_xlsxFileLookup = {};
+        var gk_fileData = {};
+        function filledCell(cell) {
+          return cell !== '' && cell != null;
+        }
+        function loadFileData(filename) {
+        if (gk_isXlsx && gk_xlsxFileLookup[filename]) {
+            try {
+                var workbook = XLSX.read(gk_fileData[filename], { type: 'base64' });
+                var firstSheetName = workbook.SheetNames[0];
+                var worksheet = workbook.Sheets[firstSheetName];
+
+                // Convert sheet to JSON to filter blank rows
+                var jsonData = XLSX.utils.sheet_to_json(worksheet, { header: 1, blankrows: false, defval: '' });
+                // Filter out blank rows (rows where all cells are empty, null, or undefined)
+                var filteredData = jsonData.filter(row => row.some(filledCell));
+
+                // Heuristic to find the header row by ignoring rows with fewer filled cells than the next row
+                var headerRowIndex = filteredData.findIndex((row, index) =>
+                  row.filter(filledCell).length >= filteredData[index + 1]?.filter(filledCell).length
+                );
+                // Fallback
+                if (headerRowIndex === -1 || headerRowIndex > 25) {
+                  headerRowIndex = 0;
+                }
+
+                // Convert filtered JSON back to CSV
+                var csv = XLSX.utils.aoa_to_sheet(filteredData.slice(headerRowIndex)); // Create a new sheet from filtered array of arrays
+                csv = XLSX.utils.sheet_to_csv(csv, { header: 1 });
+                return csv;
+            } catch (e) {
+                console.error(e);
+                return "";
+            }
+        }
+        return gk_fileData[filename] || "";
+        }
+        </script><!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>대한민국 헌법 제89조</title>
+    <style>
+        body {
+            font-family: 'Noto Sans KR', sans-serif;
+            background-color: #f9f9f9;
+            color: #333;
+            margin: 0;
+            padding: 20px;
+            line-height: 1.6;
+        }
+        .container {
+            max-width: 1000px;
+            margin: 0 auto;
+            background-color: #fff;
+            padding: 25px;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+        h1 {
+            text-align: center;
+            color: #2c3e50;
+            font-size: 2.6em;
+            margin-bottom: 25px;
+        }
+        .article {
+            font-size: 1.6em;
+            text-align: left;
+            margin: 25px 0;
+            padding: 18px;
+            background-color: #ecf0f1;
+            border-radius: 5px;
+            font-weight: bold;
+        }
+        .article ol {
+            margin-top: 10px;
+            padding-left: 20px;
+            font-size: 0.9em;
+            font-weight: normal;
+        }
+        .section {
+            display: flex;
+            align-items: flex-start;
+            margin-bottom: 25px;
+        }
+        .icon {
+            font-size: 3em;
+            margin-right: 18px;
+        }
+        .content {
+            flex: 1;
+        }
+        .term {
+            font-weight: bold;
+            color: #2980b9;
+            font-size: 1.4em;
+        }
+        .explanation {
+            font-size: 1.1em;
+            color: #e74c3c;
+            margin-top: 6px;
+        }
+        .description {
+            font-size: 1.2em;
+            margin-top: 6px;
+        }
+        .conclusion {
+            margin-top: 35px;
+            padding: 18px;
+            background-color: #e8f4fd;
+            border-left: 5px solid #3498db;
+            border-radius: 5px;
+        }
+        .conclusion h2 {
+            margin-top: 0;
+            color: #2c3e50;
+            font-size: 1.8em;
+        }
+        .conclusion p {
+            font-size: 1.2em;
+            margin: 6px 0;
+        }
+        @media (max-width: 768px) {
+            .container {
+                margin: 10px;
+                padding: 15px;
+            }
+            h1 {
+                font-size: 2.2em;
+            }
+            .article {
+                font-size: 1.3em;
+            }
+            .article ol {
+                font-size: 0.85em;
+            }
+            .icon {
+                font-size: 2.4em;
+            }
+            .term {
+                font-size: 1.3em;
+            }
+            .explanation {
+                font-size: 0.95em;
+            }
+            .description {
+                font-size: 1.1em;
+            }
+            .conclusion h2 {
+                font-size: 1.6em;
+            }
+            .conclusion p {
+                font-size: 1.1em;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>대한민국 헌법 제89조</h1>
+        
+        <div class="article">
+            다음 사항은 국무회의의 심의를 거쳐야 한다.
+            <ol>
+                <li>국정의 기본계획과 정부의 일반정책</li>
+                <li>전쟁선포, 강화를 비롯한 중요한 대외정책</li>
+                <li>헌법개정안, 국민투표안, 조약안, 법률안 및 대통령령안</li>
+                <li>예산안, 결산, 국유재산처분의 기본계획, 국가의 부담이 될 계약 기타 재정에 관한 중요사항</li>
+                <li>대통령의 비상조치, 비상계엄, 내란 또는 외환의 죄에 관한 사항</li>
+                <li>국회의 임시회 집회의 요구</li>
+                <li>계엄 및 그 해제</li>
+                <li>군사에 관한 중요사항</li>
+                <li>국회의 동의를 요하는 외교문서의 발송</li>
+                <li>국무위원의 임명</li>
+                <li>사면ㆍ감형과 복권</li>
+                <li>행정각부간의 권한의 획정</li>
+                <li>정부 안의 권한의 위임 또는 배정에 관한 기본계획</li>
+                <li>국정처리상황의 평가ㆍ분석</li>
+                <li>행정각부의 중요한 정책의 수립과 조정</li>
+                <li>청원에 관한 사항</li>
+                <li>검찰총장ㆍ합동참모의장ㆍ각군참모총장ㆍ국립대학교총장ㆍ대사 기타 법률이 정한 공무원과 국영기업체관리자의 임명</li>
+                <li>기타 대통령ㆍ국무총리 또는 국무위원이 제출한 사항</li>
+            </ol>
+        </div>
+
+        <div class="section">
+            <div class="icon">📋</div>
+            <div class="content">
+                <div class="term">1. 국정의 기본계획과 정부의 일반정책</div>
+                <div class="explanation">
+                    나라 국(國) + 정사 정(政) (국정)<br>
+                    바탕 기(基) + 꾀할 계(計) + 그리다 화(畵) (기본계획)<br>
+                    한 일(一) + 옮길 반(般) (일반) + 정사 정(政) + 꾀 책(策) (정책)
+                </div>
+                <div class="description">
+                    나라를 다스리는 전체 계획과 정부의 기본 정책 방향을 정하는 사안입니다.
+                </div>
+            </div>
+        </div>
+
+        <div class="section">
+            <div class="icon">🌍</div>
+            <div class="content">
+                <div class="term">2. 전쟁선포, 강화를 비롯한 중요한 대외정책</div>
+                <div class="explanation">
+                    싸움 전(戰) + 베풀 선(宣) + 펼 포(布) (전쟁선포)<br>
+                    강할 강(强) + 화할 화(和) (강화)<br>
+                    바깥 대(對) + 바깥 외(外) + 정사 정(政) + 꾀 책(策) (대외정책)
+                </div>
+                <div class="description">
+                    전쟁을 선포하거나 평화 협정을 맺는 등 외국과의 관계를 다루는 주요 정책입니다.
+                </div>
+            </div>
+        </div>
+
+        <div class="section">
+            <div class="icon">📜</div>
+            <div class="content">
+                <div class="term">3. 헌법개정안, 국민투표안, 조약안, 법률안 및 대통령령안</div>
+                <div class="explanation">
+                    법 헌(憲) + 고칠 개(改) + 바를 정(正) (헌법개정)<br>
+                    백성 민(民) + 던질 투(投) + 표 표(票) (국민투표)<br>
+                    맺을 조(條) + 약속 약(約) (조약)<br>
+                    법 법(法) + 율 률(律) (법률)<br>
+                    큰 대(大) + 거느릴 통(統) + 거느릴 령(領) + 명령 령(令) (대통령령)
+                </div>
+                <div class="description">
+                    헌법 수정, 국민투표, 국제 조약, 법률 제정, 대통령령 제안 같은 법적 안건입니다.
+                </div>
+            </div>
+        </div>
+
+        <div class="section">
+            <div class="icon">💰</div>
+            <div class="content">
+                <div class="term">4. 예산안, 결산, 국유재산처분의 기본계획, 국가의 부담이 될 계약 기타 재정에 관한 중요사항</div>
+                <div class="explanation">
+                    헤아릴 예(豫) + 산할 산(算) (예산)<br>
+                    마무리 결(結) + 셈 산(算) (결산)<br>
+                    나라 국(國) + 있을 유(有) + 재물 재(財) + 산 산(産) (국유재산)<br>
+                    곳 처(處) + 나눌 분(分) (처분)
+                </div>
+                <div class="description">
+                    국가의 예산, 결산, 국유재산 처리, 국가 부담 계약 등 돈과 관련된 중요한 문제입니다.
+                </div>
+            </div>
+        </div>
+
+        <div class="section">
+            <div class="icon">⚠️</div>
+            <div class="content">
+                <div class="term">5. 대통령의 비상조치, 비상계엄, 내란 또는 외환의 죄에 관한 사항</div>
+                <div class="explanation">
+                    아닐 비(非) + 항상 상(常) + 잡을 조(措) + 둘 치(置) (비상조치)<br>
+                    아닐 비(非) + 항상 상(常) + 경계할 계(戒) + 엄할 엄(嚴) (비상계엄)<br>
+                    안 내(內) + 어지러울 란(亂) (내란)<br>
+                    바깥 외(外) + 근심 환(患) (외환)
+                </div>
+                <div class="description">
+                    대통령의 비상조치, 비상계엄, 내란, 외환 같은 국가 위기와 관련된 사안입니다.
+                </div>
+            </div>
+        </div>
+
+        <div class="section">
+            <div class="icon">🏛️</div>
+            <div class="content">
+                <div class="term">6. 국회의 임시회 집회의 요구</div>
+                <div class="explanation">
+                    나라 국(國) + 모일 회(會) (국회)<br>
+                    잠깐 임(臨) + 때 시(時) (임시회)<br>
+                    모일 집(集) + 모일 회(會) (집회)<br>
+                    요긴할 요(要) + 구할 구(求) (요구)
+                </div>
+                <div class="description">
+                    국회의 특별 회의를 소집하도록 요구하는 사안입니다.
+                </div>
+            </div>
+        </div>
+
+        <div class="section">
+            <div class="icon">🚨</div>
+            <div class="content">
+                <div class="term">7. 계엄 및 그 해제</div>
+                <div class="explanation">
+                    경계할 계(戒) + 엄할 엄(嚴) (계엄)<br>
+                    풀 해(解) + 덜 제(除) (해제)
+                </div>
+                <div class="description">
+                    계엄 선언과 해제를 결정하는 사안입니다.
+                </div>
+            </div>
+        </div>
+
+        <div class="section">
+            <div class="icon">🪖</div>
+            <div class="content">
+                <div class="term">8. 군사에 관한 중요사항</div>
+                <div class="explanation">
+                    군사 군(軍) + 일 사(事) (군사)
+                </div>
+                <div class="description">
+                    군사 작전이나 국방과 관련된 중요한 사안입니다.
+                </div>
+            </div>
+        </div>
+
+        <div class="section">
+            <div class="icon">✉️</div>
+            <div class="content">
+                <div class="term">9. 국회의 동의를 요하는 외교문서의 발송</div>
+                <div class="explanation">
+                    같을 동(同) + 뜻 의(意) (동의)<br>
+                    바깥 외(外) + 교제 교(交) + 글월 문(文) + 글 서(書) (외교문서)<br>
+                    쏠 발(發) + 보낼 송(送) (발송)
+                </div>
+                <div class="description">
+                    국회의 허락이 필요한 외교 문서를 보내는 사안입니다.
+                </div>
+            </div>
+        </div>
+
+        <div class="section">
+            <div class="icon">👷</div>
+            <div class="content">
+                <div class="term">10. 국무위원의 임명</div>
+                <div class="explanation">
+                    나라 국(國) + 힘쓸 무(務) + 맡길 위(委) + 인원 원(員) (국무위원)<br>
+                    맡길 임(任) + 목숨 명(命) (임명)
+                </div>
+                <div class="description">
+                    장관(국무위원)을 임명하는 사안입니다.
+                </div>
+            </div>
+        </div>
+
+        <div class="section">
+            <div class="icon">⚖️</div>
+            <div class="content">
+                <div class="term">11. 사면ㆍ감형과 복권</div>
+                <div class="explanation">
+                    용서할 사(赦) + 면할 면(免) (사면)<br>
+                    덜 감(減) + 형벌 형(刑) (감형)<br>
+                    돌아올 복(復) + 권세 권(權) (복권)
+                </div>
+                <div class="description">
+                    형벌을 용서하거나 줄이거나, 잃은 권리를 되돌리는 사안입니다.
+                </div>
+            </div>
+        </div>
+
+        <div class="section">
+            <div class="icon">📊</div>
+            <div class="content">
+                <div class="term">12. 행정각부간의 권한의 획정</div>
+                <div class="explanation">
+                    다닐 행(行) + 정사 정(政) + 각각 각(各) + 나눌 부(部) (행정각부)<br>
+                    권세 권(權) + 한계 한(限) (권한)<br>
+                    나누다 획(劃) + 정할 정(定) (획정)
+                </div>
+                <div class="description">
+                    정부 부처 간의 역할과 책임을 나누는 사안입니다.
+                </div>
+            </div>
+        </div>
+
+        <div class="section">
+            <div class="icon">🔄</div>
+            <div class="content">
+                <div class="term">13. 정부 안의 권한의 위임 또는 배정에 관한 기본계획</div>
+                <div class="explanation">
+                    권세 권(權) + 한계 한(限) (권한)<br>
+                    맡길 위(委) + 맡길 임(任) (위임)<br>
+                    나누다 배(配) + 정할 정(定) (배정)
+                </div>
+                <div class="description">
+                    정부 내에서 권한을 누가 맡거나 나누는 계획을 세우는 사안입니다.
+                </div>
+            </div>
+        </div>
+
+        <div class="section">
+            <div class="icon">📈</div>
+            <div class="content">
+                <div class="term">14. 국정처리상황의 평가ㆍ분석</div>
+                <div class="explanation">
+                    나라 국(國) + 정사 정(政) + 곳 처(處) + 다스릴 리(理) (국정처리)<br>
+                    헤아릴 평(評) + 값 가(價) (평가)<br>
+                    나눌 분(分) + 헤아릴 석(析) (분석)
+                </div>
+                <div class="description">
+                    국정 운영 상황을 점검하고 분석하는 사안입니다.
+                </div>
+            </div>
+        </div>
+
+        <div class="section">
+            <div class="icon">⚙️</div>
+            <div class="content">
+                <div class="term">15. 행정각부의 중요한 정책의 수립과 조정</div>
+                <div class="explanation">
+                    다닐 행(行) + 정사 정(政) + 각각 각(各) + 나눌 부(部) (행정각부)<br>
+                    세울 수(樹) + 세울 립(立) (수립)<br>
+                    고를 조(調) + 바를 정(整) (조정)
+                </div>
+                <div class="description">
+                    각 부처의 주요 정책을 세우고 조율하는 사안입니다.
+                </div>
+            </div>
+        </div>
+
+        <div class="section">
+            <div class="icon">📬</div>
+            <div class="content">
+                <div class="term">16. 청원에 관한 사항</div>
+                <div class="explanation">
+                    청할 청(請) + 원할 원(願) (청원)
+                </div>
+                <div class="description">
+                    국민이 정부에 요청한 청원을 심사하는 사안입니다.
+                </div>
+            </div>
+        </div>
+
+        <div class="section">
+            <div class="icon">👷</div>
+            <div class="content">
+                <div class="term">17. 검찰총장ㆍ합동참모의장ㆍ각군참모총장ㆍ국립대학교총장ㆍ대사 기타 법률이 정한 공무원과 국영기업체관리자의 임명</div>
+                <div class="explanation">
+                    맡길 임(任) + 목숨 명(命) (임명)
+                </div>
+                <div class="description">
+                    검찰총장, 군 고위 장성, 대사 등 주요 공무원과 국영기업체 관리자를 임명하는 사안입니다.
+                </div>
+            </div>
+        </div>
+
+        <div class="section">
+            <div class="icon">📝</div>
+            <div class="content">
+                <div class="term">18. 기타 대통령ㆍ국무총리 또는 국무위원이 제출한 사항</div>
+                <div class="explanation">
+                    그밖의 기(其) + 나머지 타(他) (기타)<br>
+                    올릴 제(提) + 낼 출(出) (제출)
+                </div>
+                <div class="description">
+                    대통령, 국무총리, 장관이 중요하다고 올린 기타 사안입니다.
+                </div>
+            </div>
+        </div>
+
+        <div class="conclusion">
+            <h2>결론적으로...</h2>
+            <p>헌법 제89조는, <strong>대통령이 독단적으로 나라의 중요한 일을 결정하는 것을 막기 위해 만들어진 아주 중요한 조항</strong>입니다。</p>
+            <p>나라의 방향, 외교, 국방, 예산, 인사 등 국가의 운명을 좌우할 수 있는 거의 모든 중요한 정책들은 반드시 대통령과 국무위원들이 함께 모여 토론하고 숙고하는 '국무회의 심의'라는 과정을 거치도록 의무화한 것입니다。</p>
+            <p>이는 행정부의 결정이 더 신중하고 합리적으로 이루어지도록 하는 중요한 민주적 절차입니다。</p>
+        </div>
+    </div>
+</body>
+</html>

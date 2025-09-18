@@ -1,0 +1,200 @@
+<script type="text/javascript">
+        var gk_isXlsx = false;
+        var gk_xlsxFileLookup = {};
+        var gk_fileData = {};
+        function filledCell(cell) {
+          return cell !== '' && cell != null;
+        }
+        function loadFileData(filename) {
+        if (gk_isXlsx && gk_xlsxFileLookup[filename]) {
+            try {
+                var workbook = XLSX.read(gk_fileData[filename], { type: 'base64' });
+                var firstSheetName = workbook.SheetNames[0];
+                var worksheet = workbook.Sheets[firstSheetName];
+
+                // Convert sheet to JSON to filter blank rows
+                var jsonData = XLSX.utils.sheet_to_json(worksheet, { header: 1, blankrows: false, defval: '' });
+                // Filter out blank rows (rows where all cells are empty, null, or undefined)
+                var filteredData = jsonData.filter(row => row.some(filledCell));
+
+                // Heuristic to find the header row by ignoring rows with fewer filled cells than the next row
+                var headerRowIndex = filteredData.findIndex((row, index) =>
+                  row.filter(filledCell).length >= filteredData[index + 1]?.filter(filledCell).length
+                );
+                // Fallback
+                if (headerRowIndex === -1 || headerRowIndex > 25) {
+                  headerRowIndex = 0;
+                }
+
+                // Convert filtered JSON back to CSV
+                var csv = XLSX.utils.aoa_to_sheet(filteredData.slice(headerRowIndex)); // Create a new sheet from filtered array of arrays
+                csv = XLSX.utils.sheet_to_csv(csv, { header: 1 });
+                return csv;
+            } catch (e) {
+                console.error(e);
+                return "";
+            }
+        }
+        return gk_fileData[filename] || "";
+        }
+        </script><!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>대한민국 헌법 제65조 제4항</title>
+    <style>
+        body {
+            font-family: 'Noto Sans KR', sans-serif;
+            background-color: #f9f9f9;
+            color: #333;
+            margin: 0;
+            padding: 20px;
+            line-height: 1.6;
+        }
+        .container {
+            max-width: 1000px;
+            margin: 0 auto;
+            background-color: #fff;
+            padding: 25px;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+        h1 {
+            text-align: center;
+            color: #2c3e50;
+            font-size: 2.6em;
+            margin-bottom: 25px;
+        }
+        .article {
+            font-size: 1.6em;
+            text-align: center;
+            margin: 25px 0;
+            padding: 18px;
+            background-color: #ecf0f1;
+            border-radius: 5px;
+            font-weight: bold;
+        }
+        .section {
+            display: flex;
+            align-items: flex-start;
+            margin-bottom: 25px;
+        }
+        .icon {
+            font-size: 3em;
+            margin-right: 18px;
+        }
+        .content {
+            flex: 1;
+        }
+        .term {
+            font-weight: bold;
+            color: #2980b9;
+            font-size: 1.4em;
+        }
+        .explanation {
+            font-size: 1.1em;
+            color: #e74c3c;
+            margin-top: 6px;
+        }
+        .description {
+            font-size: 1.2em;
+            margin-top: 6px;
+        }
+        .conclusion {
+            margin-top: 35px;
+            padding: 18px;
+            background-color: #e8f4fd;
+            border-left: 5px solid #3498db;
+            border-radius: 5px;
+        }
+        .conclusion h2 {
+            margin-top: 0;
+            color: #2c3e50;
+            font-size: 1.8em;
+        }
+        .conclusion p {
+            font-size: 1.2em;
+            margin: 6px 0;
+        }
+        @media (max-width: 768px) {
+            .container {
+                margin: 10px;
+                padding: 15px;
+            }
+            h1 {
+                font-size: 2.2em;
+            }
+            .article {
+                font-size: 1.3em;
+            }
+            .icon {
+                font-size: 2.4em;
+            }
+            .term {
+                font-size: 1.3em;
+            }
+            .explanation {
+                font-size: 0.95em;
+            }
+            .description {
+                font-size: 1.1em;
+            }
+            .conclusion h2 {
+                font-size: 1.6em;
+            }
+            .conclusion p {
+                font-size: 1.1em;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>대한민국 헌법 제65조 제4항</h1>
+        
+        <div class="article">
+            "탄핵결정은 공직으로부터 파면함에 그친다. 그러나, 이에 의하여 민사상이나 형사상의 책임이 면제되지는 아니한다."
+        </div>
+
+        <div class="section">
+            <div class="icon">⚖️</div>
+            <div class="content">
+                <div class="term">탄핵결정은 공직으로부터 파면함에 그친다</div>
+                <div class="explanation">
+                    쏠 탄(彈) + 꾸짖을 핵(劾) + 결단할 결(決) + 정할 정(定) (탄핵결정)<br>
+                    공평할 공(公) + 직분 직(職) (공직)<br>
+                    마칠 파(罷) + 면할 면(免) (파면)
+                </div>
+                <div class="description">
+                    헌법재판소의 탄핵결정은 공직자를 그 자리에서 물러나게 하는 것에 초점이 맞춰져 있습니다. 이는 공직자가 중대한 잘못을 저질렀을 때 공직의 신뢰성을 회복하기 위한 조치로, 공무원 자격을 박탈하는 데 그칩니다.
+                </div>
+            </div>
+        </div>
+
+        <div class="section">
+            <div class="icon">🚫</div>
+            <div class="content">
+                <div class="term">그러나, 이에 의하여 민사상이나 형사상의 책임이 면제되지는 아니한다</div>
+                <div class="explanation">
+                    백성 민(民) + 일 사(事) (민사상)<br>
+                    형벌 형(刑) + 일 사(事) (형사상)<br>
+                    면할 면(免) + 제할 제(除) (면제)
+                </div>
+                <div class="description">
+                    탄핵으로 공직에서 파면되더라도, 그 공직자가 저지른 민사적 책임(예: 금전적 손해 배상)이나 형사적 책임(예: 범죄로 인한 징역이나 벌금)은 별도로 처리됩니다. 이는 모든 국민이 법 앞에 평등하다는 원칙을 지키기 위함입니다.
+                </div>
+            </div>
+        </div>
+
+        <div class="conclusion">
+            <h2>결론적으로...</h2>
+            <p>헌법 제65조 제4항은, <strong>탄핵 결정의 효과와 한계를 명확히 하는 조항</strong>입니다。</p>
+            <p>탄핵의 직접적인 효과는 해당 공무원을 그 자리에서 파면하는 것에 한정됩니다。</p>
+            <p>탄핵 재판 자체가 징역형을 선고하지는 않습니다。</p>
+            <p>하지만, 탄핵으로 파면되었다고 해서 그 사람이 저지른 개인적인 민사 책임이나 범죄에 대한 형사 책임이 사라지는 것은 결코 아님을 분명히 하고 있습니다。</p>
+            <p>이는 탄핵 제도가 공직의 순수성을 지키는 특별한 절차임과 동시에, 모든 국민은 법 앞에 평등하다는 대원칙을 함께 지키기 위한 중요한 규칙입니다。</p>
+        </div>
+    </div>
+</body>
+</html>

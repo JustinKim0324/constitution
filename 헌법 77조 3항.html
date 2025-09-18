@@ -1,0 +1,212 @@
+<script type="text/javascript">
+        var gk_isXlsx = false;
+        var gk_xlsxFileLookup = {};
+        var gk_fileData = {};
+        function filledCell(cell) {
+          return cell !== '' && cell != null;
+        }
+        function loadFileData(filename) {
+        if (gk_isXlsx && gk_xlsxFileLookup[filename]) {
+            try {
+                var workbook = XLSX.read(gk_fileData[filename], { type: 'base64' });
+                var firstSheetName = workbook.SheetNames[0];
+                var worksheet = workbook.Sheets[firstSheetName];
+
+                // Convert sheet to JSON to filter blank rows
+                var jsonData = XLSX.utils.sheet_to_json(worksheet, { header: 1, blankrows: false, defval: '' });
+                // Filter out blank rows (rows where all cells are empty, null, or undefined)
+                var filteredData = jsonData.filter(row => row.some(filledCell));
+
+                // Heuristic to find the header row by ignoring rows with fewer filled cells than the next row
+                var headerRowIndex = filteredData.findIndex((row, index) =>
+                  row.filter(filledCell).length >= filteredData[index + 1]?.filter(filledCell).length
+                );
+                // Fallback
+                if (headerRowIndex === -1 || headerRowIndex > 25) {
+                  headerRowIndex = 0;
+                }
+
+                // Convert filtered JSON back to CSV
+                var csv = XLSX.utils.aoa_to_sheet(filteredData.slice(headerRowIndex)); // Create a new sheet from filtered array of arrays
+                csv = XLSX.utils.sheet_to_csv(csv, { header: 1 });
+                return csv;
+            } catch (e) {
+                console.error(e);
+                return "";
+            }
+        }
+        return gk_fileData[filename] || "";
+        }
+        </script><!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>대한민국 헌법 제77조 제3항</title>
+    <style>
+        body {
+            font-family: 'Noto Sans KR', sans-serif;
+            background-color: #f9f9f9;
+            color: #333;
+            margin: 0;
+            padding: 20px;
+            line-height: 1.6;
+        }
+        .container {
+            max-width: 1000px;
+            margin: 0 auto;
+            background-color: #fff;
+            padding: 25px;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+        h1 {
+            text-align: center;
+            color: #2c3e50;
+            font-size: 2.6em;
+            margin-bottom: 25px;
+        }
+        .article {
+            font-size: 1.6em;
+            text-align: center;
+            margin: 25px 0;
+            padding: 18px;
+            background-color: #ecf0f1;
+            border-radius: 5px;
+            font-weight: bold;
+        }
+        .section {
+            display: flex;
+            align-items: flex-start;
+            margin-bottom: 25px;
+        }
+        .icon {
+            font-size: 3em;
+            margin-right: 18px;
+        }
+        .content {
+            flex: 1;
+        }
+        .term {
+            font-weight: bold;
+            color: #2980b9;
+            font-size: 1.4em;
+        }
+        .explanation {
+            font-size: 1.1em;
+            color: #e74c3c;
+            margin-top: 6px;
+        }
+        .description {
+            font-size: 1.2em;
+            margin-top: 6px;
+        }
+        .conclusion {
+            margin-top: 35px;
+            padding: 18px;
+            background-color: #e8f4fd;
+            border-left: 5px solid #3498db;
+            border-radius: 5px;
+        }
+        .conclusion h2 {
+            margin-top: 0;
+            color: #2c3e50;
+            font-size: 1.8em;
+        }
+        .conclusion p {
+            font-size: 1.2em;
+            margin: 6px 0;
+        }
+        @media (max-width: 768px) {
+            .container {
+                margin: 10px;
+                padding: 15px;
+            }
+            h1 {
+                font-size: 2.2em;
+            }
+            .article {
+                font-size: 1.3em;
+            }
+            .icon {
+                font-size: 2.4em;
+            }
+            .term {
+                font-size: 1.3em;
+            }
+            .explanation {
+                font-size: 0.95em;
+            }
+            .description {
+                font-size: 1.1em;
+            }
+            .conclusion h2 {
+                font-size: 1.6em;
+            }
+            .conclusion p {
+                font-size: 1.1em;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>대한민국 헌법 제77조 제3항</h1>
+        
+        <div class="article">
+            "비상계엄이 선포된 때에는 법률이 정하는 바에 의하여 영장제도, 언론ㆍ출판ㆍ집회ㆍ결사의 자유, 정부나 법원의 권한에 관하여 특별한 조치를 할 수 있다."
+        </div>
+
+        <div class="section">
+            <div class="icon">⚠️</div>
+            <div class="content">
+                <div class="term">비상계엄이 선포된 때에는</div>
+                <div class="explanation">
+                    아닐 비(非) + 항상 상(常) (비상)<br>
+                    경계할 계(戒) + 엄할 엄(嚴) (계엄)<br>
+                    베풀 선(宣) + 펼 포(布) (선포)
+                </div>
+                <div class="description">
+                    전쟁 같은 극단적인 위기 상황에서 대통령이 비상계엄을 공식 선언한 경우를 뜻합니다. 국가가 큰 위험에 처했을 때만 적용되는 규칙입니다.
+                </div>
+            </div>
+        </div>
+
+        <div class="section">
+            <div class="icon">📜</div>
+            <div class="content">
+                <div class="term">법률이 정하는 바에 의하여 ... 특별한 조치를 할 수 있다</div>
+                <div class="explanation">
+                    잡을 조(措) + 둘 치(置) (조치)
+                </div>
+                <div class="description">
+                    비상계엄 시 취해지는 조치들은 '계엄법'에 정해진 규칙과 범위 안에서만 실행됩니다. 대통령이나 군대가 마음대로 할 수 없도록 법적으로 제한합니다.
+                </div>
+            </div>
+        </div>
+
+        <div class="section">
+            <div class="icon">🚫</div>
+            <div class="content">
+                <div class="term">영장제도, 언론ㆍ출판ㆍ집회ㆍ결사의 자유, 정부나 법원의 권한에 관하여</div>
+                <div class="explanation">
+                    말씀 언(言) + 논할 론(論) (언론)<br>
+                    나갈 출(出) + 새길 판(版) (출판)<br>
+                    모일 집(集) + 모일 회(會) (집회)<br>
+                    맺을 결(結) + 모임 사(社) (결사)
+                </div>
+                <div class="description">
+                    영장제도나 언론·출판·집회·결사의 자유가 제한될 수 있고, 군대가 행정이나 재판을 담당할 수 있습니다. 예를 들어, 신문 검열이나 국민 재판을 군사 법원에서 할 수 있습니다.
+                </div>
+            </div>
+        </div>
+
+        <div class="conclusion">
+            <h2>결론적으로...</h2>
+            <p>헌법 제77조 제3항은, <strong>최고 단계의 계엄인 '비상계엄'이 선포되었을 때의 강력한 효과를 설명하는 조항</strong>입니다。</p>
+            <p>이때에는 법률이 정하는 바에 따라 영장 제도나 국민의 표현의 자유와 같은 기본권이 일시적으로 제한될 수 있으며, 군대가 행정과 사법의 권한까지 일부 행사할 수 있습니다。</p>
+            <p>이는 국가의 존립 자체가 위태로운 극심한 위기 상황을 극복하기 위한 최후의 수단이지만, 그만큼 국민의 자유를 크게 침해할 수 있어 매우 신중하게 사용되어야 합니다。</p>
+        </div>
+    </div>
+</body>
+</html>

@@ -1,0 +1,201 @@
+<script type="text/javascript">
+        var gk_isXlsx = false;
+        var gk_xlsxFileLookup = {};
+        var gk_fileData = {};
+        function filledCell(cell) {
+          return cell !== '' && cell != null;
+        }
+        function loadFileData(filename) {
+        if (gk_isXlsx && gk_xlsxFileLookup[filename]) {
+            try {
+                var workbook = XLSX.read(gk_fileData[filename], { type: 'base64' });
+                var firstSheetName = workbook.SheetNames[0];
+                var worksheet = workbook.Sheets[firstSheetName];
+
+                // Convert sheet to JSON to filter blank rows
+                var jsonData = XLSX.utils.sheet_to_json(worksheet, { header: 1, blankrows: false, defval: '' });
+                // Filter out blank rows (rows where all cells are empty, null, or undefined)
+                var filteredData = jsonData.filter(row => row.some(filledCell));
+
+                // Heuristic to find the header row by ignoring rows with fewer filled cells than the next row
+                var headerRowIndex = filteredData.findIndex((row, index) =>
+                  row.filter(filledCell).length >= filteredData[index + 1]?.filter(filledCell).length
+                );
+                // Fallback
+                if (headerRowIndex === -1 || headerRowIndex > 25) {
+                  headerRowIndex = 0;
+                }
+
+                // Convert filtered JSON back to CSV
+                var csv = XLSX.utils.aoa_to_sheet(filteredData.slice(headerRowIndex)); // Create a new sheet from filtered array of arrays
+                csv = XLSX.utils.sheet_to_csv(csv, { header: 1 });
+                return csv;
+            } catch (e) {
+                console.error(e);
+                return "";
+            }
+        }
+        return gk_fileData[filename] || "";
+        }
+        </script><!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>대한민국 헌법 제65조 제2항</title>
+    <style>
+        body {
+            font-family: 'Noto Sans KR', sans-serif;
+            background-color: #f9f9f9;
+            color: #333;
+            margin: 0;
+            padding: 20px;
+            line-height: 1.6;
+        }
+        .container {
+            max-width: 1000px;
+            margin: 0 auto;
+            background-color: #fff;
+            padding: 25px;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+        h1 {
+            text-align: center;
+            color: #2c3e50;
+            font-size: 2.6em;
+            margin-bottom: 25px;
+        }
+        .article {
+            font-size: 1.6em;
+            text-align: center;
+            margin: 25px 0;
+            padding: 18px;
+            background-color: #ecf0f1;
+            border-radius: 5px;
+            font-weight: bold;
+        }
+        .section {
+            display: flex;
+            align-items: flex-start;
+            margin-bottom: 25px;
+        }
+        .icon {
+            font-size: 3em;
+            margin-right: 18px;
+        }
+        .content {
+            flex: 1;
+        }
+        .term {
+            font-weight: bold;
+            color: #2980b9;
+            font-size: 1.4em;
+        }
+        .explanation {
+            font-size: 1.1em;
+            color: #e74c3c;
+            margin-top: 6px;
+        }
+        .description {
+            font-size: 1.2em;
+            margin-top: 6px;
+        }
+        .conclusion {
+            margin-top: 35px;
+            padding: 18px;
+            background-color: #e8f4fd;
+            border-left: 5px solid #3498db;
+            border-radius: 5px;
+        }
+        .conclusion h2 {
+            margin-top: 0;
+            color: #2c3e50;
+            font-size: 1.8em;
+        }
+        .conclusion p {
+            font-size: 1.2em;
+            margin: 6px 0;
+        }
+        @media (max-width: 768px) {
+            .container {
+                margin: 10px;
+                padding: 15px;
+            }
+            h1 {
+                font-size: 2.2em;
+            }
+            .article {
+                font-size: 1.3em;
+            }
+            .icon {
+                font-size: 2.4em;
+            }
+            .term {
+                font-size: 1.3em;
+            }
+            .explanation {
+                font-size: 0.95em;
+            }
+            .description {
+                font-size: 1.1em;
+            }
+            .conclusion h2 {
+                font-size: 1.6em;
+            }
+            .conclusion p {
+                font-size: 1.1em;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>대한민국 헌법 제65조 제2항</h1>
+        
+        <div class="article">
+            "제1항의 탄핵소추는 국회재적의원 3분의 1 이상의 발의가 있어야 하며, 그 의결은 국회재적의원 과반수의 찬성이 있어야 한다. 다만, 대통령에 대한 탄핵소추는 국회재적의원 과반수의 발의와 국회재적의원 3분의 2 이상의 찬성이 있어야 한다."
+        </div>
+
+        <div class="section">
+            <div class="icon">📝</div>
+            <div class="content">
+                <div class="term">제1항의 탄핵소추는 국회재적의원 3분의 1 이상의 발의가 있어야 하며, 그 의결은 국회재적의원 과반수의 찬성이 있어야 한다</div>
+                <div class="explanation">
+                    쏠 탄(彈) + 꾸짖을 핵(劾) (탄핵)<br>
+                    호소할 소(訴) + 쫓을 추(追) (소추)<br>
+                    나라 국(國) + 모일 회(會) + 있을 재(在) + 문서 적(籍) + 의원(議員) (국회재적의원)<br>
+                    필 발(發) + 의논할 의(議) (발의)<br>
+                    의논할 의(議) + 결단할 결(決) (의결)<br>
+                    지날 과(過) + 반 반(半) + 셈 수(數) (과반수)<br>
+                    기릴 찬(贊) + 이룰 성(成) (찬성)
+                </div>
+                <div class="description">
+                    일반 고위 공직자(예: 국무총리, 장관, 판사)에 대한 탄핵소추를 시작하려면 전체 국회의원의 3분의 1 이상이 동의하여 안건을 제출해야 하며, 최종 통과를 위해서는 전체 국회의원의 절반 이상이 찬성해야 합니다. 이는 탄핵 절차가 신중하게 시작되고 결정되도록 보장합니다.
+                </div>
+            </div>
+        </div>
+
+        <div class="section">
+            <div class="icon">👑</div>
+            <div class="content">
+                <div class="term">다만, 대통령에 대한 탄핵소추는 국회재적의원 과반수의 발의와 국회재적의원 3분의 2 이상의 찬성이 있어야 한다</div>
+                <div class="explanation">
+                    지날 과(過) + 반 반(半) + 셈 수(數) (과반수)<br>
+                    기릴 찬(贊) + 이룰 성(成) (찬성)
+                </div>
+                <div class="description">
+                    대통령에 대한 탄핵소추는 더욱 엄격한 조건을 요구합니다. 안건 제출을 위해 전체 국회의원의 절반 이상이 동의해야 하며, 최종 통과를 위해서는 전체 국회의원의 3분의 2 이상의 찬성이 필요합니다. 이는 국가의 최고 지도자를 대상으로 한 탄핵이 매우 신중하고 폭넓은 합의를 통해 이루어지도록 합니다.
+                </div>
+            </div>
+        </div>
+
+        <div class="conclusion">
+            <h2>결론적으로...</h2>
+            <p>헌법 제65조 제2항은, <strong>탄핵소추를 위한 매우 엄격한 의결 절차를 규정한 조항</strong>입니다。</p>
+            <p>일반 고위 공직자는 '재적의원 3분의 1 이상 발의'와 '재적의원 과반수 찬성'이 필요하며, 국가의 대표인 대통령의 경우에는 '재적의원 과반수 발의'와 '재적의원 3분의 2 이상 찬성'이라는 훨씬 더 무거운 조건이 필요합니다。</p>
+            <p>이는 국가를 뒤흔들 수 있는 중대한 탄핵 제도가 남용되지 않고, 아주 신중하게, 그리고 폭넓은 국민적 동의를 바탕으로 이루어지도록 하기 위한 중요한 안전장치입니다。</p>
+        </div>
+    </div>
+</body>
+</html>

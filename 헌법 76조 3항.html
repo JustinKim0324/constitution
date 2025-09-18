@@ -1,0 +1,209 @@
+<script type="text/javascript">
+        var gk_isXlsx = false;
+        var gk_xlsxFileLookup = {};
+        var gk_fileData = {};
+        function filledCell(cell) {
+          return cell !== '' && cell != null;
+        }
+        function loadFileData(filename) {
+        if (gk_isXlsx && gk_xlsxFileLookup[filename]) {
+            try {
+                var workbook = XLSX.read(gk_fileData[filename], { type: 'base64' });
+                var firstSheetName = workbook.SheetNames[0];
+                var worksheet = workbook.Sheets[firstSheetName];
+
+                // Convert sheet to JSON to filter blank rows
+                var jsonData = XLSX.utils.sheet_to_json(worksheet, { header: 1, blankrows: false, defval: '' });
+                // Filter out blank rows (rows where all cells are empty, null, or undefined)
+                var filteredData = jsonData.filter(row => row.some(filledCell));
+
+                // Heuristic to find the header row by ignoring rows with fewer filled cells than the next row
+                var headerRowIndex = filteredData.findIndex((row, index) =>
+                  row.filter(filledCell).length >= filteredData[index + 1]?.filter(filledCell).length
+                );
+                // Fallback
+                if (headerRowIndex === -1 || headerRowIndex > 25) {
+                  headerRowIndex = 0;
+                }
+
+                // Convert filtered JSON back to CSV
+                var csv = XLSX.utils.aoa_to_sheet(filteredData.slice(headerRowIndex)); // Create a new sheet from filtered array of arrays
+                csv = XLSX.utils.sheet_to_csv(csv, { header: 1 });
+                return csv;
+            } catch (e) {
+                console.error(e);
+                return "";
+            }
+        }
+        return gk_fileData[filename] || "";
+        }
+        </script><!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>대한민국 헌법 제76조 제3항</title>
+    <style>
+        body {
+            font-family: 'Noto Sans KR', sans-serif;
+            background-color: #f9f9f9;
+            color: #333;
+            margin: 0;
+            padding: 20px;
+            line-height: 1.6;
+        }
+        .container {
+            max-width: 1000px;
+            margin: 0 auto;
+            background-color: #fff;
+            padding: 25px;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+        h1 {
+            text-align: center;
+            color: #2c3e50;
+            font-size: 2.6em;
+            margin-bottom: 25px;
+        }
+        .article {
+            font-size: 1.6em;
+            text-align: center;
+            margin: 25px 0;
+            padding: 18px;
+            background-color: #ecf0f1;
+            border-radius: 5px;
+            font-weight: bold;
+        }
+        .section {
+            display: flex;
+            align-items: flex-start;
+            margin-bottom: 25px;
+        }
+        .icon {
+            font-size: 3em;
+            margin-right: 18px;
+        }
+        .content {
+            flex: 1;
+        }
+        .term {
+            font-weight: bold;
+            color: #2980b9;
+            font-size: 1.4em;
+        }
+        .explanation {
+            font-size: 1.1em;
+            color: #e74c3c;
+            margin-top: 6px;
+        }
+        .description {
+            font-size: 1.2em;
+            margin-top: 6px;
+        }
+        .conclusion {
+            margin-top: 35px;
+            padding: 18px;
+            background-color: #e8f4fd;
+            border-left: 5px solid #3498db;
+            border-radius: 5px;
+        }
+        .conclusion h2 {
+            margin-top: 0;
+            color: #2c3e50;
+            font-size: 1.8em;
+        }
+        .conclusion p {
+            font-size: 1.2em;
+            margin: 6px 0;
+        }
+        @media (max-width: 768px) {
+            .container {
+                margin: 10px;
+                padding: 15px;
+            }
+            h1 {
+                font-size: 2.2em;
+            }
+            .article {
+                font-size: 1.3em;
+            }
+            .icon {
+                font-size: 2.4em;
+            }
+            .term {
+                font-size: 1.3em;
+            }
+            .explanation {
+                font-size: 0.95em;
+            }
+            .description {
+                font-size: 1.1em;
+            }
+            .conclusion h2 {
+                font-size: 1.6em;
+            }
+            .conclusion p {
+                font-size: 1.1em;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>대한민국 헌법 제76조 제3항</h1>
+        
+        <div class="article">
+            "대통령은 제1항과 제2항의 처분 또는 명령을 한 때에는 지체없이 국회에 보고하여 그 승인을 얻어야 한다."
+        </div>
+
+        <div class="section">
+            <div class="icon">📜</div>
+            <div class="content">
+                <div class="term">대통령은 제1항과 제2항의 처분 또는 명령을 한 때에는</div>
+                <div class="explanation">
+                    곳 처(處) + 나눌 분(分) (처분)<br>
+                    목숨 명(命) + 하여금 령(令) (명령)
+                </div>
+                <div class="description">
+                    대통령이 긴급재정경제명령이나 긴급명령을 발령한 경우를 말합니다. 이는 위기 상황에서 대통령이 내린 강력한 조치로, 사후에 국민의 대표에게 보고해야 합니다.
+                </div>
+            </div>
+        </div>
+
+        <div class="section">
+            <div class="icon">🏛️</div>
+            <div class="content">
+                <div class="term">지체없이 국회에 보고하여</div>
+                <div class="explanation">
+                    더딜 지(遲) + 막힐 체(滯) (지체)<br>
+                    알릴 보(報) + 고할 고(告) (보고)
+                </div>
+                <div class="description">
+                    대통령은 비상 조치를 취한 직후 바로 국회에 그 내용을 상세히 보고해야 합니다. 이는 대통령의 결정이 국민의 대표 앞에서 투명하게 검토되도록 합니다.
+                </div>
+            </div>
+        </div>
+
+        <div class="section">
+            <div class="icon">✅</div>
+            <div class="content">
+                <div class="term">그 승인을 얻어야 한다</div>
+                <div class="explanation">
+                    이을 승(承) + 알 인(認) (승인)
+                </div>
+                <div class="description">
+                    대통령은 국회로부터 비상 조치가 정당했음을 인정받아 승인을 받아야 합니다. 이는 대통령의 권한이 국민의 대표에 의해 민주적으로 통제됨을 보장합니다.
+                </div>
+            </div>
+        </div>
+
+        <div class="conclusion">
+            <h2>결론적으로...</h2>
+            <p>헌법 제76조 제3항은, <strong>대통령이 국가 비상사태에서 긴급재정경제명령이나 긴급명령권을 사용한 경우, 그 조치에 대해 지체 없이 국회에 보고하고 반드시 승인을 받도록 한 의무 조항</strong>입니다。</p>
+            <p>이는 대통령에게 부여된 강력한 비상 권한이 남용되지 않도록, 사후에라도 반드시 국민의 대표 기관인 국회의 민주적인 통제를 받도록 하는 중요한 안전장치입니다。</p>
+            <p>아무리 위급한 상황이라도 모든 국가 권력은 결국 국민과 국회의 감시 아래에 있어야 한다는 원칙을 보여줍니다。</p>
+        </div>
+    </div>
+</body>
+</html>

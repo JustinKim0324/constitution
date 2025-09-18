@@ -1,0 +1,229 @@
+<script type="text/javascript">
+        var gk_isXlsx = false;
+        var gk_xlsxFileLookup = {};
+        var gk_fileData = {};
+        function filledCell(cell) {
+          return cell !== '' && cell != null;
+        }
+        function loadFileData(filename) {
+        if (gk_isXlsx && gk_xlsxFileLookup[filename]) {
+            try {
+                var workbook = XLSX.read(gk_fileData[filename], { type: 'base64' });
+                var firstSheetName = workbook.SheetNames[0];
+                var worksheet = workbook.Sheets[firstSheetName];
+
+                // Convert sheet to JSON to filter blank rows
+                var jsonData = XLSX.utils.sheet_to_json(worksheet, { header: 1, blankrows: false, defval: '' });
+                // Filter out blank rows (rows where all cells are empty, null, or undefined)
+                var filteredData = jsonData.filter(row => row.some(filledCell));
+
+                // Heuristic to find the header row by ignoring rows with fewer filled cells than the next row
+                var headerRowIndex = filteredData.findIndex((row, index) =>
+                  row.filter(filledCell).length >= filteredData[index + 1]?.filter(filledCell).length
+                );
+                // Fallback
+                if (headerRowIndex === -1 || headerRowIndex > 25) {
+                  headerRowIndex = 0;
+                }
+
+                // Convert filtered JSON back to CSV
+                var csv = XLSX.utils.aoa_to_sheet(filteredData.slice(headerRowIndex)); // Create a new sheet from filtered array of arrays
+                csv = XLSX.utils.sheet_to_csv(csv, { header: 1 });
+                return csv;
+            } catch (e) {
+                console.error(e);
+                return "";
+            }
+        }
+        return gk_fileData[filename] || "";
+        }
+        </script><!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>대한민국 헌법 제69조</title>
+    <style>
+        body {
+            font-family: 'Noto Sans KR', sans-serif;
+            background-color: #f9f9f9;
+            color: #333;
+            margin: 0;
+            padding: 20px;
+            line-height: 1.6;
+        }
+        .container {
+            max-width: 1000px;
+            margin: 0 auto;
+            background-color: #fff;
+            padding: 25px;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+        h1 {
+            text-align: center;
+            color: #2c3e50;
+            font-size: 2.6em;
+            margin-bottom: 25px;
+        }
+        .article {
+            font-size: 1.6em;
+            text-align: center;
+            margin: 25px 0;
+            padding: 18px;
+            background-color: #ecf0f1;
+            border-radius: 5px;
+            font-weight: bold;
+        }
+        .section {
+            display: flex;
+            align-items: flex-start;
+            margin-bottom: 25px;
+        }
+        .icon {
+            font-size: 3em;
+            margin-right: 18px;
+        }
+        .content {
+            flex: 1;
+        }
+        .term {
+            font-weight: bold;
+            color: #2980b9;
+            font-size: 1.4em;
+        }
+        .explanation {
+            font-size: 1.1em;
+            color: #e74c3c;
+            margin-top: 6px;
+        }
+        .description {
+            font-size: 1.2em;
+            margin-top: 6px;
+        }
+        .conclusion {
+            margin-top: 35px;
+            padding: 18px;
+            background-color: #e8f4fd;
+            border-left: 5px solid #3498db;
+            border-radius: 5px;
+        }
+        .conclusion h2 {
+            margin-top: 0;
+            color: #2c3e50;
+            font-size: 1.8em;
+        }
+        .conclusion p {
+            font-size: 1.2em;
+            margin: 6px 0;
+        }
+        @media (max-width: 768px) {
+            .container {
+                margin: 10px;
+                padding: 15px;
+            }
+            h1 {
+                font-size: 2.2em;
+            }
+            .article {
+                font-size: 1.3em;
+            }
+            .icon {
+                font-size: 2.4em;
+            }
+            .term {
+                font-size: 1.3em;
+            }
+            .explanation {
+                font-size: 0.95em;
+            }
+            .description {
+                font-size: 1.1em;
+            }
+            .conclusion h2 {
+                font-size: 1.6em;
+            }
+            .conclusion p {
+                font-size: 1.1em;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>대한민국 헌법 제69조</h1>
+        
+        <div class="article">
+            "대통령은 취임에 즈음하여 다음의 선서를 한다. '나는 헌법을 준수하고 국가를 보위하며 조국의 평화적 통일과 국민의 자유와 복리의 증진 및 민족문화의 창달에 노력하여 대통령으로서의 직책을 성실히 수행할 것을 국민 앞에 엄숙히 선서합니다.'"
+        </div>
+
+        <div class="section">
+            <div class="icon">🤝</div>
+            <div class="content">
+                <div class="term">대통령은 취임에 즈음하여 다음의 선서를 한다</div>
+                <div class="explanation">
+                    나아갈 취(就) + 맡길 임(任) (취임)<br>
+                    베풀 선(宣) + 맹세할 서(誓) (선서)
+                </div>
+                <div class="description">
+                    대통령은 5년 임기를 시작하는 취임식에서 국민 앞에서 공식적으로 맹세해야 합니다. 이는 대통령의 책임과 국민에 대한 약속을 강조하는 의식입니다.
+                </div>
+            </div>
+        </div>
+
+        <div class="section">
+            <div class="icon">📜</div>
+            <div class="content">
+                <div class="term">나는 헌법을 준수하고 국가를 보위하며</div>
+                <div class="explanation">
+                    기준 준(準) + 지킬 수(守) (준수)<br>
+                    지킬 보(保) + 막을 위(衛) (보위)
+                </div>
+                <div class="description">
+                    대통령은 헌법을 준수하고 국가를 외부 위협으로부터 보호해야 합니다. 이는 헌법의 가치를 지키고 국가 안보를 책임지는 핵심 임무입니다.
+                </div>
+            </div>
+        </div>
+
+        <div class="section">
+            <div class="icon">🌍</div>
+            <div class="content">
+                <div class="term">조국의 평화적 통일과 국민의 자유와 복리의 증진 및 민족문화의 창달에 노력하여</div>
+                <div class="explanation">
+                    할아버지 조(祖) + 나라 국(國) (조국)<br>
+                    화목할 화(和) + 평평할 평(平) + 적(的) (평화적)<br>
+                    하나 일(一) + 다스릴 통(統) (통일)<br>
+                    자(自) + 유할 유(由) (자유)<br>
+                    복 복(福) + 이로울 리(利) (복리)<br>
+                    화창할 창(暢) + 통달할 달(達) (창달)
+                </div>
+                <div class="description">
+                    대통령은 평화적 통일, 국민의 자유와 복지 증진, 민족문화 발전을 위해 노력해야 합니다. 이는 국가와 국민의 행복, 민족 정체성을 위한 책임입니다.
+                </div>
+            </div>
+        </div>
+
+        <div class="section">
+            <div class="icon">✅</div>
+            <div class="content">
+                <div class="term">대통령으로서의 직책을 성실히 수행할 것을 국민 앞에 엄숙히 선서합니다</div>
+                <div class="explanation">
+                    직분 직(職) + 책임 책(責) (직책)<br>
+                    정성 성(誠) + 열매 실(實) (성실)<br>
+                    드디어 수(遂) + 다닐 행(行) (수행)<br>
+                    엄할 엄(嚴) + 엄숙할 숙(肅) (엄숙)
+                </div>
+                <div class="description">
+                    대통령은 모든 임무를 성실히 수행하며, 국민 앞에서 진지하게 약속합니다. 이는 대통령의 책임감을 국민에게 공식적으로 선언하는 엄숙한 맹세입니다.
+                </div>
+            </div>
+        </div>
+
+        <div class="conclusion">
+            <h2>결론적으로...</h2>
+            <p>헌법 제69조는, <strong>대통령이 취임식을 통해 국민에게 하는 공식적인 선서 내용을 담고 있는 조항</strong>입니다。</p>
+            <p>이 선서는 단순한 연설이 아니라, 헌법을 지키고, 나라를 보위하며, 평화통일과 국민의 행복, 문화 발전을 위해 5년의 임기 동안 성실히 일하겠다는 것을 국민 앞에 맹세하는 헌법적인 약속입니다。</p>
+        </div>
+    </div>
+</body>
+</html>

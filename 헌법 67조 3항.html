@@ -1,0 +1,210 @@
+<script type="text/javascript">
+        var gk_isXlsx = false;
+        var gk_xlsxFileLookup = {};
+        var gk_fileData = {};
+        function filledCell(cell) {
+          return cell !== '' && cell != null;
+        }
+        function loadFileData(filename) {
+        if (gk_isXlsx && gk_xlsxFileLookup[filename]) {
+            try {
+                var workbook = XLSX.read(gk_fileData[filename], { type: 'base64' });
+                var firstSheetName = workbook.SheetNames[0];
+                var worksheet = workbook.Sheets[firstSheetName];
+
+                // Convert sheet to JSON to filter blank rows
+                var jsonData = XLSX.utils.sheet_to_json(worksheet, { header: 1, blankrows: false, defval: '' });
+                // Filter out blank rows (rows where all cells are empty, null, or undefined)
+                var filteredData = jsonData.filter(row => row.some(filledCell));
+
+                // Heuristic to find the header row by ignoring rows with fewer filled cells than the next row
+                var headerRowIndex = filteredData.findIndex((row, index) =>
+                  row.filter(filledCell).length >= filteredData[index + 1]?.filter(filledCell).length
+                );
+                // Fallback
+                if (headerRowIndex === -1 || headerRowIndex > 25) {
+                  headerRowIndex = 0;
+                }
+
+                // Convert filtered JSON back to CSV
+                var csv = XLSX.utils.aoa_to_sheet(filteredData.slice(headerRowIndex)); // Create a new sheet from filtered array of arrays
+                csv = XLSX.utils.sheet_to_csv(csv, { header: 1 });
+                return csv;
+            } catch (e) {
+                console.error(e);
+                return "";
+            }
+        }
+        return gk_fileData[filename] || "";
+        }
+        </script><!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>대한민국 헌법 제67조 제3항</title>
+    <style>
+        body {
+            font-family: 'Noto Sans KR', sans-serif;
+            background-color: #f9f9f9;
+            color: #333;
+            margin: 0;
+            padding: 20px;
+            line-height: 1.6;
+        }
+        .container {
+            max-width: 1000px;
+            margin: 0 auto;
+            background-color: #fff;
+            padding: 25px;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+        h1 {
+            text-align: center;
+            color: #2c3e50;
+            font-size: 2.6em;
+            margin-bottom: 25px;
+        }
+        .article {
+            font-size: 1.6em;
+            text-align: center;
+            margin: 25px 0;
+            padding: 18px;
+            background-color: #ecf0f1;
+            border-radius: 5px;
+            font-weight: bold;
+        }
+        .section {
+            display: flex;
+            align-items: flex-start;
+            margin-bottom: 25px;
+        }
+        .icon {
+            font-size: 3em;
+            margin-right: 18px;
+        }
+        .content {
+            flex: 1;
+        }
+        .term {
+            font-weight: bold;
+            color: #2980b9;
+            font-size: 1.4em;
+        }
+        .explanation {
+            font-size: 1.1em;
+            color: #e74c3c;
+            margin-top: 6px;
+        }
+        .description {
+            font-size: 1.2em;
+            margin-top: 6px;
+        }
+        .conclusion {
+            margin-top: 35px;
+            padding: 18px;
+            background-color: #e8f4fd;
+            border-left: 5px solid #3498db;
+            border-radius: 5px;
+        }
+        .conclusion h2 {
+            margin-top: 0;
+            color: #2c3e50;
+            font-size: 1.8em;
+        }
+        .conclusion p {
+            font-size: 1.2em;
+            margin: 6px 0;
+        }
+        @media (max-width: 768px) {
+            .container {
+                margin: 10px;
+                padding: 15px;
+            }
+            h1 {
+                font-size: 2.2em;
+            }
+            .article {
+                font-size: 1.3em;
+            }
+            .icon {
+                font-size: 2.4em;
+            }
+            .term {
+                font-size: 1.3em;
+            }
+            .explanation {
+                font-size: 0.95em;
+            }
+            .description {
+                font-size: 1.1em;
+            }
+            .conclusion h2 {
+                font-size: 1.6em;
+            }
+            .conclusion p {
+                font-size: 1.1em;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>대한민국 헌법 제67조 제3항</h1>
+        
+        <div class="article">
+            "대통령후보자가 1인일 때에는 그 득표수가 선거권자 총수의 3분의 1 이상이 아니면 대통령으로 당선될 수 없다."
+        </div>
+
+        <div class="section">
+            <div class="icon">👤</div>
+            <div class="content">
+                <div class="term">대통령후보자가 1인일 때에는</div>
+                <div class="explanation">
+                    큰 대(大) + 거느릴 통(統) + 거느릴 령(領) (대통령)<br>
+                    기후 후(候) + 더할 보(補) + 사람 자(者) (후보자)
+                </div>
+                <div class="description">
+                    대통령 선거에 후보자가 단 한 명만 출마한 드문 상황을 말합니다. 이는 경쟁 없이 단독으로 선거에 나선 경우를 의미합니다.
+                </div>
+            </div>
+        </div>
+
+        <div class="section">
+            <div class="icon">🗳️</div>
+            <div class="content">
+                <div class="term">그 득표수가 선거권자 총수의 3분의 1 이상이 아니면</div>
+                <div class="explanation">
+                    얻을 득(得) + 표 표(票) + 셈 수(數) (득표수)<br>
+                    가릴 선(選) + 들 거(擧) + 권세 권(權) + 사람 자(者) (선거권자)<br>
+                    거느릴 총(總) + 셈 수(數) (총수)
+                </div>
+                <div class="description">
+                    단독 후보자는 전체 유권자의 3분의 1 이상의 표를 얻어야 합니다. 예를 들어, 유권자가 3,000만 명이라면 최소 1,000만 표 이상이 필요합니다. 이는 국민적 지지의 최소 기준을 설정합니다.
+                </div>
+            </div>
+        </div>
+
+        <div class="section">
+            <div class="icon">🚫</div>
+            <div class="content">
+                <div class="term">대통령으로 당선될 수 없다</div>
+                <div class="explanation">
+                    마땅 당(當) + 뽑힐 선(選) (당선)
+                </div>
+                <div class="description">
+                    최소 득표 요건을 충족하지 못하면 당선될 수 없으며, 새로운 선거를 실시해야 합니다. 이는 대통령의 정당성을 보장하기 위한 조건입니다.
+                </div>
+            </div>
+        </div>
+
+        <div class="conclusion">
+            <h2>결론적으로...</h2>
+            <p>헌법 제67조 제3항은, <strong>대통령 선거에 후보자가 단 한 명만 나왔을 경우에 대한 특별 규정</strong>입니다。</p>
+            <p>이 경우, 후보자는 무조건 당선되는 것이 아니라, 전체 유권자의 3분의 1 이상이라는 최소한의 득표를 해야만 대통령으로 당선될 수 있습니다。</p>
+            <p>이는 대통령이 비록 경쟁자는 없었을지라도, 국가를 이끌어가기 위한 최소한의 국민적 지지와 정당성을 확보해야 한다는 것을 보여주는 중요한 조항입니다。</p>
+        </div>
+    </div>
+</body>
+</html>

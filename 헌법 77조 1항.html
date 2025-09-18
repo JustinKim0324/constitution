@@ -1,0 +1,211 @@
+<script type="text/javascript">
+        var gk_isXlsx = false;
+        var gk_xlsxFileLookup = {};
+        var gk_fileData = {};
+        function filledCell(cell) {
+          return cell !== '' && cell != null;
+        }
+        function loadFileData(filename) {
+        if (gk_isXlsx && gk_xlsxFileLookup[filename]) {
+            try {
+                var workbook = XLSX.read(gk_fileData[filename], { type: 'base64' });
+                var firstSheetName = workbook.SheetNames[0];
+                var worksheet = workbook.Sheets[firstSheetName];
+
+                // Convert sheet to JSON to filter blank rows
+                var jsonData = XLSX.utils.sheet_to_json(worksheet, { header: 1, blankrows: false, defval: '' });
+                // Filter out blank rows (rows where all cells are empty, null, or undefined)
+                var filteredData = jsonData.filter(row => row.some(filledCell));
+
+                // Heuristic to find the header row by ignoring rows with fewer filled cells than the next row
+                var headerRowIndex = filteredData.findIndex((row, index) =>
+                  row.filter(filledCell).length >= filteredData[index + 1]?.filter(filledCell).length
+                );
+                // Fallback
+                if (headerRowIndex === -1 || headerRowIndex > 25) {
+                  headerRowIndex = 0;
+                }
+
+                // Convert filtered JSON back to CSV
+                var csv = XLSX.utils.aoa_to_sheet(filteredData.slice(headerRowIndex)); // Create a new sheet from filtered array of arrays
+                csv = XLSX.utils.sheet_to_csv(csv, { header: 1 });
+                return csv;
+            } catch (e) {
+                console.error(e);
+                return "";
+            }
+        }
+        return gk_fileData[filename] || "";
+        }
+        </script><!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>대한민국 헌법 제77조 제1항</title>
+    <style>
+        body {
+            font-family: 'Noto Sans KR', sans-serif;
+            background-color: #f9f9f9;
+            color: #333;
+            margin: 0;
+            padding: 20px;
+            line-height: 1.6;
+        }
+        .container {
+            max-width: 1000px;
+            margin: 0 auto;
+            background-color: #fff;
+            padding: 25px;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+        h1 {
+            text-align: center;
+            color: #2c3e50;
+            font-size: 2.6em;
+            margin-bottom: 25px;
+        }
+        .article {
+            font-size: 1.6em;
+            text-align: center;
+            margin: 25px 0;
+            padding: 18px;
+            background-color: #ecf0f1;
+            border-radius: 5px;
+            font-weight: bold;
+        }
+        .section {
+            display: flex;
+            align-items: flex-start;
+            margin-bottom: 25px;
+        }
+        .icon {
+            font-size: 3em;
+            margin-right: 18px;
+        }
+        .content {
+            flex: 1;
+        }
+        .term {
+            font-weight: bold;
+            color: #2980b9;
+            font-size: 1.4em;
+        }
+        .explanation {
+            font-size: 1.1em;
+            color: #e74c3c;
+            margin-top: 6px;
+        }
+        .description {
+            font-size: 1.2em;
+            margin-top: 6px;
+        }
+        .conclusion {
+            margin-top: 35px;
+            padding: 18px;
+            background-color: #e8f4fd;
+            border-left: 5px solid #3498db;
+            border-radius: 5px;
+        }
+        .conclusion h2 {
+            margin-top: 0;
+            color: #2c3e50;
+            font-size: 1.8em;
+        }
+        .conclusion p {
+            font-size: 1.2em;
+            margin: 6px 0;
+        }
+        @media (max-width: 768px) {
+            .container {
+                margin: 10px;
+                padding: 15px;
+            }
+            h1 {
+                font-size: 2.2em;
+            }
+            .article {
+                font-size: 1.3em;
+            }
+            .icon {
+                font-size: 2.4em;
+            }
+            .term {
+                font-size: 1.3em;
+            }
+            .explanation {
+                font-size: 0.95em;
+            }
+            .description {
+                font-size: 1.1em;
+            }
+            .conclusion h2 {
+                font-size: 1.6em;
+            }
+            .conclusion p {
+                font-size: 1.1em;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>대한민국 헌법 제77조 제1항</h1>
+        
+        <div class="article">
+            "대통령은 전시ㆍ사변 또는 이에 준하는 국가비상사태에 있어서 병력으로써 군사상의 필요에 응하거나 공공의 안녕질서를 유지할 필요가 있을 때에는 법률이 정하는 바에 의하여 계엄을 선포할 수 있다."
+        </div>
+
+        <div class="section">
+            <div class="icon">⚠️</div>
+            <div class="content">
+                <div class="term">전시ㆍ사변 또는 이에 준하는 국가비상사태에 있어서</div>
+                <div class="explanation">
+                    싸움 전(戰) + 때 시(時) (전시)<br>
+                    일 사(事) + 변할 변(變) (사변)<br>
+                    나라 국(國) + 집 가(家) + 아닐 비(非) + 항상 상(常) + 일 사(事) + 모양 태(態) (국가비상사태)
+                </div>
+                <div class="description">
+                    전쟁, 큰 혼란, 또는 그와 비슷한 심각한 국가 위기 상황을 가리킵니다. 예를 들어, 외국과의 전쟁이나 대규모 폭동이 이에 해당합니다.
+                </div>
+            </div>
+        </div>
+
+        <div class="section">
+            <div class="icon">🪖</div>
+            <div class="content">
+                <div class="term">병력으로써 군사상의 필요에 응하거나 공공의 안녕질서를 유지할 필요가 있을 때에는</div>
+                <div class="explanation">
+                    병사 병(兵) + 힘 력(力) (병력)<br>
+                    공평할 공(公) + 안녕 안(安) + 질서 질(秩) + 순서 서(序) (안녕질서)
+                </div>
+                <div class="description">
+                    군대를 동원해 전쟁과 같은 군사적 위협에 대응하거나, 경찰로 감당할 수 없는 사회 혼란을 진정시킬 필요가 있는 경우를 말합니다.
+                </div>
+            </div>
+        </div>
+
+        <div class="section">
+            <div class="icon">📜</div>
+            <div class="content">
+                <div class="term">법률이 정하는 바에 의하여 계엄을 선포할 수 있다</div>
+                <div class="explanation">
+                    법 법(法) + 율 률(律) (법률)<br>
+                    경계할 계(戒) + 엄할 엄(嚴) (계엄)<br>
+                    베풀 선(宣) + 펼 포(布) (선포)
+                </div>
+                <div class="description">
+                    대통령은 계엄법에 따라 계엄을 선포할 수 있습니다. 이는 군대가 치안이나 재판을 담당하는 강력한 조치로, 엄격한 법적 절차를 따릅니다.
+                </div>
+            </div>
+        </div>
+
+        <div class="conclusion">
+            <h2>결론적으로...</h2>
+            <p>헌법 제77조 제1항은, <strong>전쟁과 같은 최고 수준의 국가비상사태 시, 대통령이 군사적 필요나 공공질서 유지를 위해 군대의 힘을 동원하는 '계엄'을 선포할 수 있는 권한을 정한 조항</strong>입니다。</p>
+            <p>이는 국민의 기본권을 크게 제한할 수 있는 매우 강력한 권한이므로, 그 선포 요건과 절차를 헌법과 법률에 엄격하게 규정하여 남용될 수 없도록 하고 있습니다。</p>
+        </div>
+    </div>
+</body>
+</html>

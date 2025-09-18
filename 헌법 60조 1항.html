@@ -1,0 +1,238 @@
+<script type="text/javascript">
+        var gk_isXlsx = false;
+        var gk_xlsxFileLookup = {};
+        var gk_fileData = {};
+        function filledCell(cell) {
+          return cell !== '' && cell != null;
+        }
+        function loadFileData(filename) {
+        if (gk_isXlsx && gk_xlsxFileLookup[filename]) {
+            try {
+                var workbook = XLSX.read(gk_fileData[filename], { type: 'base64' });
+                var firstSheetName = workbook.SheetNames[0];
+                var worksheet = workbook.Sheets[firstSheetName];
+
+                // Convert sheet to JSON to filter blank rows
+                var jsonData = XLSX.utils.sheet_to_json(worksheet, { header: 1, blankrows: false, defval: '' });
+                // Filter out blank rows (rows where all cells are empty, null, or undefined)
+                var filteredData = jsonData.filter(row => row.some(filledCell));
+
+                // Heuristic to find the header row by ignoring rows with fewer filled cells than the next row
+                var headerRowIndex = filteredData.findIndex((row, index) =>
+                  row.filter(filledCell).length >= filteredData[index + 1]?.filter(filledCell).length
+                );
+                // Fallback
+                if (headerRowIndex === -1 || headerRowIndex > 25) {
+                  headerRowIndex = 0;
+                }
+
+                // Convert filtered JSON back to CSV
+                var csv = XLSX.utils.aoa_to_sheet(filteredData.slice(headerRowIndex)); // Create a new sheet from filtered array of arrays
+                csv = XLSX.utils.sheet_to_csv(csv, { header: 1 });
+                return csv;
+            } catch (e) {
+                console.error(e);
+                return "";
+            }
+        }
+        return gk_fileData[filename] || "";
+        }
+        </script><!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>대한민국 헌법 제60조 제1항</title>
+    <style>
+        body {
+            font-family: 'Noto Sans KR', sans-serif;
+            background-color: #f9f9f9;
+            color: #333;
+            margin: 0;
+            padding: 20px;
+            line-height: 1.6;
+        }
+        .container {
+            max-width: 1000px;
+            margin: 0 auto;
+            background-color: #fff;
+            padding: 25px;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+        h1 {
+            text-align: center;
+            color: #2c3e50;
+            font-size: 2.6em;
+            margin-bottom: 25px;
+        }
+        .article {
+            font-size: 1.6em;
+            text-align: center;
+            margin: 25px 0;
+            padding: 18px;
+            background-color: #ecf0f1;
+            border-radius: 5px;
+            font-weight: bold;
+        }
+        .section {
+            display: flex;
+            align-items: flex-start;
+            margin-bottom: 25px;
+        }
+        .icon {
+            font-size: 3em;
+            margin-right: 18px;
+        }
+        .content {
+            flex: 1;
+        }
+        .term {
+            font-weight: bold;
+            color: #2980b9;
+            font-size: 1.4em;
+        }
+        .explanation {
+            font-size: 1.1em;
+            color: #e74c3c;
+            margin-top: 6px;
+        }
+        .description {
+            font-size: 1.2em;
+            margin-top: 6px;
+        }
+        .conclusion {
+            margin-top: 35px;
+            padding: 18px;
+            background-color: #e8f4fd;
+            border-left: 5px solid #3498db;
+            border-radius: 5px;
+        }
+        .conclusion h2 {
+            margin-top: 0;
+            color: #2c3e50;
+            font-size: 1.8em;
+        }
+        .conclusion p {
+            font-size: 1.2em;
+            margin: 6px 0;
+        }
+        @media (max-width: 768px) {
+            .container {
+                margin: 10px;
+                padding: 15px;
+            }
+            h1 {
+                font-size: 2.2em;
+            }
+            .article {
+                font-size: 1.3em;
+            }
+            .icon {
+                font-size: 2.4em;
+            }
+            .term {
+                font-size: 1.3em;
+            }
+            .explanation {
+                font-size: 0.95em;
+            }
+            .description {
+                font-size: 1.1em;
+            }
+            .conclusion h2 {
+                font-size: 1.6em;
+            }
+            .conclusion p {
+                font-size: 1.1em;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>대한민국 헌법 제60조 제1항</h1>
+        
+        <div class="article">
+            "국회는 상호원조 또는 안전보장에 관한 조약, 중요한 국제조직에 관한 조약, 우호통상항해조약, 주권의 제약에 관한 조약, 강화조약, 국가나 국민에게 중대한 재정적 부담을 지우는 조약 또는 입법사항에 관한 조약의 체결ㆍ비준에 대한 동의권을 가진다."
+        </div>
+
+        <div class="section">
+            <div class="icon">🤝</div>
+            <div class="content">
+                <div class="term">국회는 상호원조 또는 안전보장에 관한 조약</div>
+                <div class="explanation">
+                    서로 상(相) + 서로 호(互) + 도울 원(援) + 도울 조(助) (상호원조)<br>
+                    안전 안(安) + 지킬 보(保) + 막을 장(障) (안전보장)
+                </div>
+                <div class="description">
+                    나라 간 상호 도움(예: 군사적 원조)이나 안보 관련 조약은 국회의 동의가 필요합니다.
+                </div>
+            </div>
+        </div>
+
+        <div class="section">
+            <div class="icon">🌍</div>
+            <div class="content">
+                <div class="term">중요한 국제조직에 관한 조약, 우호통상항해조약</div>
+                <div class="explanation">
+                    친할 우(友) + 좋을 호(好) + 통할 통(通) + 상업 상(商) + 항해 항(航) + 맺을 해(海) (우호통상항해)
+                </div>
+                <div class="description">
+                    국제기구 가입(예: UN)이나 무역, 항해 관련 조약은 국회의 허락을 받아야 합니다.
+                </div>
+            </div>
+        </div>
+
+        <div class="section">
+            <div class="icon">⚖️</div>
+            <div class="content">
+                <div class="term">주권의 제약에 관한 조약, 강화조약</div>
+                <div class="explanation">
+                    주인 주(主) + 권세 권(權) (주권)<br>
+                    강할 강(強) + 화목할 화(和) (강화)
+                </div>
+                <div class="description">
+                    국가 주권을 제한하거나 평화(전쟁 종결)를 맺는 조약은 국회의 동의가 필요합니다.
+                </div>
+            </div>
+        </div>
+
+        <div class="section">
+            <div class="icon">💸</div>
+            <div class="content">
+                <div class="term">국가나 국민에게 중대한 재정적 부담을 지우는 조약 또는 입법사항에 관한 조약의</div>
+                <div class="explanation">
+                    재물 재(財) + 정사 정(政) + 질 부(負) + 멜 담(擔) (재정적 부담)<br>
+                    세울 입(立) + 법 법(法) + 일 사(事) + 항목 항(項) (입법사항)
+                </div>
+                <div class="description">
+                    큰 재정 부담이나 법률 변경이 필요한 조약은 국회의 허락을 받아야 합니다.
+                </div>
+            </div>
+        </div>
+
+        <div class="section">
+            <div class="icon">📝</div>
+            <div class="content">
+                <div class="term">체결ㆍ비준에 대한 동의권을 가진다</div>
+                <div class="explanation">
+                    맺을 체(締) + 맺을 결(結) (체결)<br>
+                    비로소 비(批) + 옳을 준(准) (비준)<br>
+                    같을 동(同) + 뜻 의(意) + 권세 권(權) (동의권)
+                </div>
+                <div class="description">
+                    위 조약들의 체결과 비준은 반드시 국회의 동의를 받아야 합니다.
+                </div>
+            </div>
+        </div>
+
+        <div class="conclusion">
+            <h2>결론적으로...</h2>
+            <p>헌법 제60조 제1항은, <strong>정부가 다른 나라와 중요한 약속(조약)을 맺을 때 독단적으로 결정하지 못하도록 하는 중요한 안전장치</strong>입니다。</p>
+            <p>특히 군사, 경제, 영토 문제처럼 국민의 삶에 직접적이고 큰 영향을 미치는 조약들은 반드시 국민의 대표 기관인 국회의 동의를 받도록 한 것입니다。</p>
+            <p>이 조항은 외교에 관한 문제 역시 민주적인 통제 아래에 두어야 한다는 '민주주의 원칙'을 보여주는 중요한 역할을 합니다。</p>
+        </div>
+    </div>
+</body>
+</html>
