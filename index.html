@@ -1,0 +1,119 @@
+<!doctype html>
+<html lang="ko">\>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>헌법 인포그래픽 모음</title>
+<style>
+  body{font-family:system-ui,Segoe UI,Roboto,sans-serif;margin:0;color:#111}
+  header{position:sticky;top:0;background:#fff;border-bottom:1px solid #eee;padding:16px;z-index:10}
+  .wrap{max-width:1100px;margin:0 auto;padding:16px}
+  .controls{display:grid;grid-template-columns:1fr auto;gap:12px;align-items:center}
+  input[type=search]{width:100%;padding:10px 12px;border:1px solid #ddd;border-radius:10px;font-size:16px}
+  .grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:14px;margin-top:16px}
+  .card{border:1px solid #eaeaea;border-radius:14px;padding:14px;background:#fff;box-shadow:0 1px 2px rgba(0,0,0,.03)}
+  .title{font-weight:600;line-height:1.3;font-size:16px;margin-bottom:8px}
+  .open{display:inline-block;text-decoration:none;border:1px solid #ddd;padding:8px 10px;border-radius:10px}
+  .muted{color:#666;font-size:13px}
+  .footer{display:flex;gap:8px;align-items:center;justify-content:center;margin:20px 0 40px}
+  button{border:1px solid #ddd;background:#fff;padding:8px 12px;border-radius:8px;cursor:pointer}
+  button[disabled]{opacity:.5;cursor:default}
+  @media (prefers-color-scheme:dark){
+    body{background:#0b0b0b;color:#e9e9e9}
+    header{background:#0b0b0b;border-color:#222}
+    .card{background:#111;border-color:#222;box-shadow:none}
+    input[type=search],.open,button{background:#0b0b0b;color:#e9e9e9;border-color:#222}
+    .muted{color:#aaa}
+  }
+</style>
+<header>
+  <div class="wrap">
+    <div class="controls">
+      <input id="q" type="search" placeholder="예: 제10조, 기본권…" autofocus>
+      <div id="count" class="muted"></div>
+    </div>
+  </div>
+</header>
+
+<main class="wrap">
+  <div id="grid" class="grid" aria-live="polite"></div>
+  <div class="footer">
+    <button id="prev">이전</button>
+    <span id="pageInfo" class="muted"></span>
+    <button id="next">다음</button>
+  </div>
+</main>
+
+<script>
+const OWNER = "JustinKim0324";
+const REPO  = "constitution";
+const BRANCH = "main";             // 바꾸지 마세요
+const PAGE_SIZE = 24;
+
+let all = [], filtered = [], page = 1;
+const q = document.getElementById('q');
+const grid = document.getElementById('grid');
+const count = document.getElementById('count');
+const prev = document.getElementById('prev');
+const next = document.getElementById('next');
+const pageInfo = document.getElementById('pageInfo');
+
+// GitHub "검색 API"로 레포 안의 .html 파일을 모두 찾습니다(페이지당 100개씩).
+async function fetchAllHtmlFiles(){
+  let page = 1, items = [];
+  while (true){
+    const url = `https://api.github.com/search/code?q=repo:${OWNER}/${REPO}+extension:html&per_page=100&page=${page}`;
+    const res = await fetch(url);
+    if (!res.ok) break;
+    const data = await res.json();
+    items = items.concat(data.items || []);
+    if (!data.items || data.items.length < 100) break; // 마지막 페이지
+    page++;
+  }
+  // 파일 이름 기준 정렬
+  items.sort((a,b)=> a.name.localeCompare(b.name,'ko'));
+  return items.map(x => ({
+    title: x.name.replace(/\.html$/i,''),
+    // GitHub Pages에서 렌더되는 실제 경로(루트에 파일이 있으므로 파일명만 쓰면 됨)
+    href: x.path,
+    path: x.path
+  }));
+}
+
+function normalize(s){return (s||"").toString().toLowerCase().normalize('NFKD');}
+
+function render(){
+  const start = (page-1)*PAGE_SIZE, end = start + PAGE_SIZE;
+  const pageItems = filtered.slice(start,end);
+  grid.innerHTML = pageItems.map(it => `
+    <div class="card">
+      <div class="title">${escapeHtml(it.title)}</div>
+      <div class="muted">${it.path}</div>
+      <div>
+        <a class="open" href="${encodeURI(it.href)}" target="_blank" rel="noopener">열기</a>
+      </div>
+    </div>`).join('');
+  count.textContent = `총 ${all.length}개 · 현재 ${filtered.length}개 표시`;
+  const totalPages = Math.max(1, Math.ceil(filtered.length / PAGE_SIZE));
+  pageInfo.textContent = `${page} / ${totalPages} 페이지`;
+  prev.disabled = page<=1; next.disabled = page>=totalPages;
+}
+
+function search(term){
+  const t = normalize(term);
+  filtered = t ? all.filter(it => normalize(it.title + " " + it.path).includes(t)) : all.slice();
+  page = 1; render();
+}
+
+function escapeHtml(s){return s.replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));}
+
+prev.addEventListener('click',()=>{ if(page>1){page--;render();} });
+next.addEventListener('click',()=>{ const tp=Math.ceil(filtered.length/PAGE_SIZE); if(page<tp){page++;render();} });
+q.addEventListener('input',e=>search(e.target.value));
+
+(async function init(){
+  all = await fetchAllHtmlFiles();
+  filtered = all.slice();
+  render();
+})();
+</script>
+</html>
