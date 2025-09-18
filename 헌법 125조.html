@@ -1,0 +1,196 @@
+<script type="text/javascript">
+        var gk_isXlsx = false;
+        var gk_xlsxFileLookup = {};
+        var gk_fileData = {};
+        function filledCell(cell) {
+          return cell !== '' && cell != null;
+        }
+        function loadFileData(filename) {
+        if (gk_isXlsx && gk_xlsxFileLookup[filename]) {
+            try {
+                var workbook = XLSX.read(gk_fileData[filename], { type: 'base64' });
+                var firstSheetName = workbook.SheetNames[0];
+                var worksheet = workbook.Sheets[firstSheetName];
+
+                // Convert sheet to JSON to filter blank rows
+                var jsonData = XLSX.utils.sheet_to_json(worksheet, { header: 1, blankrows: false, defval: '' });
+                // Filter out blank rows (rows where all cells are empty, null, or undefined)
+                var filteredData = jsonData.filter(row => row.some(filledCell));
+
+                // Heuristic to find the header row by ignoring rows with fewer filled cells than the next row
+                var headerRowIndex = filteredData.findIndex((row, index) =>
+                  row.filter(filledCell).length >= filteredData[index + 1]?.filter(filledCell).length
+                );
+                // Fallback
+                if (headerRowIndex === -1 || headerRowIndex > 25) {
+                  headerRowIndex = 0;
+                }
+
+                // Convert filtered JSON back to CSV
+                var csv = XLSX.utils.aoa_to_sheet(filteredData.slice(headerRowIndex)); // Create a new sheet from filtered array of arrays
+                csv = XLSX.utils.sheet_to_csv(csv, { header: 1 });
+                return csv;
+            } catch (e) {
+                console.error(e);
+                return "";
+            }
+        }
+        return gk_fileData[filename] || "";
+        }
+        </script><!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>대한민국 헌법 제125조</title>
+    <style>
+        body {
+            font-family: 'Noto Sans KR', sans-serif;
+            background-color: #f9f9f9;
+            color: #333;
+            margin: 0;
+            padding: 20px;
+            line-height: 1.6;
+        }
+        .container {
+            max-width: 1000px;
+            margin: 0 auto;
+            background-color: #fff;
+            padding: 25px;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+        h1 {
+            text-align: center;
+            color: #2c3e50;
+            font-size: 2.6em;
+            margin-bottom: 25px;
+        }
+        .article {
+            font-size: 1.6em;
+            text-align: center;
+            margin: 25px 0;
+            padding: 18px;
+            background-color: #ecf0f1;
+            border-radius: 5px;
+            font-weight: bold;
+        }
+        .section {
+            display: flex;
+            align-items: flex-start;
+            margin-bottom: 25px;
+        }
+        .icon {
+            font-size: 3em;
+            margin-right: 18px;
+        }
+        .content {
+            flex: 1;
+        }
+        .term {
+            font-weight: bold;
+            color: #2980b9;
+            font-size: 1.4em;
+        }
+        .explanation {
+            font-size: 1.1em;
+            color: #e74c3c;
+            margin-top: 6px;
+        }
+        .description {
+            font-size: 1.2em;
+            margin-top: 6px;
+        }
+        .conclusion {
+            margin-top: 35px;
+            padding: 18px;
+            background-color: #e8f4fd;
+            border-left: 5px solid #3498db;
+            border-radius: 5px;
+        }
+        .conclusion h2 {
+            margin-top: 0;
+            color: #2c3e50;
+            font-size: 1.8em;
+        }
+        .conclusion p {
+            font-size: 1.2em;
+            margin: 6px 0;
+        }
+        @media (max-width: 768px) {
+            .container {
+                margin: 10px;
+                padding: 15px;
+            }
+            h1 {
+                font-size: 2.2em;
+            }
+            .article {
+                font-size: 1.3em;
+            }
+            .icon {
+                font-size: 2.4em;
+            }
+            .term {
+                font-size: 1.3em;
+            }
+            .explanation {
+                font-size: 0.95em;
+            }
+            .description {
+                font-size: 1.1em;
+            }
+            .conclusion h2 {
+                font-size: 1.6em;
+            }
+            .conclusion p {
+                font-size: 1.1em;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>대한민국 헌법 제125조</h1>
+        
+        <div class="article">
+            "국가는 대외무역을 육성하며, 이를 규제ㆍ조정할 수 있다."
+        </div>
+
+        <div class="section">
+            <div class="icon">🌐</div>
+            <div class="content">
+                <div class="term">국가는 대외무역을 육성하며</div>
+                <div class="explanation">
+                    대할 대(對) + 바깥 외(外) + 바꿀 무(貿) + 바꿀 역(易) (대외무역)<br>
+                    기를 육(育) + 이룰 성(成) (육성)
+                </div>
+                <div class="description">
+                    국가가 우리나라 기업들이 외국에 물건을 더 많이 수출하고, 또 필요한 물건을 잘 수입할 수 있도록 적극적으로 도와주고 키워주어야(육성) 한다는 뜻이에요. 예를 들어, 다른 나라와 자유무역협정(FTA)을 맺거나, 우리나라 제품을 해외에 알리는 것을 도와주는 것 등이 모두 '육성' 활동이랍니다.
+                </div>
+            </div>
+        </div>
+
+        <div class="section">
+            <div class="icon">📜</div>
+            <div class="content">
+                <div class="term">이를 규제ㆍ조정할 수 있다</div>
+                <div class="explanation">
+                    법 규(規) + 만들 제(制) (규제)<br>
+                    고를 조(調) + 가지런할 정(整) (조정)
+                </div>
+                <div class="description">
+                    다만, 필요할 때는 '심판'처럼 나설 수도 있다는 뜻이에요. 예를 들어, 어떤 물건을 너무 많이 수입해서 우리나라의 비슷한 물건을 만드는 농민이나 기업들이 피해를 볼 때, 수입량을 조절하는(규제·조정) 역할을 할 수 있다는 것이죠.
+                </div>
+            </div>
+        </div>
+
+        <div class="conclusion">
+            <h2>결론적으로...</h2>
+            <p>헌법 제125조는, <strong>국가에게 대외무역에 대한 두 가지 역할을 부여한 조항</strong>입니다。</p>
+            <p>첫째, 국가는 우리 기업들이 세계 시장에서 활발하게 활동할 수 있도록 적극적으로 도와주고 키워주어야 할 '육성'의 의무가 있습니다。 둘째, 동시에 무분별한 무역으로 인해 국내 산업이 피해를 보거나 국가 경제에 문제가 생기지 않도록, 필요한 경우 이를 통제하고 바로잡는 '규제와 조정'의 권한을 가집니다。</p>
+            <p>이는 자유로운 무역을 장려하면서도, 국가 전체의 이익을 지키기 위한 중요한 원칙입니다。</p>
+        </div>
+    </div>
+</body>
+</html>

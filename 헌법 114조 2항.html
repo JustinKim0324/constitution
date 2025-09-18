@@ -1,0 +1,237 @@
+<script type="text/javascript">
+        var gk_isXlsx = false;
+        var gk_xlsxFileLookup = {};
+        var gk_fileData = {};
+        function filledCell(cell) {
+          return cell !== '' && cell != null;
+        }
+        function loadFileData(filename) {
+        if (gk_isXlsx && gk_xlsxFileLookup[filename]) {
+            try {
+                var workbook = XLSX.read(gk_fileData[filename], { type: 'base64' });
+                var firstSheetName = workbook.SheetNames[0];
+                var worksheet = workbook.Sheets[firstSheetName];
+
+                // Convert sheet to JSON to filter blank rows
+                var jsonData = XLSX.utils.sheet_to_json(worksheet, { header: 1, blankrows: false, defval: '' });
+                // Filter out blank rows (rows where all cells are empty, null, or undefined)
+                var filteredData = jsonData.filter(row => row.some(filledCell));
+
+                // Heuristic to find the header row by ignoring rows with fewer filled cells than the next row
+                var headerRowIndex = filteredData.findIndex((row, index) =>
+                  row.filter(filledCell).length >= filteredData[index + 1]?.filter(filledCell).length
+                );
+                // Fallback
+                if (headerRowIndex === -1 || headerRowIndex > 25) {
+                  headerRowIndex = 0;
+                }
+
+                // Convert filtered JSON back to CSV
+                var csv = XLSX.utils.aoa_to_sheet(filteredData.slice(headerRowIndex)); // Create a new sheet from filtered array of arrays
+                csv = XLSX.utils.sheet_to_csv(csv, { header: 1 });
+                return csv;
+            } catch (e) {
+                console.error(e);
+                return "";
+            }
+        }
+        return gk_fileData[filename] || "";
+        }
+        </script><!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>대한민국 헌법 제114조 제2항</title>
+    <style>
+        body {
+            font-family: 'Noto Sans KR', sans-serif;
+            background-color: #f9f9f9;
+            color: #333;
+            margin: 0;
+            padding: 20px;
+            line-height: 1.6;
+        }
+        .container {
+            max-width: 1000px;
+            margin: 0 auto;
+            background-color: #fff;
+            padding: 25px;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+        h1 {
+            text-align: center;
+            color: #2c3e50;
+            font-size: 2.6em;
+            margin-bottom: 25px;
+        }
+        .article {
+            font-size: 1.6em;
+            text-align: center;
+            margin: 25px 0;
+            padding: 18px;
+            background-color: #ecf0f1;
+            border-radius: 5px;
+            font-weight: bold;
+        }
+        .section {
+            display: flex;
+            align-items: flex-start;
+            margin-bottom: 25px;
+        }
+        .icon {
+            font-size: 3em;
+            margin-right: 18px;
+        }
+        .content {
+            flex: 1;
+        }
+        .term {
+            font-weight: bold;
+            color: #2980b9;
+            font-size: 1.4em;
+        }
+        .explanation {
+            font-size: 1.1em;
+            color: #e74c3c;
+            margin-top: 6px;
+        }
+        .description {
+            font-size: 1.2em;
+            margin-top: 6px;
+        }
+        .conclusion {
+            margin-top: 35px;
+            padding: 18px;
+            background-color: #e8f4fd;
+            border-left: 5px solid #3498db;
+            border-radius: 5px;
+        }
+        .conclusion h2 {
+            margin-top: 0;
+            color: #2c3e50;
+            font-size: 1.8em;
+        }
+        .conclusion p {
+            font-size: 1.2em;
+            margin: 6px 0;
+        }
+        @media (max-width: 768px) {
+            .container {
+                margin: 10px;
+                padding: 15px;
+            }
+            h1 {
+                font-size: 2.2em;
+            }
+            .article {
+                font-size: 1.3em;
+            }
+            .icon {
+                font-size: 2.4em;
+            }
+            .term {
+                font-size: 1.3em;
+            }
+            .explanation {
+                font-size: 0.95em;
+            }
+            .description {
+                font-size: 1.1em;
+            }
+            .conclusion h2 {
+                font-size: 1.6em;
+            }
+            .conclusion p {
+                font-size: 1.1em;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>대한민국 헌법 제114조 제2항</h1>
+        
+        <div class="article">
+            "중앙선거관리위원회는 대통령이 임명하는 3인, 국회에서 선출하는 3인과 대법원장이 지명하는 3인의 위원으로 구성한다. 위원장은 위원중에서 호선한다."
+        </div>
+
+        <div class="section">
+            <div class="icon">🗳️</div>
+            <div class="content">
+                <div class="term">중앙선거관리위원회는 ... 위원으로 구성한다</div>
+                <div class="explanation">
+                    가운데 중(中) + 으뜸 앙(央) + 가릴 선(選) + 들 거(擧) + 주관할 관(管) + 다스릴 리(理) + 맡길 위(委) + 인원 원(員) + 모일 회(會) (중앙선거관리위원회)<br>
+                    맡길 위(委) + 인원 원(員) (위원)
+                </div>
+                <div class="description">
+                    중앙선거관리위원회는 9명의 위원으로 이루어집니다.
+                </div>
+            </div>
+        </div>
+
+        <div class="section">
+            <div class="icon">👑</div>
+            <div class="content">
+                <div class="term">대통령이 임명하는 3인</div>
+                <div class="explanation">
+                    맡길 임(任) + 목숨 명(命) (임명)
+                </div>
+                <div class="description">
+                    이 중 행정부의 최고 책임자인 대통령이 자신의 권한으로 3명의 위원을 직접 임명합니다.
+                </div>
+            </div>
+        </div>
+
+        <div class="section">
+            <div class="icon">🏛️</div>
+            <div class="content">
+                <div class="term">국회에서 선출하는 3인</div>
+                <div class="explanation">
+                    나라 국(國) + 모일 회(會) (국회)<br>
+                    가릴 선(選) + 날 출(出) (선출)
+                </div>
+                <div class="description">
+                    또한 국회의 몫으로 3명을 국회가 투표로 직접 선출하여 3명의 위원을 대통령이 임명하게 됩니다.
+                </div>
+            </div>
+        </div>
+
+        <div class="section">
+            <div class="icon">⚖️</div>
+            <div class="content">
+                <div class="term">대법원장이 지명하는 3인</div>
+                <div class="explanation">
+                    큰 대(大) + 법 법(法) + 집 원(院) + 어른 장(長) (대법원장)<br>
+                    손가락 지(指) + 이름 명(名) (지명)
+                </div>
+                <div class="description">
+                    또한 대법원장이 추천(지명)한 3명의 위원을 대통령이 임명하게 됩니다.
+                </div>
+            </div>
+        </div>
+
+        <div class="section">
+            <div class="icon">🤝</div>
+            <div class="content">
+                <div class="term">위원장은 위원중에서 호선한다</div>
+                <div class="explanation">
+                    맡길 위(委) + 인원 원(員) + 어른 장(長) (위원장)<br>
+                    서로 호(互) + 가릴 선(選) (호선)
+                </div>
+                <div class="description">
+                    중앙선거관리위원회의 대표인 위원장은 대통령이나 국회가 정해주는 것이 아니라, 이렇게 구성된 위원들이 자기들끼리 서로 투표를 해서 뽑는다는 뜻입니다.
+                </div>
+            </div>
+        </div>
+
+        <div class="conclusion">
+            <h2>결론적으로...</h2>
+            <p>헌법 제114조 제2항은, <strong>중앙선거관리위원회의 구성을 명확히 한 조항</strong>입니다。</p>
+            <p>위원회는 대통령, 국회, 대법원장이 각각 3명씩 임명, 선출, 지명한 총 9명의 위원으로 구성되며, 위원장은 위원들이 직접 투표(호선)로 뽑습니다。</p>
+            <p>이 조항은 선거를 관리하는 최고 기관이 입법, 사법, 행정부 어디에도 치우치지 않고 정치적 중립성과 독립성을 굳건히 지킬 수 있도록 하는 매우 중요한 민주적 장치입니다。</p>
+        </div>
+    </div>
+</body>
+</html>

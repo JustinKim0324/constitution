@@ -1,0 +1,249 @@
+<script type="text/javascript">
+        var gk_isXlsx = false;
+        var gk_xlsxFileLookup = {};
+        var gk_fileData = {};
+        function filledCell(cell) {
+          return cell !== '' && cell != null;
+        }
+        function loadFileData(filename) {
+        if (gk_isXlsx && gk_xlsxFileLookup[filename]) {
+            try {
+                var workbook = XLSX.read(gk_fileData[filename], { type: 'base64' });
+                var firstSheetName = workbook.SheetNames[0];
+                var worksheet = workbook.Sheets[firstSheetName];
+
+                // Convert sheet to JSON to filter blank rows
+                var jsonData = XLSX.utils.sheet_to_json(worksheet, { header: 1, blankrows: false, defval: '' });
+                // Filter out blank rows (rows where all cells are empty, null, or undefined)
+                var filteredData = jsonData.filter(row => row.some(filledCell));
+
+                // Heuristic to find the header row by ignoring rows with fewer filled cells than the next row
+                var headerRowIndex = filteredData.findIndex((row, index) =>
+                  row.filter(filledCell).length >= filteredData[index + 1]?.filter(filledCell).length
+                );
+                // Fallback
+                if (headerRowIndex === -1 || headerRowIndex > 25) {
+                  headerRowIndex = 0;
+                }
+
+                // Convert filtered JSON back to CSV
+                var csv = XLSX.utils.aoa_to_sheet(filteredData.slice(headerRowIndex)); // Create a new sheet from filtered array of arrays
+                csv = XLSX.utils.sheet_to_csv(csv, { header: 1 });
+                return csv;
+            } catch (e) {
+                console.error(e);
+                return "";
+            }
+        }
+        return gk_fileData[filename] || "";
+        }
+        </script><!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>대한민국 헌법 제111조 제1항</title>
+    <style>
+        body {
+            font-family: 'Noto Sans KR', sans-serif;
+            background-color: #f9f9f9;
+            color: #333;
+            margin: 0;
+            padding: 20px;
+            line-height: 1.6;
+        }
+        .container {
+            max-width: 1000px;
+            margin: 0 auto;
+            background-color: #fff;
+            padding: 25px;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+        h1 {
+            text-align: center;
+            color: #2c3e50;
+            font-size: 2.6em;
+            margin-bottom: 25px;
+        }
+        .article {
+            font-size: 1.6em;
+            text-align: center;
+            margin: 25px 0;
+            padding: 18px;
+            background-color: #ecf0f1;
+            border-radius: 5px;
+            font-weight: bold;
+        }
+        .section {
+            display: flex;
+            align-items: flex-start;
+            margin-bottom: 25px;
+        }
+        .icon {
+            font-size: 3em;
+            margin-right: 18px;
+        }
+        .content {
+            flex: 1;
+        }
+        .term {
+            font-weight: bold;
+            color: #2980b9;
+            font-size: 1.4em;
+        }
+        .explanation {
+            font-size: 1.1em;
+            color: #e74c3c;
+            margin-top: 6px;
+        }
+        .description {
+            font-size: 1.2em;
+            margin-top: 6px;
+        }
+        .conclusion {
+            margin-top: 35px;
+            padding: 18px;
+            background-color: #e8f4fd;
+            border-left: 5px solid #3498db;
+            border-radius: 5px;
+        }
+        .conclusion h2 {
+            margin-top: 0;
+            color: #2c3e50;
+            font-size: 1.8em;
+        }
+        .conclusion p {
+            font-size: 1.2em;
+            margin: 6px 0;
+        }
+        @media (max-width: 768px) {
+            .container {
+                margin: 10px;
+                padding: 15px;
+            }
+            h1 {
+                font-size: 2.2em;
+            }
+            .article {
+                font-size: 1.3em;
+            }
+            .icon {
+                font-size: 2.4em;
+            }
+            .term {
+                font-size: 1.3em;
+            }
+            .explanation {
+                font-size: 0.95em;
+            }
+            .description {
+                font-size: 1.1em;
+            }
+            .conclusion h2 {
+                font-size: 1.6em;
+            }
+            .conclusion p {
+                font-size: 1.1em;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>대한민국 헌법 제111조 제1항</h1>
+        
+        <div class="article">
+            "헌법재판소는 다음 사항을 관장한다. 1. 법원의 제청에 의한 법률의 위헌여부 심판, 2. 탄핵의 심판, 3. 정당의 해산 심판, 4. 국가기관 상호간, 국가기관과 지방자치단체간 및 지방자치단체 상호간의 권한쟁의에 관한 심판, 5. 법률이 정하는 헌법소원에 관한 심판"
+        </div>
+
+        <div class="section">
+            <div class="icon">🏛️</div>
+            <div class="content">
+                <div class="term">헌법재판소는 다음 사항을 관장한다</div>
+                <div class="explanation">
+                    법 헌(憲) + 법 법(法) + 마를 재(裁) + 집 원(院) (헌법재판소)<br>
+                    주관할 관(管) + 손바닥 장(掌) (관장)
+                </div>
+                <div class="description">
+                    헌법재판소가 다섯 가지 중요한 일을 책임지고 다룹니다.
+                </div>
+            </div>
+        </div>
+
+        <div class="section">
+            <div class="icon">⚖️</div>
+            <div class="content">
+                <div class="term">1. 법원의 제청에 의한 법률의 위헌여부 심판</div>
+                <div class="explanation">
+                    끌 제(提) + 청할 청(請) (제청)<br>
+                    어긋날 위(違) + 법 헌(憲) (위헌)<br>
+                    살필 심(審) + 판단할 판(判) (심판)
+                </div>
+                <div class="description">
+                    법원의 요청으로 법률이 헌법에 어긋나는지 살펴보고 판단합니다.
+                </div>
+            </div>
+        </div>
+
+        <div class="section">
+            <div class="icon">🚨</div>
+            <div class="content">
+                <div class="term">2. 탄핵의 심판</div>
+                <div class="explanation">
+                    쏠 탄(彈) + 꾸짖을 핵(劾) (탄핵)
+                </div>
+                <div class="description">
+                    고위 공직자의 잘못을 심판하여 책임을 묻습니다.
+                </div>
+            </div>
+        </div>
+
+        <div class="section">
+            <div class="icon">📜</div>
+            <div class="content">
+                <div class="term">3. 정당의 해산 심판</div>
+                <div class="explanation">
+                    정치 정(政) + 무리 당(黨) (정당)<br>
+                    풀 해(解) + 흩을 산(散) (해산)
+                </div>
+                <div class="description">
+                    헌법을 어기는 정당을 해산하도록 결정합니다.
+                </div>
+            </div>
+        </div>
+
+        <div class="section">
+            <div class="icon">🤝</div>
+            <div class="content">
+                <div class="term">4. 국가기관 상호간, 국가기관과 지방자치단체간 및 지방자치단체 상호간의 권한쟁의에 관한 심판</div>
+                <div class="explanation">
+                    권세 권(權) + 한계 한(限) + 다툴 쟁(爭) + 의논할 의(議) (권한쟁의)
+                </div>
+                <div class="description">
+                    국가기관이나 지방자치단체 간 권한 다툼을 해결합니다.
+                </div>
+            </div>
+        </div>
+
+        <div class="section">
+            <div class="icon">🙏</div>
+            <div class="content">
+                <div class="term">5. 법률이 정하는 헌법소원에 관한 심판</div>
+                <div class="explanation">
+                    호소할 소(訴) + 원할 원(願) (헌법소원)
+                </div>
+                <div class="description">
+                    국민이 헌법상 권리 침해를 호소하면 이를 구제하기 위해 심판합니다.
+                </div>
+            </div>
+        </div>
+
+        <div class="conclusion">
+            <h2>결론적으로...</h2>
+            <p>헌법 제111조 제1항은, <strong>헌법재판소가 수행하는 다섯 가지 주요 역할을 정의한 조항</strong>입니다。</p>
+            <p>헌법재판소는 법률의 위헌 여부를 심판하고, 고위 공직자의 탄핵을 결정하며, 위헌 정당을 해산하고, 국가기관 간 권한 다툼을 해결하며, 국민의 기본권 침해를 구제하는 등, 우리나라 헌법 질서의 최후 수호자로서 중대한 임무를 수행합니다。</p>
+        </div>
+    </div>
+</body>
+</html>

@@ -1,0 +1,202 @@
+<script type="text/javascript">
+        var gk_isXlsx = false;
+        var gk_xlsxFileLookup = {};
+        var gk_fileData = {};
+        function filledCell(cell) {
+          return cell !== '' && cell != null;
+        }
+        function loadFileData(filename) {
+        if (gk_isXlsx && gk_xlsxFileLookup[filename]) {
+            try {
+                var workbook = XLSX.read(gk_fileData[filename], { type: 'base64' });
+                var firstSheetName = workbook.SheetNames[0];
+                var worksheet = workbook.Sheets[firstSheetName];
+
+                // Convert sheet to JSON to filter blank rows
+                var jsonData = XLSX.utils.sheet_to_json(worksheet, { header: 1, blankrows: false, defval: '' });
+                // Filter out blank rows (rows where all cells are empty, null, or undefined)
+                var filteredData = jsonData.filter(row => row.some(filledCell));
+
+                // Heuristic to find the header row by ignoring rows with fewer filled cells than the next row
+                var headerRowIndex = filteredData.findIndex((row, index) =>
+                  row.filter(filledCell).length >= filteredData[index + 1]?.filter(filledCell).length
+                );
+                // Fallback
+                if (headerRowIndex === -1 || headerRowIndex > 25) {
+                  headerRowIndex = 0;
+                }
+
+                // Convert filtered JSON back to CSV
+                var csv = XLSX.utils.aoa_to_sheet(filteredData.slice(headerRowIndex)); // Create a new sheet from filtered array of arrays
+                csv = XLSX.utils.sheet_to_csv(csv, { header: 1 });
+                return csv;
+            } catch (e) {
+                console.error(e);
+                return "";
+            }
+        }
+        return gk_fileData[filename] || "";
+        }
+        </script><!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>대한민국 헌법 제117조 제1항</title>
+    <style>
+        body {
+            font-family: 'Noto Sans KR', sans-serif;
+            background-color: #f9f9f9;
+            color: #333;
+            margin: 0;
+            padding: 20px;
+            line-height: 1.6;
+        }
+        .container {
+            max-width: 1000px;
+            margin: 0 auto;
+            background-color: #fff;
+            padding: 25px;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+        h1 {
+            text-align: center;
+            color: #2c3e50;
+            font-size: 2.6em;
+            margin-bottom: 25px;
+        }
+        .article {
+            font-size: 1.6em;
+            text-align: center;
+            margin: 25px 0;
+            padding: 18px;
+            background-color: #ecf0f1;
+            border-radius: 5px;
+            font-weight: bold;
+        }
+        .section {
+            display: flex;
+            align-items: flex-start;
+            margin-bottom: 25px;
+        }
+        .icon {
+            font-size: 3em;
+            margin-right: 18px;
+        }
+        .content {
+            flex: 1;
+        }
+        .term {
+            font-weight: bold;
+            color: #2980b9;
+            font-size: 1.4em;
+        }
+        .explanation {
+            font-size: 1.1em;
+            color: #e74c3c;
+            margin-top: 6px;
+        }
+        .description {
+            font-size: 1.2em;
+            margin-top: 6px;
+        }
+        .conclusion {
+            margin-top: 35px;
+            padding: 18px;
+            background-color: #e8f4fd;
+            border-left: 5px solid #3498db;
+            border-radius: 5px;
+        }
+        .conclusion h2 {
+            margin-top: 0;
+            color: #2c3e50;
+            font-size: 1.8em;
+        }
+        .conclusion p {
+            font-size: 1.2em;
+            margin: 6px 0;
+        }
+        @media (max-width: 768px) {
+            .container {
+                margin: 10px;
+                padding: 15px;
+            }
+            h1 {
+                font-size: 2.2em;
+            }
+            .article {
+                font-size: 1.3em;
+            }
+            .icon {
+                font-size: 2.4em;
+            }
+            .term {
+                font-size: 1.3em;
+            }
+            .explanation {
+                font-size: 0.95em;
+            }
+            .description {
+                font-size: 1.1em;
+            }
+            .conclusion h2 {
+                font-size: 1.6em;
+            }
+            .conclusion p {
+                font-size: 1.1em;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>대한민국 헌법 제117조 제1항</h1>
+        
+        <div class="article">
+            "지방자치단체는 주민의 복리에 관한 사무를 처리하고 재산을 관리하며, 법령의 범위안에서 자치에 관한 규정을 제정할 수 있다."
+        </div>
+
+        <div class="section">
+            <div class="icon">🏛️</div>
+            <div class="content">
+                <div class="term">지방자치단체는 주민의 복리에 관한 사무를 처리하고 재산을 관리하며</div>
+                <div class="explanation">
+                    땅 지(地) + 모 방(方) + 스스로 자(自) + 다스릴 치(治) + 둥글 단(團) + 몸 체(體) (지방자치단체)<br>
+                    살 주(住) + 백성 민(民) (주민)<br>
+                    복 복(福) + 이로울 리(利) (복리)<br>
+                    일 사(事) + 힘쓸 무(務) (사무)<br>
+                    재물 재(財) + 산 산(産) (재산)<br>
+                    주관할 관(管) + 다스릴 리(理) (관리)
+                </div>
+                <div class="description">
+                    지방자치단체에 부여된 두 가지 핵심적인 임무를 설명합니다. 첫째는 해당 지역 주민들의 삶의 질 향상과 관련된 공공 사무를 책임지고 처리하는 것이고, 둘째는 그 지역의 공공 재산을 관리하는 것입니다. 예를 들어, 지역 주민을 위한 문화·복지 시설을 설치하고 운영하거나, 지역의 상하수도 및 도로망을 관리하는 등의 일이 여기에 해당합니다.
+                </div>
+            </div>
+        </div>
+
+        <div class="section">
+            <div class="icon">📜</div>
+            <div class="content">
+                <div class="term">법령의 범위안에서 자치에 관한 규정을 제정할 수 있다</div>
+                <div class="explanation">
+                    법 법(法) + 명령 령(令) (법령)<br>
+                    스스로 자(自) + 다스릴 치(治) (자치)<br>
+                    법 규(規) + 정할 정(定) (규정)<br>
+                    지을 제(制) + 정할 정(定) (제정)
+                </div>
+                <div class="description">
+                    법령에 어긋나지 않는 범위에서 지역에 필요한 조례나 규칙을 스스로 만들 수 있습니다.
+                </div>
+            </div>
+        </div>
+
+        <div class="conclusion">
+            <h2>결론적으로...</h2>
+            <p>헌법 제117조 제1항은, <strong>지방자치의 기본 원칙을 선언한 조항</strong>입니다。</p>
+            <p>각 지방자치단체는 해당 지역 주민의 복리를 증진하고 재산을 관리할 책임이 있으며, 동시에 국가의 법령에 어긋나지 않는 범위 내에서 스스로 그 지역에 필요한 규칙(조례 등)을 만들 수 있는 권한을 가집니다。</p>
+            <p>이를 통해 각 지역의 특성에 맞는 행정을 펼쳐, 풀뿌리 민주주의를 실현할 수 있도록 하는 중요한 역할을 합니다。</p>
+        </div>
+    </div>
+</body>
+</html>
