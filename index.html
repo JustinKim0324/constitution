@@ -19,7 +19,8 @@
       background: linear-gradient(135deg, #4a90e2, #63b3ed); /* 헤더 그라데이션 */
     }
     .card {
-      background-color: white;
+      /* 고급스러운 디자인을 위한 스타일 수정 */
+      background: linear-gradient(to top right, #ffffff, #f0f9ff); /* 옅은 그라데이션 배경 */
       border-radius: 0.75rem;
       box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -2px rgba(0, 0, 0, 0.06);
       padding: 1.5rem 2rem;
@@ -29,9 +30,11 @@
       justify-content: space-between;
       text-decoration: none;
       color: inherit;
+      border: 1px solid #e5e7eb; /* 옅은 테두리 추가 */
+      border-left: 4px solid #4a90e2; /* 왼쪽 강조선 */
     }
     .card:hover {
-      transform: translateY(-3px);
+      transform: translateY(-5px); /* 호버 효과 강화 */
       box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
       cursor: pointer;
     }
@@ -90,7 +93,7 @@
       <h2 class="text-3xl md:text-4xl font-bold section-title mb-12">
         헌법 조항 목록
       </h2>
-      <div id="grid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-2 gap-6 max-w-5xl mx-auto" aria-live="polite">
+      <div id="grid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-2 gap-8 max-w-5xl mx-auto" aria-live="polite">
         <!-- JavaScript로 카드들이 채워질 영역 -->
       </div>
       <div class="mt-12 flex gap-4 items-center justify-center">
@@ -189,16 +192,16 @@
       } else {
         const cardsHtml = await Promise.all(pageItems.map(async it => {
           let content = await fetchArticleContent(it.href);
-          if (content.length > 100) {
-            content = content.substring(0, 100) + '...';
+          if (content.length > 80) { // 글자 수를 약간 줄여서 레이아웃이 깨지지 않도록 조정
+            content = content.substring(0, 80) + '...';
           }
           return `
             <a href="${encodeURI(it.href)}" target="_blank" rel="noopener" class="card">
                 <div>
-                    <h3 class="text-xl font-bold text-gray-800 mb-2">${escapeHtml(it.title)}</h3>
-                    <p class="text-gray-600 text-sm mb-4">${escapeHtml(content)}</p>
+                    <h3 class="text-xl font-bold text-gray-900 mb-2">${escapeHtml(it.title)}</h3>
+                    <p class="text-gray-800 text-lg font-semibold mb-4">${escapeHtml(content)}</p>
                 </div>
-                <div class="mt-auto pt-4 text-right text-blue-600 font-semibold">자세히 보기 &rarr;</div>
+                <div class="mt-auto pt-4 text-right text-blue-600 font-bold">자세히 보기 &rarr;</div>
             </a>`;
         }));
         grid.innerHTML = cardsHtml.join('');
@@ -213,7 +216,42 @@
 
     function search(term) {
       const t = normalize(term);
-      filtered = t ? all.filter(it => normalize(it.title).includes(t)) : all.slice();
+      if (!t) {
+        filtered = all.slice();
+      } else {
+        filtered = all.filter(it => {
+          const title = normalize(it.title);
+          
+          // 1. 기본적으로 검색어를 포함해야 함
+          const index = title.indexOf(t);
+          if (index === -1) {
+            return false;
+          }
+          
+          // 2. 검색어가 숫자로 시작하고 '조'로 끝나는 경우(예: "1조"), 더 정확한 매칭
+          const match = t.match(/^(\d+조)/);
+          if (match) {
+            // "헌법 1조" 와 같이 정확히 일치하는 경우만 찾도록 정규식 사용
+            const exactMatchRegex = new RegExp(`헌법 ${match[1]}`);
+            return normalize(it.title).match(exactMatchRegex);
+          }
+          
+          // 3. 검색어가 숫자로만 이루어진 경우
+          if (/^\d+$/.test(t)) {
+             const exactMatchRegex = new RegExp(`헌법 ${t}조`);
+             if (normalize(it.title).match(exactMatchRegex)) {
+               return true;
+             }
+          }
+
+          // 그 외의 경우, 단순 포함 여부로 검색
+          if (index > 0 && /\d/.test(title[index - 1])) {
+             if (/^\d/.test(t)) return false;
+          }
+          
+          return true;
+        });
+      }
       page = 1;
       render();
     }
