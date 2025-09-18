@@ -1,0 +1,212 @@
+<script type="text/javascript">
+        var gk_isXlsx = false;
+        var gk_xlsxFileLookup = {};
+        var gk_fileData = {};
+        function filledCell(cell) {
+          return cell !== '' && cell != null;
+        }
+        function loadFileData(filename) {
+        if (gk_isXlsx && gk_xlsxFileLookup[filename]) {
+            try {
+                var workbook = XLSX.read(gk_fileData[filename], { type: 'base64' });
+                var firstSheetName = workbook.SheetNames[0];
+                var worksheet = workbook.Sheets[firstSheetName];
+
+                // Convert sheet to JSON to filter blank rows
+                var jsonData = XLSX.utils.sheet_to_json(worksheet, { header: 1, blankrows: false, defval: '' });
+                // Filter out blank rows (rows where all cells are empty, null, or undefined)
+                var filteredData = jsonData.filter(row => row.some(filledCell));
+
+                // Heuristic to find the header row by ignoring rows with fewer filled cells than the next row
+                var headerRowIndex = filteredData.findIndex((row, index) =>
+                  row.filter(filledCell).length >= filteredData[index + 1]?.filter(filledCell).length
+                );
+                // Fallback
+                if (headerRowIndex === -1 || headerRowIndex > 25) {
+                  headerRowIndex = 0;
+                }
+
+                // Convert filtered JSON back to CSV
+                var csv = XLSX.utils.aoa_to_sheet(filteredData.slice(headerRowIndex)); // Create a new sheet from filtered array of arrays
+                csv = XLSX.utils.sheet_to_csv(csv, { header: 1 });
+                return csv;
+            } catch (e) {
+                console.error(e);
+                return "";
+            }
+        }
+        return gk_fileData[filename] || "";
+        }
+        </script><!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>대한민국 헌법 제106조 제1항</title>
+    <style>
+        body {
+            font-family: 'Noto Sans KR', sans-serif;
+            background-color: #f9f9f9;
+            color: #333;
+            margin: 0;
+            padding: 20px;
+            line-height: 1.6;
+        }
+        .container {
+            max-width: 1000px;
+            margin: 0 auto;
+            background-color: #fff;
+            padding: 25px;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+        h1 {
+            text-align: center;
+            color: #2c3e50;
+            font-size: 2.6em;
+            margin-bottom: 25px;
+        }
+        .article {
+            font-size: 1.6em;
+            text-align: center;
+            margin: 25px 0;
+            padding: 18px;
+            background-color: #ecf0f1;
+            border-radius: 5px;
+            font-weight: bold;
+        }
+        .section {
+            display: flex;
+            align-items: flex-start;
+            margin-bottom: 25px;
+        }
+        .icon {
+            font-size: 3em;
+            margin-right: 18px;
+        }
+        .content {
+            flex: 1;
+        }
+        .term {
+            font-weight: bold;
+            color: #2980b9;
+            font-size: 1.4em;
+        }
+        .explanation {
+            font-size: 1.1em;
+            color: #e74c3c;
+            margin-top: 6px;
+        }
+        .description {
+            font-size: 1.2em;
+            margin-top: 6px;
+        }
+        .conclusion {
+            margin-top: 35px;
+            padding: 18px;
+            background-color: #e8f4fd;
+            border-left: 5px solid #3498db;
+            border-radius: 5px;
+        }
+        .conclusion h2 {
+            margin-top: 0;
+            color: #2c3e50;
+            font-size: 1.8em;
+        }
+        .conclusion p {
+            font-size: 1.2em;
+            margin: 6px 0;
+        }
+        @media (max-width: 768px) {
+            .container {
+                margin: 10px;
+                padding: 15px;
+            }
+            h1 {
+                font-size: 2.2em;
+            }
+            .article {
+                font-size: 1.3em;
+            }
+            .icon {
+                font-size: 2.4em;
+            }
+            .term {
+                font-size: 1.3em;
+            }
+            .explanation {
+                font-size: 0.95em;
+            }
+            .description {
+                font-size: 1.1em;
+            }
+            .conclusion h2 {
+                font-size: 1.6em;
+            }
+            .conclusion p {
+                font-size: 1.1em;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>대한민국 헌법 제106조 제1항</h1>
+        
+        <div class="article">
+            "법관은 탄핵 또는 금고 이상의 형의 선고에 의하지 아니하고는 파면되지 아니하며, 징계처분에 의하지 아니하고는 정직ㆍ감봉 기타 불리한 처분을 받지 아니한다."
+        </div>
+
+        <div class="section">
+            <div class="icon">⚖️</div>
+            <div class="content">
+                <div class="term">법관은 ... 파면되지 아니하며</div>
+                <div class="explanation">
+                    법 법(法) + 벼슬 관(官) (법관)<br>
+                    마칠 파(罷) + 면할 면(免) (파면)
+                </div>
+                <div class="description">
+                    판사는 특정 사유 없이는 직책에서 강제로 물러나지 않습니다.
+                </div>
+            </div>
+        </div>
+
+        <div class="section">
+            <div class="icon">🚨</div>
+            <div class="content">
+                <div class="term">탄핵 또는 금고 이상의 형의 선고에 의하지 아니하고는</div>
+                <div class="explanation">
+                    쏠 탄(彈) + 꾸짖을 핵(劾) (탄핵)<br>
+                    가둘 금(禁) + 가둘 고(錮) (금고)<br>
+                    벌 형(刑) + 선포할 선(宣) + 고할 고(告) (선고)
+                </div>
+                <div class="description">
+                    탄핵이나 금고 이상의 형 선고로만 파면할 수 있습니다.
+                </div>
+            </div>
+        </div>
+
+        <div class="section">
+            <div class="icon">📜</div>
+            <div class="content">
+                <div class="term">징계처분에 의하지 아니하고는 정직ㆍ감봉 기타 불리한 처분을 받지 아니한다</div>
+                <div class="explanation">
+                    징계할 징(懲) + 경계할 계(戒) + 곳 처(處) + 나눌 분(分) (징계처분)<br>
+                    머무를 정(停) + 직분 직(職) (정직)<br>
+                    덜 감(減) + 녹봉 봉(俸) (감봉)
+                </div>
+                <div class="description">
+                    정식 징계 절차 없이는 정직, 감봉 등 불리한 처분을 받지 않습니다.
+                </div>
+            </div>
+        </div>
+
+        <div class="conclusion">
+            <h2>결론적으로...</h2>
+            <p>헌법 제106조 제1항은, <strong>법관의 신분을 최고 수준으로 보장하는 조항</strong>입니다。</p>
+            <p>법관은 탄핵이나 금고 이상의 형 선고라는 극히 중대한 사유가 아니면 결코 파면되지 않으며, 그 외의 징계 또한 정해진 절차 없이는 받을 수 없습니다。</p>
+            <p>이는 법관이 어떠한 정치적, 사회적 압력에도 굴하지 않고 오직 헌법과 법률, 그리고 양심에 따라 독립적으로 재판할 수 있도록 지켜주는 사법부 독립의 핵심적인 기둥입니다。</p>
+        </div>
+    </div>
+</body>
+</html>
