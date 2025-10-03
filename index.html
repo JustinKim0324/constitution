@@ -36,8 +36,102 @@
       overflow-x: hidden;
     }
 
-    body.modal-open {
-      overflow: hidden;
+    /* 메인 화면 */
+    .main-screen {
+      min-height: 100vh;
+      transition: opacity 0.3s ease;
+    }
+
+    .main-screen.hidden {
+      display: none;
+    }
+
+    /* 상세 화면 */
+    .detail-screen {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100vh;
+      background: white;
+      z-index: 3000;
+      transform: translateX(100%);
+      transition: transform 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+      overflow-y: auto;
+    }
+
+    .detail-screen.active {
+      transform: translateX(0);
+    }
+
+    .detail-screen.sliding-out {
+      transform: translateX(-100%);
+    }
+
+    .detail-header {
+      position: sticky;
+      top: 0;
+      background: linear-gradient(135deg, var(--primary), var(--primary-light));
+      color: white;
+      padding: 20px 30px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      z-index: 100;
+      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+    }
+
+    .detail-nav {
+      display: flex;
+      gap: 15px;
+      align-items: center;
+    }
+
+    .nav-btn {
+      background: rgba(255, 255, 255, 0.2);
+      border: none;
+      color: white;
+      padding: 10px 20px;
+      border-radius: 12px;
+      font-size: 0.95em;
+      font-weight: 600;
+      cursor: pointer;
+      font-family: 'Pretendard', sans-serif;
+      transition: all 0.3s ease;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .nav-btn:hover {
+      background: rgba(255, 255, 255, 0.3);
+      transform: translateY(-2px);
+    }
+
+    .nav-btn:disabled {
+      opacity: 0.4;
+      cursor: not-allowed;
+      transform: none;
+    }
+
+    .detail-title {
+      font-size: 1.3em;
+      font-weight: 700;
+      letter-spacing: -0.3px;
+    }
+
+    .detail-content {
+      padding: 0;
+      min-height: calc(100vh - 70px);
+    }
+
+    .detail-loading {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      min-height: calc(100vh - 70px);
+      font-size: 1.3em;
+      color: var(--text-secondary);
     }
 
     .hero {
@@ -364,7 +458,6 @@
       padding: 30px;
       box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
       transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
-      text-decoration: none;
       color: inherit;
       display: flex;
       flex-direction: column;
@@ -512,101 +605,6 @@
       border: 1px solid rgba(255, 255, 255, 0.1);
     }
 
-    /* 슬라이드 패널 스타일 */
-    .slide-panel {
-      position: fixed;
-      top: 0;
-      right: -100%;
-      width: 100%;
-      height: 100vh;
-      background: white;
-      z-index: 2000;
-      transition: right 0.5s cubic-bezier(0.4, 0, 0.2, 1);
-      overflow-y: auto;
-      box-shadow: -10px 0 50px rgba(0, 0, 0, 0.3);
-    }
-
-    .slide-panel.active {
-      right: 0;
-    }
-
-    .slide-panel-header {
-      position: sticky;
-      top: 0;
-      background: linear-gradient(135deg, var(--primary), var(--primary-light));
-      color: white;
-      padding: 25px 30px;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      z-index: 10;
-      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
-    }
-
-    .slide-panel-title {
-      font-size: 1.5em;
-      font-weight: 700;
-      letter-spacing: -0.3px;
-    }
-
-    .slide-panel-close {
-      background: rgba(255, 255, 255, 0.2);
-      border: none;
-      color: white;
-      width: 45px;
-      height: 45px;
-      border-radius: 50%;
-      font-size: 1.8em;
-      cursor: pointer;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      transition: all 0.3s ease;
-      line-height: 1;
-    }
-
-    .slide-panel-close:hover {
-      background: rgba(255, 255, 255, 0.3);
-      transform: rotate(90deg);
-    }
-
-    .slide-panel-body {
-      padding: 0;
-      min-height: calc(100vh - 80px);
-    }
-
-    .slide-panel-iframe {
-      width: 100%;
-      min-height: calc(100vh - 80px);
-      border: none;
-      display: block;
-    }
-
-    .slide-panel-loading {
-      text-align: center;
-      padding: 100px 20px;
-      color: var(--text-secondary);
-      font-size: 1.3em;
-    }
-
-    .slide-overlay {
-      position: fixed;
-      top: 0;
-      left: 0;
-      right: 0;
-      bottom: 0;
-      background: rgba(0, 0, 0, 0.5);
-      z-index: 1999;
-      opacity: 0;
-      visibility: hidden;
-      transition: all 0.5s ease;
-    }
-
-    .slide-overlay.active {
-      opacity: 1;
-      visibility: visible;
-    }
-
     @media (max-width: 768px) {
       .hero h1 {
         font-size: 2.5em;
@@ -637,8 +635,17 @@
         flex-direction: column;
       }
 
-      .slide-panel-title {
-        font-size: 1.2em;
+      .detail-header {
+        padding: 15px 20px;
+      }
+
+      .detail-title {
+        font-size: 1.1em;
+      }
+
+      .nav-btn {
+        padding: 8px 16px;
+        font-size: 0.85em;
       }
     }
 
@@ -659,69 +666,78 @@
   </style>
 </head>
 <body>
-  <div class="hero">
-    <div class="hero-content">
-      <div class="hero-badge">대한민국 헌법 제정 1948</div>
-      <h1>대한민국 헌법</h1>
-      <p class="subtitle">국민의 권리와 의무, 국가의 기본 원리를 명확하게 이해하세요</p>
+  <!-- 메인 화면 -->
+  <div class="main-screen" id="mainScreen">
+    <div class="hero">
+      <div class="hero-content">
+        <div class="hero-badge">대한민국 헌법 제정 1948</div>
+        <h1>대한민국 헌법</h1>
+        <p class="subtitle">국민의 권리와 의무, 국가의 기본 원리를 명확하게 이해하세요</p>
+        
+        <div class="search-container">
+          <input 
+            type="text" 
+            class="search-box" 
+            id="searchInput"
+            placeholder="조항 번호나 키워드로 검색하세요..."
+          >
+          <span class="search-icon">🔍</span>
+        </div>
+
+        <div class="stats-bar">
+          <div class="stat-item">
+            <span class="stat-number" id="totalCount">0</span>
+            <span class="stat-label">전체 조항</span>
+          </div>
+          <div class="stat-item">
+            <span class="stat-number" id="filteredCount">0</span>
+            <span class="stat-label">검색 결과</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="container">
+      <h2 class="section-title">카테고리별로 찾아보기</h2>
+      <p class="section-description">헌법 조항을 주제별로 쉽게 탐색하세요</p>
       
-      <div class="search-container">
-        <input 
-          type="text" 
-          class="search-box" 
-          id="searchInput"
-          placeholder="조항 번호나 키워드로 검색하세요..."
-        >
-        <span class="search-icon">🔍</span>
+      <div class="categories-grid" id="categoriesGrid">
+        <!-- 카테고리 카드들이 여기에 생성됩니다 -->
       </div>
 
-      <div class="stats-bar">
-        <div class="stat-item">
-          <span class="stat-number" id="totalCount">0</span>
-          <span class="stat-label">전체 조항</span>
+      <div class="articles-section" id="articlesSection">
+        <div id="filterInfo" style="display: none;"></div>
+        <div id="articlesGrid" class="articles-grid">
+          <div class="loading">헌법 조항을 불러오는 중...</div>
         </div>
-        <div class="stat-item">
-          <span class="stat-number" id="filteredCount">0</span>
-          <span class="stat-label">검색 결과</span>
+
+        <div class="pagination" id="pagination" style="display: none;">
+          <button class="page-btn" id="prevBtn">← 이전</button>
+          <div class="page-info" id="pageInfo">1 / 1</div>
+          <button class="page-btn" id="nextBtn">다음 →</button>
         </div>
       </div>
     </div>
   </div>
 
-  <div class="container">
-    <h2 class="section-title">카테고리별로 찾아보기</h2>
-    <p class="section-description">헌법 조항을 주제별로 쉽게 탐색하세요</p>
-    
-    <div class="categories-grid" id="categoriesGrid">
-      <!-- 카테고리 카드들이 여기에 생성됩니다 -->
-    </div>
-
-    <div class="articles-section" id="articlesSection">
-      <div id="filterInfo" style="display: none;"></div>
-      <div id="articlesGrid" class="articles-grid">
-        <div class="loading">헌법 조항을 불러오는 중...</div>
+  <!-- 상세 화면 -->
+  <div class="detail-screen" id="detailScreen">
+    <div class="detail-header">
+      <div class="detail-nav">
+        <button class="nav-btn" onclick="closeDetail()">
+          ← 목록으로
+        </button>
+        <button class="nav-btn" id="prevArticleBtn" onclick="navigateArticle('prev')">
+          ◀ 이전
+        </button>
+        <button class="nav-btn" id="nextArticleBtn" onclick="navigateArticle('next')">
+          다음 ▶
+        </button>
       </div>
-
-      <div class="pagination" id="pagination" style="display: none;">
-        <button class="page-btn" id="prevBtn">← 이전</button>
-        <div class="page-info" id="pageInfo">1 / 1</div>
-        <button class="page-btn" id="nextBtn">다음 →</button>
-      </div>
+      <div class="detail-title" id="detailTitle">조항 보기</div>
     </div>
-  </div>
-
-  <!-- 슬라이드 오버레이 -->
-  <div class="slide-overlay" id="slideOverlay" onclick="closeSlide()"></div>
-
-  <!-- 슬라이드 패널 -->
-  <div class="slide-panel" id="slidePanel">
-    <div class="slide-panel-header">
-      <div class="slide-panel-title" id="slideTitle">조항 보기</div>
-      <button class="slide-panel-close" onclick="closeSlide()">×</button>
-    </div>
-    <div class="slide-panel-body">
-      <div class="slide-panel-loading" id="slideLoading">인포그래픽을 불러오는 중...</div>
-      <iframe id="slideIframe" class="slide-panel-iframe" style="display: none;"></iframe>
+    <div class="detail-content" id="detailContent">
+      <div class="detail-loading">인포그래픽을 불러오는 중...</div>
     </div>
   </div>
 
@@ -747,6 +763,7 @@
     let filteredArticles = [];
     let currentPage = 1;
     let currentCategory = null;
+    let currentArticleIndex = -1;
     const contentCache = new Map();
 
     function getArticleNumber(filename) {
@@ -779,6 +796,20 @@
         return content;
       } catch (error) {
         return "";
+      }
+    }
+
+    async function fetchArticleFullContent(href) {
+      try {
+        const url = `https://${OWNER}.github.io/${REPO}/${href}`;
+        const response = await fetch(url);
+        if (!response.ok) return "<p>내용을 불러올 수 없습니다.</p>";
+        const html = await response.text();
+        const doc = new DOMParser().parseFromString(html, "text/html");
+        const container = doc.querySelector('.container') || doc.body;
+        return container.innerHTML;
+      } catch (error) {
+        return "<p>내용을 불러오는 중 오류가 발생했습니다.</p>";
       }
     }
 
@@ -820,205 +851,4 @@
       const categoriesHTML = CATEGORIES.map(cat => {
         const count = allArticles.filter(a => a.category === cat.name).length;
         return `
-          <div class="category-card fade-in" onclick="filterByCategory('${cat.name}')">
-            <div class="category-content">
-              <span class="category-icon">${cat.icon}</span>
-              <div class="category-name">${cat.name}</div>
-              <div class="category-description">${cat.desc}</div>
-              <div class="category-meta">
-                <span class="category-count">
-                  <span>${count}</span>
-                  <span>개 조항</span>
-                </span>
-                <span class="category-arrow">→</span>
-              </div>
-            </div>
-          </div>
-        `;
-      }).join('');
-      grid.innerHTML = categoriesHTML;
-    }
-
-    function filterByCategory(categoryName) {
-      currentCategory = categoryName;
-      filteredArticles = allArticles.filter(a => a.category === categoryName);
-      currentPage = 1;
-      
-      const filterInfo = document.getElementById('filterInfo');
-      filterInfo.style.display = 'flex';
-      filterInfo.innerHTML = `
-        <span><strong>${categoryName}</strong> 카테고리 (${filteredArticles.length}개)</span>
-        <button class="clear-filter" onclick="clearFilter()">✕ 전체 보기</button>
-      `;
-      
-      document.getElementById('articlesSection').scrollIntoView({ behavior: 'smooth' });
-      renderArticles();
-    }
-
-    function clearFilter() {
-      currentCategory = null;
-      filteredArticles = [...allArticles];
-      currentPage = 1;
-      document.getElementById('filterInfo').style.display = 'none';
-      document.getElementById('searchInput').value = '';
-      renderArticles();
-    }
-
-    function normalize(str) {
-      return (str || "").toString().toLowerCase().normalize('NFKD');
-    }
-
-    function searchArticles(query) {
-      const term = normalize(query);
-      if (!term) {
-        filteredArticles = currentCategory 
-          ? allArticles.filter(a => a.category === currentCategory)
-          : [...allArticles];
-      } else {
-        const baseArticles = currentCategory 
-          ? allArticles.filter(a => a.category === currentCategory)
-          : allArticles;
-        
-        filteredArticles = baseArticles.filter(article => {
-          const title = normalize(article.title);
-          return title.includes(term);
-        });
-      }
-      currentPage = 1;
-      renderArticles();
-    }
-
-    async function renderArticles() {
-      const grid = document.getElementById('articlesGrid');
-      const totalCount = document.getElementById('totalCount');
-      const filteredCount = document.getElementById('filteredCount');
-      const pagination = document.getElementById('pagination');
-      const pageInfo = document.getElementById('pageInfo');
-      const prevBtn = document.getElementById('prevBtn');
-      const nextBtn = document.getElementById('nextBtn');
-
-      totalCount.textContent = allArticles.length;
-      filteredCount.textContent = filteredArticles.length;
-
-      if (filteredArticles.length === 0) {
-        grid.innerHTML = '<div class="no-results">검색 결과가 없습니다</div>';
-        pagination.style.display = 'none';
-        return;
-      }
-
-      const start = (currentPage - 1) * PAGE_SIZE;
-      const end = start + PAGE_SIZE;
-      const pageArticles = filteredArticles.slice(start, end);
-
-      const cardsHTML = await Promise.all(
-        pageArticles.map(async article => {
-          let content = await fetchArticleContent(article.href);
-          if (content.length > 100) {
-            content = content.substring(0, 100) + '...';
-          }
-          return `
-            <div class="article-card fade-in" onclick="openSlide('${encodeURIComponent(article.href)}', '${escapeHtml(article.title)}')">
-              <span class="article-category-tag">${article.category}</span>
-              <div class="article-title">${escapeHtml(article.title)}</div>
-              <div class="article-preview">${escapeHtml(content || '내용을 불러오는 중...')}</div>
-              <div class="article-link">
-                <span class="article-link-text">자세히 보기</span>
-              </div>
-            </div>
-          `;
-        })
-      );
-
-      grid.innerHTML = cardsHTML.join('');
-
-      const totalPages = Math.ceil(filteredArticles.length / PAGE_SIZE);
-      pageInfo.textContent = `${currentPage} / ${totalPages}`;
-      prevBtn.disabled = currentPage <= 1;
-      nextBtn.disabled = currentPage >= totalPages;
-      pagination.style.display = 'flex';
-    }
-
-    function escapeHtml(str) {
-      const div = document.createElement('div');
-      div.textContent = str;
-      return div.innerHTML;
-    }
-
-    // 슬라이드 패널 함수들
-    function openSlide(href, title) {
-      const slidePanel = document.getElementById('slidePanel');
-      const slideOverlay = document.getElementById('slideOverlay');
-      const slideTitle = document.getElementById('slideTitle');
-      const slideIframe = document.getElementById('slideIframe');
-      const slideLoading = document.getElementById('slideLoading');
-      
-      slideTitle.textContent = decodeURIComponent(title);
-      slideIframe.style.display = 'none';
-      slideLoading.style.display = 'block';
-      
-      document.body.classList.add('modal-open');
-      slideOverlay.classList.add('active');
-      slidePanel.classList.add('active');
-      
-      const url = `https://${OWNER}.github.io/${REPO}/${decodeURIComponent(href)}`;
-      slideIframe.src = url;
-      
-      slideIframe.onload = function() {
-        slideLoading.style.display = 'none';
-        slideIframe.style.display = 'block';
-      };
-    }
-
-    function closeSlide() {
-      const slidePanel = document.getElementById('slidePanel');
-      const slideOverlay = document.getElementById('slideOverlay');
-      const slideIframe = document.getElementById('slideIframe');
-      
-      slidePanel.classList.remove('active');
-      slideOverlay.classList.remove('active');
-      document.body.classList.remove('modal-open');
-      
-      setTimeout(() => {
-        slideIframe.src = '';
-      }, 500);
-    }
-
-    // ESC 키로 슬라이드 닫기
-    document.addEventListener('keydown', function(e) {
-      if (e.key === 'Escape') {
-        closeSlide();
-      }
-    });
-
-    document.getElementById('searchInput').addEventListener('input', (e) => {
-      searchArticles(e.target.value);
-    });
-
-    document.getElementById('prevBtn').addEventListener('click', () => {
-      if (currentPage > 1) {
-        currentPage--;
-        renderArticles();
-        window.scrollTo({ top: 0, behavior: 'smooth' });
-      }
-    });
-
-    document.getElementById('nextBtn').addEventListener('click', () => {
-      const totalPages = Math.ceil(filteredArticles.length / PAGE_SIZE);
-      if (currentPage < totalPages) {
-        currentPage++;
-        renderArticles();
-        window.scrollTo({ top: 0, behavior: 'smooth' });
-      }
-    });
-
-    async function init() {
-      allArticles = await fetchAllArticles();
-      filteredArticles = [...allArticles];
-      renderCategories();
-      renderArticles();
-    }
-
-    init();
-  </script>
-</body>
-</html>
+          <div class="category-card fade-in" onclick="filterByCategory('${cat.name}
