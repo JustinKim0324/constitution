@@ -832,4 +832,27 @@
       if (currentPage > 1) {
         currentPage--;
         renderArticles();
-        window.scrollTo({ top: 0, behavior: 'smooth'
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+      }
+    });
+
+    document.getElementById('nextBtn').addEventListener('click', () => {
+      const totalPages = Math.ceil(filteredArticles.length / PAGE_SIZE);
+      if (currentPage < totalPages) {
+        currentPage++;
+        renderArticles();
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+      }
+    });
+
+    async function init() {
+      allArticles = await fetchAllArticles();
+      filteredArticles = [...allArticles];
+      renderCategories();
+      renderArticles();
+    }
+
+    init();
+  </script>
+</body>
+</html>
