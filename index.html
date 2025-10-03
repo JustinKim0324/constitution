@@ -851,4 +851,236 @@
       const categoriesHTML = CATEGORIES.map(cat => {
         const count = allArticles.filter(a => a.category === cat.name).length;
         return `
-          <div class="category-card fade-in" onclick="filterByCategory('${cat.name}
+          <div class="category-card fade-in" onclick="filterByCategory('${cat.name}')">
+            <div class="category-content">
+              <span class="category-icon">${cat.icon}</span>
+              <div class="category-name">${cat.name}</div>
+              <div class="category-description">${cat.desc}</div>
+              <div class="category-meta">
+                <span class="category-count">
+                  <span>${count}</span>
+                  <span>개 조항</span>
+                </span>
+                <span class="category-arrow">→</span>
+              </div>
+            </div>
+          </div>
+        `;
+      }).join('');
+      grid.innerHTML = categoriesHTML;
+    }
+
+    function filterByCategory(categoryName) {
+      currentCategory = categoryName;
+      filteredArticles = allArticles.filter(a => a.category === categoryName);
+      currentPage = 1;
+      
+      const filterInfo = document.getElementById('filterInfo');
+      filterInfo.style.display = 'flex';
+      filterInfo.innerHTML = `
+        <span><strong>${categoryName}</strong> 카테고리 (${filteredArticles.length}개)</span>
+        <button class="clear-filter" onclick="clearFilter()">✕ 전체 보기</button>
+      `;
+      
+      document.getElementById('articlesSection').scrollIntoView({ behavior: 'smooth' });
+      renderArticles();
+    }
+
+    function clearFilter() {
+      currentCategory = null;
+      filteredArticles = [...allArticles];
+      currentPage = 1;
+      document.getElementById('filterInfo').style.display = 'none';
+      document.getElementById('searchInput').value = '';
+      renderArticles();
+    }
+
+    function normalize(str) {
+      return (str || "").toString().toLowerCase().normalize('NFKD');
+    }
+
+    function searchArticles(query) {
+      const term = normalize(query);
+      if (!term) {
+        filteredArticles = currentCategory 
+          ? allArticles.filter(a => a.category === currentCategory)
+          : [...allArticles];
+      } else {
+        const baseArticles = currentCategory 
+          ? allArticles.filter(a => a.category === currentCategory)
+          : allArticles;
+        
+        filteredArticles = baseArticles.filter(article => {
+          const title = normalize(article.title);
+          return title.includes(term);
+        });
+      }
+      currentPage = 1;
+      renderArticles();
+    }
+
+    async function renderArticles() {
+      const grid = document.getElementById('articlesGrid');
+      const totalCount = document.getElementById('totalCount');
+      const filteredCount = document.getElementById('filteredCount');
+      const pagination = document.getElementById('pagination');
+      const pageInfo = document.getElementById('pageInfo');
+      const prevBtn = document.getElementById('prevBtn');
+      const nextBtn = document.getElementById('nextBtn');
+
+      totalCount.textContent = allArticles.length;
+      filteredCount.textContent = filteredArticles.length;
+
+      if (filteredArticles.length === 0) {
+        grid.innerHTML = '<div class="no-results">검색 결과가 없습니다</div>';
+        pagination.style.display = 'none';
+        return;
+      }
+
+      const start = (currentPage - 1) * PAGE_SIZE;
+      const end = start + PAGE_SIZE;
+      const pageArticles = filteredArticles.slice(start, end);
+
+      const cardsHTML = await Promise.all(
+        pageArticles.map(async (article, index) => {
+          let content = await fetchArticleContent(article.href);
+          if (content.length > 100) {
+            content = content.substring(0, 100) + '...';
+          }
+          const globalIndex = allArticles.findIndex(a => a.href === article.href);
+          return `
+            <div class="article-card fade-in" onclick="openDetail(${globalIndex})">
+              <span class="article-category-tag">${article.category}</span>
+              <div class="article-title">${escapeHtml(article.title)}</div>
+              <div class="article-preview">${escapeHtml(content || '내용을 불러오는 중...')}</div>
+              <div class="article-link">
+                <span class="article-link-text">자세히 보기</span>
+              </div>
+            </div>
+          `;
+        })
+      );
+
+      grid.innerHTML = cardsHTML.join('');
+
+      const totalPages = Math.ceil(filteredArticles.length / PAGE_SIZE);
+      pageInfo.textContent = `${currentPage} / ${totalPages}`;
+      prevBtn.disabled = currentPage <= 1;
+      nextBtn.disabled = currentPage >= totalPages;
+      pagination.style.display = 'flex';
+    }
+
+    function escapeHtml(str) {
+      const div = document.createElement('div');
+      div.textContent = str;
+      return div.innerHTML;
+    }
+
+    // 상세 화면 열기
+    async function openDetail(index) {
+      currentArticleIndex = index;
+      const article = allArticles[index];
+      
+      const detailScreen = document.getElementById('detailScreen');
+      const detailTitle = document.getElementById('detailTitle');
+      const detailContent = document.getElementById('detailContent');
+      const prevArticleBtn = document.getElementById('prevArticleBtn');
+      const nextArticleBtn = document.getElementById('nextArticleBtn');
+      
+      detailTitle.textContent = article.title;
+      detailContent.innerHTML = '<div class="detail-loading">인포그래픽을 불러오는 중...</div>';
+      
+      // 이전/다음 버튼 상태
+      prevArticleBtn.disabled = index <= 0;
+      nextArticleBtn.disabled = index >= allArticles.length - 1;
+      
+      // 슬라이드 애니메이션
+      detailScreen.classList.add('active');
+      
+      // 내용 로드
+      const content = await fetchArticleFullContent(article.href);
+      detailContent.innerHTML = content;
+      detailContent.scrollTop = 0;
+    }
+
+    // 상세 화면 닫기
+    function closeDetail() {
+      const detailScreen = document.getElementById('detailScreen');
+      detailScreen.classList.remove('active');
+    }
+
+    // 이전/다음 조항으로 이동
+    async function navigateArticle(direction) {
+      const detailScreen = document.getElementById('detailScreen');
+      
+      // 슬라이드 아웃 애니메이션
+      if (direction === 'prev') {
+        detailScreen.classList.add('sliding-out');
+      }
+      
+      setTimeout(async () => {
+        detailScreen.classList.remove('sliding-out');
+        
+        if (direction === 'prev' && currentArticleIndex > 0) {
+          currentArticleIndex--;
+        } else if (direction === 'next' && currentArticleIndex < allArticles.length - 1) {
+          currentArticleIndex++;
+        }
+        
+        const article = allArticles[currentArticleIndex];
+        const detailTitle = document.getElementById('detailTitle');
+        const detailContent = document.getElementById('detailContent');
+        const prevArticleBtn = document.getElementById('prevArticleBtn');
+        const nextArticleBtn = document.getElementById('nextArticleBtn');
+        
+        detailTitle.textContent = article.title;
+        detailContent.innerHTML = '<div class="detail-loading">인포그래픽을 불러오는 중...</div>';
+        
+        prevArticleBtn.disabled = currentArticleIndex <= 0;
+        nextArticleBtn.disabled = currentArticleIndex >= allArticles.length - 1;
+        
+        const content = await fetchArticleFullContent(article.href);
+        detailContent.innerHTML = content;
+        detailContent.scrollTop = 0;
+      }, direction === 'prev' ? 300 : 0);
+    }
+
+    // ESC 키로 상세 화면 닫기
+    document.addEventListener('keydown', function(e) {
+      if (e.key === 'Escape') {
+        closeDetail();
+      }
+    });
+
+    document.getElementById('searchInput').addEventListener('input', (e) => {
+      searchArticles(e.target.value);
+    });
+
+    document.getElementById('prevBtn').addEventListener('click', () => {
+      if (currentPage > 1) {
+        currentPage--;
+        renderArticles();
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+      }
+    });
+
+    document.getElementById('nextBtn').addEventListener('click', () => {
+      const totalPages = Math.ceil(filteredArticles.length / PAGE_SIZE);
+      if (currentPage < totalPages) {
+        currentPage++;
+        renderArticles();
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+      }
+    });
+
+    async function init() {
+      allArticles = await fetchAllArticles();
+      filteredArticles = [...allArticles];
+      renderCategories();
+      renderArticles();
+    }
+
+    init();
+  </script>
+</body>
+</html>
