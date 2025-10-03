@@ -33,6 +33,11 @@
       min-height: 100vh;
       color: var(--text-primary);
       line-height: 1.7;
+      overflow-x: hidden;
+    }
+
+    body.modal-open {
+      overflow: hidden;
     }
 
     .hero {
@@ -366,6 +371,7 @@
       border: 1px solid rgba(30, 58, 138, 0.06);
       position: relative;
       overflow: hidden;
+      cursor: pointer;
     }
 
     .article-card::before {
@@ -506,6 +512,103 @@
       border: 1px solid rgba(255, 255, 255, 0.1);
     }
 
+    /* 모달 스타일 */
+    .modal-overlay {
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background: rgba(0, 0, 0, 0.8);
+      backdrop-filter: blur(5px);
+      z-index: 1000;
+      display: none;
+      opacity: 0;
+      transition: opacity 0.3s ease;
+    }
+
+    .modal-overlay.active {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      opacity: 1;
+    }
+
+    .modal-content {
+      background: white;
+      border-radius: 24px;
+      max-width: 1200px;
+      width: 90%;
+      max-height: 90vh;
+      overflow-y: auto;
+      position: relative;
+      box-shadow: 0 25px 100px rgba(0, 0, 0, 0.5);
+      transform: scale(0.9) translateY(30px);
+      transition: transform 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+
+    .modal-overlay.active .modal-content {
+      transform: scale(1) translateY(0);
+    }
+
+    .modal-header {
+      position: sticky;
+      top: 0;
+      background: linear-gradient(135deg, var(--primary), var(--primary-light));
+      color: white;
+      padding: 25px 30px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      border-radius: 24px 24px 0 0;
+      z-index: 10;
+      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+    }
+
+    .modal-title {
+      font-size: 1.5em;
+      font-weight: 700;
+      letter-spacing: -0.3px;
+    }
+
+    .modal-close {
+      background: rgba(255, 255, 255, 0.2);
+      border: none;
+      color: white;
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+      font-size: 1.5em;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: all 0.3s ease;
+    }
+
+    .modal-close:hover {
+      background: rgba(255, 255, 255, 0.3);
+      transform: rotate(90deg);
+    }
+
+    .modal-body {
+      padding: 0;
+    }
+
+    .modal-iframe {
+      width: 100%;
+      min-height: 70vh;
+      border: none;
+      display: block;
+    }
+
+    .modal-loading {
+      text-align: center;
+      padding: 100px 20px;
+      color: var(--text-secondary);
+      font-size: 1.2em;
+    }
+
     @media (max-width: 768px) {
       .hero h1 {
         font-size: 2.5em;
@@ -535,6 +638,20 @@
       .filter-info {
         flex-direction: column;
       }
+
+      .modal-content {
+        width: 95%;
+        max-height: 95vh;
+        border-radius: 16px;
+      }
+
+      .modal-header {
+        border-radius: 16px 16px 0 0;
+      }
+
+      .modal-title {
+        font-size: 1.2em;
+      }
     }
 
     @keyframes fadeInUp {
@@ -550,6 +667,24 @@
 
     .fade-in {
       animation: fadeInUp 0.6s ease-out;
+    }
+
+    /* 스크롤바 스타일 */
+    .modal-content::-webkit-scrollbar {
+      width: 10px;
+    }
+
+    .modal-content::-webkit-scrollbar-track {
+      background: #f1f1f1;
+    }
+
+    .modal-content::-webkit-scrollbar-thumb {
+      background: var(--primary);
+      border-radius: 5px;
+    }
+
+    .modal-content::-webkit-scrollbar-thumb:hover {
+      background: var(--primary-light);
     }
   </style>
 </head>
@@ -601,6 +736,20 @@
         <button class="page-btn" id="prevBtn">← 이전</button>
         <div class="page-info" id="pageInfo">1 / 1</div>
         <button class="page-btn" id="nextBtn">다음 →</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- 모달 -->
+  <div class="modal-overlay" id="modalOverlay">
+    <div class="modal-content">
+      <div class="modal-header">
+        <div class="modal-title" id="modalTitle">조항 보기</div>
+        <button class="modal-close" onclick="closeModal()">×</button>
+      </div>
+      <div class="modal-body">
+        <div class="modal-loading" id="modalLoading">인포그래픽을 불러오는 중...</div>
+        <iframe id="modalIframe" class="modal-iframe" style="display: none;"></iframe>
       </div>
     </div>
   </div>
@@ -797,14 +946,14 @@
             content = content.substring(0, 100) + '...';
           }
           return `
-            <a href="${encodeURI(article.href)}" class="article-card fade-in">
+            <div class="article-card fade-in" onclick="openModal('${encodeURIComponent(article.href)}', '${escapeHtml(article.title)}')">
               <span class="article-category-tag">${article.category}</span>
               <div class="article-title">${escapeHtml(article.title)}</div>
               <div class="article-preview">${escapeHtml(content || '내용을 불러오는 중...')}</div>
               <div class="article-link">
                 <span class="article-link-text">자세히 보기</span>
               </div>
-            </a>
+            </div>
           `;
         })
       );
@@ -823,6 +972,55 @@
       div.textContent = str;
       return div.innerHTML;
     }
+
+    // 모달 함수들
+    function openModal(href, title) {
+      const modal = document.getElementById('modalOverlay');
+      const modalTitle = document.getElementById('modalTitle');
+      const modalIframe = document.getElementById('modalIframe');
+      const modalLoading = document.getElementById('modalLoading');
+      
+      modalTitle.textContent = decodeURIComponent(title);
+      modalIframe.style.display = 'none';
+      modalLoading.style.display = 'block';
+      
+      document.body.classList.add('modal-open');
+      modal.classList.add('active');
+      
+      const url = `https://${OWNER}.github.io/${REPO}/${decodeURIComponent(href)}`;
+      modalIframe.src = url;
+      
+      modalIframe.onload = function() {
+        modalLoading.style.display = 'none';
+        modalIframe.style.display = 'block';
+      };
+    }
+
+    function closeModal() {
+      const modal = document.getElementById('modalOverlay');
+      const modalIframe = document.getElementById('modalIframe');
+      
+      modal.classList.remove('active');
+      document.body.classList.remove('modal-open');
+      
+      setTimeout(() => {
+        modalIframe.src = '';
+      }, 300);
+    }
+
+    // 모달 배경 클릭 시 닫기
+    document.getElementById('modalOverlay').addEventListener('click', function(e) {
+      if (e.target === this) {
+        closeModal();
+      }
+    });
+
+    // ESC 키로 모달 닫기
+    document.addEventListener('keydown', function(e) {
+      if (e.key === 'Escape') {
+        closeModal();
+      }
+    });
 
     document.getElementById('searchInput').addEventListener('input', (e) => {
       searchArticles(e.target.value);
