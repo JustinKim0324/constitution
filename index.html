@@ -1038,29 +1038,22 @@
     }
 
     // 이전/다음 조항으로 이동
-    function navigateArticle(direction) {
-      if (direction === 'prev' && currentArticleIndex <= 0) return;
-      if (direction === 'next' && currentArticleIndex >= allArticles.length - 1) return;
-      
+    async function navigateArticle(direction) {
       const detailScreen = document.getElementById('detailScreen');
       const detailIframe = document.getElementById('detailIframe');
       const detailLoading = document.getElementById('detailLoading');
       
       // 슬라이드 아웃 애니메이션
       if (direction === 'prev') {
-        detailScreen.classList.add('sliding-right');
-      } else {
-        detailScreen.classList.add('sliding-left');
+        detailScreen.classList.add('sliding-out');
       }
       
-      setTimeout(() => {
-        // 클래스 초기화
-        detailScreen.classList.remove('sliding-right', 'sliding-left', 'active');
+      setTimeout(async () => {
+        detailScreen.classList.remove('sliding-out');
         
-        // 인덱스 변경
-        if (direction === 'prev') {
+        if (direction === 'prev' && currentArticleIndex > 0) {
           currentArticleIndex--;
-        } else {
+        } else if (direction === 'next' && currentArticleIndex < allArticles.length - 1) {
           currentArticleIndex++;
         }
         
@@ -1076,19 +1069,6 @@
         prevArticleBtn.disabled = currentArticleIndex <= 0;
         nextArticleBtn.disabled = currentArticleIndex >= allArticles.length - 1;
         
-        // 반대 방향에서 슬라이드 인
-        if (direction === 'prev') {
-          detailScreen.style.transform = 'translateX(-100%)';
-        } else {
-          detailScreen.style.transform = 'translateX(100%)';
-        }
-        
-        // 다음 프레임에서 active 클래스 추가
-        requestAnimationFrame(() => {
-          detailScreen.classList.add('active');
-          detailScreen.style.transform = '';
-        });
-        
         const url = `https://${OWNER}.github.io/${REPO}/${article.href}`;
         detailIframe.src = url;
         
@@ -1096,7 +1076,7 @@
           detailLoading.style.display = 'none';
           detailIframe.style.display = 'block';
         };
-      }, 600);
+      }, direction === 'prev' ? 300 : 0);
     }
 
     // ESC 키로 상세 화면 닫기
