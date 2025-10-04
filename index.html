@@ -3,10 +3,42 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>대한민국 헌법 인포그래픽</title>
+  <title>대한민국 헌법 인포그래픽 | 130개 조항 시각화 웹사이트</title>
+  
+  <!-- SEO Meta Tags -->
+  <meta name="description" content="대한민국 헌법 130개 조항을 카테고리별로 정리하고 시각화한 인터랙티브 웹사이트. 총강, 국민의 권리와 의무, 국회, 정부 등 10개 주제로 분류된 헌법 조항을 쉽게 검색하고 학습할 수 있습니다.">
+  <meta name="keywords" content="대한민국 헌법, 헌법 조항, 헌법 인포그래픽, 헌법 교육, 시민 교육, 법률 정보, 헌법 제1조, 기본권, 국회, 정부, 사법부, 헌법재판소">
+  <meta name="author" content="JustinKim0324">
+  <meta name="robots" content="index, follow">
+  <meta name="language" content="Korean">
+  <meta name="revisit-after" content="7 days">
+  
+  <!-- Open Graph Meta Tags -->
+  <meta property="og:title" content="대한민국 헌법 인포그래픽 | 130개 조항 시각화">
+  <meta property="og:description" content="대한민국 헌법의 모든 조항을 시각적으로 이해하기 쉽게 정리한 교육용 웹사이트. 카테고리별 분류와 실시간 검색 기능 제공.">
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://justinkim0324.github.io/constitution/">
+  <meta property="og:site_name" content="대한민국 헌법 인포그래픽">
+  <meta property="og:locale" content="ko_KR">
+  
+  <!-- Twitter Card Meta Tags -->
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="대한민국 헌법 인포그래픽 | 130개 조항 시각화">
+  <meta name="twitter:description" content="대한민국 헌법 130개 조항을 체계적으로 정리하고 시각화한 인터랙티브 웹사이트">
+  
+  <!-- Canonical URL -->
+  <link rel="canonical" href="https://justinkim0324.github.io/constitution/">
+  
+  <!-- Favicon -->
+  <link rel="icon" type="image/x-icon" href="/favicon.ico">
+  
+  <!-- Additional SEO -->
+  <meta name="theme-color" content="#1e3a8a">
+  <meta name="application-name" content="대한민국 헌법">
+  <meta name="msapplication-TileColor" content="#1e3a8a">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+KR:wght@400;600;700;900&family=Pretendard:wght@300;400;600;700;800&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;500;600;700;800;900&family=Noto+Serif+KR:wght@400;600;700;900&display=swap" rel="stylesheet">
   <style>
     * {
       margin: 0;
@@ -22,13 +54,13 @@
       --bg-gradient-start: #0f172a;
       --bg-gradient-end: #1e293b;
       --card-bg: #ffffff;
-      --text-primary: #1e293b;
-      --text-secondary: #64748b;
-      --text-light: #94a3b8;
+      --text-primary: #1a202c;
+      --text-secondary: #2d3748;
+      --text-light: #4a5568;
     }
 
     body {
-      font-family: 'Pretendard', -apple-system, BlinkMacSystemFont, system-ui, Roboto, sans-serif;
+      font-family: 'Noto Sans KR', -apple-system, BlinkMacSystemFont, system-ui, sans-serif;
       background: linear-gradient(to bottom, var(--bg-gradient-start), var(--bg-gradient-end));
       min-height: 100vh;
       color: var(--text-primary);
@@ -76,6 +108,14 @@
       transform: translateX(100%);
     }
 
+    .detail-screen.slide-in-left {
+      transform: translateX(-100%);
+    }
+
+    .detail-screen.slide-in-right {
+      transform: translateX(100%);
+    }
+
     .detail-header {
       position: sticky;
       top: 0;
@@ -104,7 +144,7 @@
       font-size: 0.95em;
       font-weight: 600;
       cursor: pointer;
-      font-family: 'Pretendard', sans-serif;
+      font-family: 'Noto Sans KR', sans-serif;
       transition: all 0.3s ease;
       display: flex;
       align-items: center;
@@ -234,7 +274,7 @@
       background: rgba(255, 255, 255, 0.95);
       backdrop-filter: blur(10px);
       box-shadow: 0 10px 40px rgba(0, 0, 0, 0.2);
-      font-family: 'Pretendard', sans-serif;
+      font-family: 'Noto Sans KR', sans-serif;
       transition: all 0.3s ease;
     }
 
@@ -291,6 +331,7 @@
     }
 
     .section-title {
+      font-family: 'Noto Sans KR', sans-serif;
       color: white;
       font-size: 2.2em;
       font-weight: 800;
@@ -315,15 +356,17 @@
     }
 
     .category-card {
-      background: var(--card-bg);
-      border-radius: 24px;
-      padding: 35px 30px;
-      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
-      transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+      background: linear-gradient(145deg, #ffffff 0%, #fafbff 100%);
+      border-radius: 20px;
+      padding: 32px 28px;
+      box-shadow: 
+        0 4px 24px rgba(30, 58, 138, 0.08),
+        0 1px 4px rgba(0, 0, 0, 0.04);
+      transition: all 0.3s cubic-bezier(0.2, 0, 0.2, 1);
       cursor: pointer;
       position: relative;
       overflow: hidden;
-      border: 1px solid rgba(30, 58, 138, 0.08);
+      border: 1px solid rgba(30, 58, 138, 0.06);
     }
 
     .category-card::before {
@@ -331,95 +374,113 @@
       position: absolute;
       top: 0;
       left: 0;
-      right: 0;
-      height: 5px;
-      background: linear-gradient(90deg, var(--primary), var(--primary-light));
-      transform: scaleX(0);
-      transform-origin: left;
-      transition: transform 0.4s cubic-bezier(0.4, 0, 0.2, 1);
-    }
-
-    .category-card::after {
-      content: '';
-      position: absolute;
-      top: 0;
-      left: 0;
-      right: 0;
-      bottom: 0;
-      background: linear-gradient(135deg, rgba(30, 58, 138, 0.03), rgba(59, 130, 246, 0.03));
-      opacity: 0;
-      transition: opacity 0.4s ease;
+      width: 4px;
+      height: 100%;
+      background: linear-gradient(180deg, var(--primary), var(--primary-light));
+      transform: scaleY(0);
+      transform-origin: top;
+      transition: transform 0.3s ease;
     }
 
     .category-card:hover {
-      transform: translateY(-12px);
-      box-shadow: 0 20px 50px rgba(30, 58, 138, 0.15);
-      border-color: rgba(30, 58, 138, 0.2);
+      transform: translateY(-8px);
+      box-shadow: 
+        0 12px 40px rgba(30, 58, 138, 0.15),
+        0 4px 16px rgba(0, 0, 0, 0.08);
+      border-color: rgba(30, 58, 138, 0.12);
     }
 
     .category-card:hover::before {
-      transform: scaleX(1);
-    }
-
-    .category-card:hover::after {
-      opacity: 1;
+      transform: scaleY(1);
     }
 
     .category-content {
       position: relative;
       z-index: 1;
+      height: 100%;
+      display: flex;
+      flex-direction: column;
     }
 
     .category-icon {
-      font-size: 3.2em;
+      font-size: 2.8em;
+      width: 64px;
+      height: 64px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: linear-gradient(135deg, rgba(30, 58, 138, 0.08), rgba(59, 130, 246, 0.06));
+      border-radius: 16px;
       margin-bottom: 20px;
-      display: block;
-      filter: grayscale(0.2);
+      transition: all 0.3s ease;
+      color: var(--primary);
+    }
+
+    .category-card:hover .category-icon {
+      background: linear-gradient(135deg, rgba(30, 58, 138, 0.12), rgba(59, 130, 246, 0.08));
+      transform: scale(1.05);
     }
 
     .category-name {
-      font-size: 1.5em;
-      font-weight: 700;
+      font-family: 'Noto Sans KR', sans-serif;
+      font-size: 1.4em;
+      font-weight: 800;
       color: var(--text-primary);
-      margin-bottom: 10px;
-      letter-spacing: -0.3px;
+      margin-bottom: 6px;
+      letter-spacing: -0.2px;
+    }
+
+    .category-subtitle {
+      font-family: 'Noto Sans KR', sans-serif;
+      font-size: 0.85em;
+      color: var(--primary);
+      font-weight: 700;
+      margin-bottom: 16px;
     }
 
     .category-description {
       font-size: 0.95em;
       color: var(--text-secondary);
-      margin-bottom: 18px;
+      margin-bottom: 20px;
       line-height: 1.6;
+      font-weight: 500;
+      flex-grow: 1;
     }
 
     .category-meta {
       display: flex;
       align-items: center;
       justify-content: space-between;
-      padding-top: 15px;
-      border-top: 1px solid rgba(30, 58, 138, 0.08);
+      margin-top: auto;
     }
 
     .category-count {
       display: inline-flex;
       align-items: center;
       gap: 6px;
-      background: linear-gradient(135deg, rgba(30, 58, 138, 0.08), rgba(59, 130, 246, 0.08));
+      background: rgba(30, 58, 138, 0.08);
       color: var(--primary);
-      padding: 8px 16px;
+      padding: 8px 14px;
       border-radius: 12px;
       font-size: 0.9em;
       font-weight: 700;
+      transition: all 0.3s ease;
+    }
+
+    .category-card:hover .category-count {
+      background: rgba(30, 58, 138, 0.1);
     }
 
     .category-arrow {
       color: var(--primary);
-      font-size: 1.3em;
+      font-size: 1.2em;
       transition: transform 0.3s ease;
+      opacity: 0.7;
     }
 
     .category-card:hover .category-arrow {
-      transform: translateX(5px);
+      transform: translateX(4px);
+      opacity: 1;
     }
 
     .articles-section {
@@ -454,7 +515,7 @@
       padding: 10px 24px;
       border-radius: 12px;
       cursor: pointer;
-      font-family: 'Pretendard', sans-serif;
+      font-family: 'Noto Sans KR', sans-serif;
       font-weight: 700;
       font-size: 0.9em;
       transition: all 0.3s ease;
@@ -475,14 +536,14 @@
 
     .article-card {
       background: white;
-      border-radius: 20px;
-      padding: 30px;
-      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
-      transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+      border-radius: 18px;
+      padding: 28px;
+      box-shadow: 0 3px 20px rgba(30, 58, 138, 0.06);
+      transition: all 0.3s cubic-bezier(0.2, 0, 0.2, 1);
       color: inherit;
       display: flex;
       flex-direction: column;
-      border: 1px solid rgba(30, 58, 138, 0.06);
+      border: 1px solid rgba(30, 58, 138, 0.05);
       position: relative;
       overflow: hidden;
       cursor: pointer;
@@ -494,17 +555,17 @@
       left: 0;
       top: 0;
       bottom: 0;
-      width: 5px;
-      background: linear-gradient(180deg, var(--primary), var(--primary-light));
+      width: 3px;
+      background: var(--primary);
       transform: scaleY(0);
       transform-origin: bottom;
-      transition: transform 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+      transition: transform 0.3s ease;
     }
 
     .article-card:hover {
-      transform: translateY(-10px);
-      box-shadow: 0 20px 50px rgba(30, 58, 138, 0.12);
-      border-color: rgba(30, 58, 138, 0.15);
+      transform: translateY(-6px);
+      box-shadow: 0 8px 32px rgba(30, 58, 138, 0.12);
+      border-color: rgba(30, 58, 138, 0.1);
     }
 
     .article-card:hover::before {
@@ -513,19 +574,20 @@
 
     .article-category-tag {
       display: inline-block;
-      background: linear-gradient(135deg, rgba(30, 58, 138, 0.08), rgba(59, 130, 246, 0.08));
+      background: rgba(30, 58, 138, 0.1);
       color: var(--primary);
-      padding: 6px 14px;
-      border-radius: 10px;
+      padding: 6px 12px;
+      border-radius: 8px;
       font-size: 0.8em;
       font-weight: 700;
-      margin-bottom: 18px;
-      letter-spacing: 0.3px;
+      margin-bottom: 16px;
+      letter-spacing: 0.2px;
     }
 
     .article-title {
+      font-family: 'Noto Sans KR', sans-serif;
       font-size: 1.4em;
-      font-weight: 700;
+      font-weight: 800;
       color: var(--text-primary);
       margin-bottom: 15px;
       line-height: 1.4;
@@ -538,6 +600,7 @@
       line-height: 1.7;
       margin-bottom: 20px;
       flex-grow: 1;
+      font-weight: 500;
     }
 
     .article-link {
@@ -548,18 +611,20 @@
       font-weight: 700;
       font-size: 0.95em;
       margin-top: auto;
-      padding-top: 20px;
-      border-top: 1px solid rgba(30, 58, 138, 0.08);
+      padding-top: 16px;
+      border-top: 1px solid rgba(30, 58, 138, 0.1);
     }
 
     .article-link::after {
       content: '→';
-      font-size: 1.4em;
+      font-size: 1.2em;
       transition: transform 0.3s ease;
+      opacity: 0.7;
     }
 
     .article-card:hover .article-link::after {
-      transform: translateX(5px);
+      transform: translateX(4px);
+      opacity: 1;
     }
 
     .pagination {
@@ -579,7 +644,7 @@
       font-weight: 700;
       cursor: pointer;
       transition: all 0.3s ease;
-      font-family: 'Pretendard', sans-serif;
+      font-family: 'Noto Sans KR', sans-serif;
       box-shadow: 0 4px 15px rgba(0, 0, 0, 0.08);
       color: var(--text-primary);
     }
@@ -713,7 +778,22 @@
     </div>
 
     <div class="container">
-      <h2 class="section-title">카테고리별로 찾아보기</h2>
+      <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px;">
+        <h2 class="section-title" style="margin-bottom: 0;">카테고리별로 찾아보기</h2>
+        <button onclick="filterFavorites()" style="
+          background: rgba(245, 158, 11, 0.1);
+          border: 1px solid rgba(245, 158, 11, 0.3);
+          color: #f59e0b;
+          padding: 12px 20px;
+          border-radius: 12px;
+          font-family: 'Noto Sans KR', sans-serif;
+          font-weight: 600;
+          cursor: pointer;
+          transition: all 0.3s ease;
+        " onmouseover="this.style.background='rgba(245, 158, 11, 0.2)'" onmouseout="this.style.background='rgba(245, 158, 11, 0.1)'">
+          ★ 즐겨찾기 (<span id="favoriteCount">0</span>)
+        </button>
+      </div>
       <p class="section-description">헌법 조항을 주제별로 쉽게 탐색하세요</p>
       
       <div class="categories-grid" id="categoriesGrid">
@@ -741,6 +821,9 @@
       <div class="detail-nav">
         <button class="nav-btn" onclick="closeDetail()">
           ← 목록으로
+        </button>
+        <button class="nav-btn" id="favoriteBtn" onclick="toggleFavoriteFromDetail()">
+          ☆ 즐겨찾기
         </button>
         <button class="nav-btn" id="prevArticleBtn" onclick="navigateArticle('prev')">
           ◀ 이전
@@ -781,6 +864,68 @@
     let currentCategory = null;
     let currentArticleIndex = -1;
     const contentCache = new Map();
+    let favorites = new Set();
+
+    // 즐겨찾기 로드
+    function loadFavorites() {
+      const saved = localStorage.getItem('constitution-favorites');
+      if (saved) {
+        favorites = new Set(JSON.parse(saved));
+      }
+    }
+
+    // 즐겨찾기 저장
+    function saveFavorites() {
+      localStorage.setItem('constitution-favorites', JSON.stringify([...favorites]));
+    }
+
+    // 즐겨찾기 토글
+    function toggleFavorite(articleHref, event) {
+      if (event) {
+        event.stopPropagation();
+      }
+      
+      if (favorites.has(articleHref)) {
+        favorites.delete(articleHref);
+      } else {
+        favorites.add(articleHref);
+      }
+      saveFavorites();
+      
+      // UI 업데이트
+      renderArticles();
+      updateFavoriteButton(articleHref);
+    }
+
+    // 즐겨찾기 버튼 상태 업데이트
+    function updateFavoriteButton(articleHref) {
+      const detailScreen = document.getElementById('detailScreen');
+      if (detailScreen.classList.contains('show')) {
+        const favoriteBtn = document.getElementById('favoriteBtn');
+        if (favoriteBtn) {
+          const isFavorited = favorites.has(articleHref);
+          favoriteBtn.innerHTML = isFavorited ? '★ 즐겨찾기 해제' : '☆ 즐겨찾기';
+          favoriteBtn.style.color = isFavorited ? '#f59e0b' : 'white';
+        }
+      }
+    }
+
+    // 즐겨찾기 필터링
+    function filterFavorites() {
+      currentCategory = 'favorites';
+      filteredArticles = allArticles.filter(a => favorites.has(a.href));
+      currentPage = 1;
+      
+      const filterInfo = document.getElementById('filterInfo');
+      filterInfo.style.display = 'flex';
+      filterInfo.innerHTML = `
+        <span><strong>즐겨찾기</strong> (${filteredArticles.length}개)</span>
+        <button class="clear-filter" onclick="clearFilter()">✕ 전체 보기</button>
+      `;
+      
+      document.getElementById('articlesSection').scrollIntoView({ behavior: 'smooth' });
+      renderArticles();
+    }
 
     function getArticleNumber(filename) {
       const match = filename.match(/(\d+)/);
@@ -855,15 +1000,16 @@
         return `
           <div class="category-card fade-in" onclick="filterByCategory('${cat.name}')">
             <div class="category-content">
-              <span class="category-icon">${cat.icon}</span>
+              <div class="category-icon">${cat.icon}</div>
               <div class="category-name">${cat.name}</div>
+              <div class="category-subtitle">제${cat.range[0]}조 - 제${cat.range[1]}조</div>
               <div class="category-description">${cat.desc}</div>
               <div class="category-meta">
-                <span class="category-count">
+                <div class="category-count">
                   <span>${count}</span>
                   <span>개 조항</span>
-                </span>
-                <span class="category-arrow">→</span>
+                </div>
+                <div class="category-arrow">→</div>
               </div>
             </div>
           </div>
@@ -901,21 +1047,55 @@
       return (str || "").toString().toLowerCase().normalize('NFKD');
     }
 
-    function searchArticles(query) {
+    async function searchArticles(query) {
       const term = normalize(query);
       if (!term) {
-        filteredArticles = currentCategory 
-          ? allArticles.filter(a => a.category === currentCategory)
-          : [...allArticles];
+        if (currentCategory === 'favorites') {
+          filteredArticles = allArticles.filter(a => favorites.has(a.href));
+        } else if (currentCategory) {
+          filteredArticles = allArticles.filter(a => a.category === currentCategory);
+        } else {
+          filteredArticles = [...allArticles];
+        }
       } else {
-        const baseArticles = currentCategory 
+        const baseArticles = currentCategory === 'favorites'
+          ? allArticles.filter(a => favorites.has(a.href))
+          : currentCategory 
           ? allArticles.filter(a => a.category === currentCategory)
           : allArticles;
         
-        filteredArticles = baseArticles.filter(article => {
+        // 제목 검색과 내용 검색을 병행
+        const titleMatches = [];
+        const contentMatches = [];
+        
+        for (const article of baseArticles) {
           const title = normalize(article.title);
-          return title.includes(term);
-        });
+          if (title.includes(term)) {
+            titleMatches.push(article);
+          } else {
+            // 내용 검색 (캐시된 내용이 있는 경우만)
+            if (contentCache.has(article.href)) {
+              const content = normalize(contentCache.get(article.href));
+              if (content.includes(term)) {
+                contentMatches.push(article);
+              }
+            } else {
+              // 실시간으로 내용을 가져와서 검색
+              try {
+                const content = await fetchArticleContent(article.href);
+                const normalizedContent = normalize(content);
+                if (normalizedContent.includes(term)) {
+                  contentMatches.push(article);
+                }
+              } catch (error) {
+                // 내용을 가져오지 못한 경우는 제목 검색만으로 처리
+              }
+            }
+          }
+        }
+        
+        // 제목 매치를 우선순위로 하고, 내용 매치를 뒤에 배치
+        filteredArticles = [...titleMatches, ...contentMatches];
       }
       currentPage = 1;
       renderArticles();
@@ -950,9 +1130,23 @@
             content = content.substring(0, 100) + '...';
           }
           const globalIndex = allArticles.findIndex(a => a.href === article.href);
+          const isFavorited = favorites.has(article.href);
           return `
             <div class="article-card fade-in" onclick="openDetail(${globalIndex})">
-              <span class="article-category-tag">${article.category}</span>
+              <div style="display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 16px;">
+                <span class="article-category-tag">${article.category}</span>
+                <button onclick="toggleFavorite('${article.href}', event)" style="
+                  background: none;
+                  border: none;
+                  font-size: 1.4em;
+                  cursor: pointer;
+                  color: ${isFavorited ? '#f59e0b' : '#e5e7eb'};
+                  transition: all 0.2s ease;
+                  padding: 4px;
+                " onmouseover="this.style.transform='scale(1.2)'" onmouseout="this.style.transform='scale(1)'">
+                  ${isFavorited ? '★' : '☆'}
+                </button>
+              </div>
               <div class="article-title">${escapeHtml(article.title)}</div>
               <div class="article-preview">${escapeHtml(content || '내용을 불러오는 중...')}</div>
               <div class="article-link">
@@ -970,6 +1164,9 @@
       prevBtn.disabled = currentPage <= 1;
       nextBtn.disabled = currentPage >= totalPages;
       pagination.style.display = 'flex';
+      
+      // 즐겨찾기 카운트 업데이트
+      updateFavoriteCount();
     }
 
     function escapeHtml(str) {
@@ -996,6 +1193,9 @@
       
       prevArticleBtn.disabled = index <= 0;
       nextArticleBtn.disabled = index >= allArticles.length - 1;
+      
+      // 즐겨찾기 버튼 상태 업데이트
+      updateFavoriteButton(article.href);
       
       detailScreen.classList.add('show');
       setTimeout(() => {
@@ -1031,13 +1231,17 @@
       
       const detailScreen = document.getElementById('detailScreen');
       
-      // 슬라이드 아웃
+      // 모든 애니메이션 클래스 제거
+      detailScreen.classList.remove('slide-out-left', 'slide-out-right', 'slide-in-left', 'slide-in-right');
+      
+      // 슬라이드 아웃 애니메이션 시작
       if (direction === 'next') {
         detailScreen.classList.add('slide-out-left');
       } else {
         detailScreen.classList.add('slide-out-right');
       }
       
+      // 슬라이드 아웃이 완료된 후
       setTimeout(() => {
         // 인덱스 변경
         if (direction === 'prev') {
@@ -1046,24 +1250,40 @@
           currentArticleIndex++;
         }
         
-        // 내용 업데이트
-        updateDetailContent();
-        
         // 슬라이드 아웃 클래스 제거
         detailScreen.classList.remove('slide-out-left', 'slide-out-right');
         
-        // 반대편에서 시작
+        // 반대편에서 시작하도록 설정
         if (direction === 'next') {
-          detailScreen.style.transform = 'translateX(100%)';
+          detailScreen.classList.add('slide-in-right');
         } else {
-          detailScreen.style.transform = 'translateX(-100%)';
+          detailScreen.classList.add('slide-in-left');
         }
         
-        // 슬라이드 인
-        setTimeout(() => {
-          detailScreen.style.transform = 'translateX(0)';
-        }, 50);
+        // 내용 업데이트
+        updateDetailContent();
+        
+        // 다음 프레임에서 슬라이드 인 애니메이션
+        requestAnimationFrame(() => {
+          detailScreen.classList.remove('slide-in-left', 'slide-in-right');
+        });
       }, 500);
+    }
+
+    // 상세 화면에서 즐겨찾기 토글
+    function toggleFavoriteFromDetail() {
+      if (currentArticleIndex >= 0) {
+        const article = allArticles[currentArticleIndex];
+        toggleFavorite(article.href);
+      }
+    }
+
+    // 즐겨찾기 개수 업데이트
+    function updateFavoriteCount() {
+      const favoriteCountElement = document.getElementById('favoriteCount');
+      if (favoriteCountElement) {
+        favoriteCountElement.textContent = favorites.size;
+      }
     }
 
     // 상세 내용 업데이트
@@ -1075,20 +1295,41 @@
       const prevArticleBtn = document.getElementById('prevArticleBtn');
       const nextArticleBtn = document.getElementById('nextArticleBtn');
       
+      // 제목과 버튼 상태 즉시 업데이트
       detailTitle.textContent = article.title;
-      detailIframe.style.display = 'none';
-      detailLoading.style.display = 'flex';
-      
       prevArticleBtn.disabled = currentArticleIndex <= 0;
       nextArticleBtn.disabled = currentArticleIndex >= allArticles.length - 1;
       
-      const url = `https://${OWNER}.github.io/${REPO}/${article.href}`;
-      detailIframe.src = url;
+      // 즐겨찾기 버튼 상태 업데이트
+      updateFavoriteButton(article.href);
       
-      detailIframe.onload = function() {
-        detailLoading.style.display = 'none';
-        detailIframe.style.display = 'block';
-      };
+      // 로딩 상태 표시
+      detailIframe.style.display = 'none';
+      detailLoading.style.display = 'flex';
+      detailLoading.textContent = '인포그래픽을 불러오는 중...';
+      
+      // 새로운 내용 로드
+      const url = `https://${OWNER}.github.io/${REPO}/${article.href}`;
+      
+      // iframe이 이미 있다면 src를 빈 문자열로 초기화
+      detailIframe.src = '';
+      
+      // 약간의 지연 후 새로운 URL 로드 (애니메이션과 동기화)
+      setTimeout(() => {
+        detailIframe.src = url;
+        
+        detailIframe.onload = function() {
+          setTimeout(() => {
+            detailLoading.style.display = 'none';
+            detailIframe.style.display = 'block';
+          }, 100);
+        };
+        
+        // 오류 처리
+        detailIframe.onerror = function() {
+          detailLoading.textContent = '내용을 불러올 수 없습니다.';
+        };
+      }, 100);
     }
 
     // ESC 키로 상세 화면 닫기
@@ -1098,15 +1339,20 @@
       }
     });
 
+    let searchTimeout;
     document.getElementById('searchInput').addEventListener('input', (e) => {
-      searchArticles(e.target.value);
+      // 디바운싱으로 성능 최적화 (내용 검색 때문에)
+      clearTimeout(searchTimeout);
+      searchTimeout = setTimeout(() => {
+        searchArticles(e.target.value);
+      }, 300);
     });
 
     document.getElementById('prevBtn').addEventListener('click', () => {
       if (currentPage > 1) {
         currentPage--;
         renderArticles();
-        window.scrollTo({ top: 0, behavior: 'smooth' });
+        document.getElementById('articlesSection').scrollIntoView({ behavior: 'smooth' });
       }
     });
 
@@ -1115,15 +1361,17 @@
       if (currentPage < totalPages) {
         currentPage++;
         renderArticles();
-        window.scrollTo({ top: 0, behavior: 'smooth' });
+        document.getElementById('articlesSection').scrollIntoView({ behavior: 'smooth' });
       }
     });
 
     async function init() {
+      loadFavorites();
       allArticles = await fetchAllArticles();
       filteredArticles = [...allArticles];
       renderCategories();
       renderArticles();
+      updateFavoriteCount();
     }
 
     init();
